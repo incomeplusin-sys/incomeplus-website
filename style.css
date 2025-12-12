@@ -1,50 +1,3 @@
-/* ===== LOGO STYLES ===== */
-.logo-image {
-    height: 40px; /* Adjust based on your logo */
-    width: auto;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.logo-link {
-    display: inline-block;
-    text-decoration: none;
-}
-
-.logo-link:hover .logo-image {
-    transform: scale(1.05);
-}
-
-/* If you keep text with logo */
-.logo-with-text {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* If you want text to appear on hover */
-.logo-text {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.brand:hover .logo-text {
-    opacity: 1;
-}
-
-/* Responsive logo sizing */
-@media (max-width: 768px) {
-    .logo-image {
-        height: 35px;
-    }
-}
-
-@media (max-width: 480px) {
-    .logo-image {
-        height: 30px;
-    }
-}
-
 /* ===== RESET & BASE STYLES ===== */
 * {
     margin: 0;
@@ -56,8 +9,9 @@ body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
     color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: white;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .container {
@@ -66,13 +20,13 @@ body {
     padding: 0 20px;
 }
 
-/* ===== HEADER ===== */
+/* ===== HEADER - FIXED POSITIONING ===== */
 .header {
     background: rgba(255, 255, 255, 0.95);
     padding: 15px 0;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
+    position: relative;
+    width: 100%;
     z-index: 1000;
 }
 
@@ -81,6 +35,8 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .logo {
@@ -152,6 +108,8 @@ body {
     padding: 80px 0;
     border-radius: 0 0 30px 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 .hero .container {
@@ -284,6 +242,8 @@ body {
 /* ===== SECTION STYLES ===== */
 section {
     padding: 80px 0;
+    position: relative;
+    z-index: 1;
 }
 
 .section-title {
@@ -326,6 +286,14 @@ section {
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
     border-top: 5px solid;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.disclaimer-point.animate-in {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .disclaimer-point:first-child {
@@ -436,11 +404,23 @@ section {
     border: 1px solid #e2e8f0;
     transition: all 0.3s ease;
     text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.tool-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .tool-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.tool-card:hover.animate-in {
+    transform: translateY(-5px);
 }
 
 .tool-icon {
@@ -473,6 +453,12 @@ section {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
+/* Animation delays for cards */
+.tool-card:nth-child(1) { transition-delay: 0.1s; }
+.tool-card:nth-child(2) { transition-delay: 0.2s; }
+.tool-card:nth-child(3) { transition-delay: 0.3s; }
+.tool-card:nth-child(4) { transition-delay: 0.4s; }
 
 /* ===== BETA SECTION ===== */
 .beta-section {
@@ -620,6 +606,8 @@ section {
     background: #1a202c;
     color: white;
     padding: 60px 0 30px;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-content {
@@ -796,11 +784,29 @@ section {
     color: #2d3748;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== LOGO IMAGE STYLES ===== */
+.logo-image {
+    height: 45px;
+    width: auto;
+    display: block;
+}
+
+.logo-link {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.logo-link:hover .logo-image {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+/* ===== RESPONSIVE STYLES ===== */
 @media (max-width: 992px) {
     .hero .container {
         grid-template-columns: 1fr;
         text-align: center;
+        gap: 40px;
     }
     
     .hero-buttons {
@@ -811,6 +817,7 @@ section {
     .disclaimer-box,
     .beta-box {
         grid-template-columns: 1fr;
+        gap: 30px;
     }
     
     .hero-title {
@@ -819,6 +826,10 @@ section {
     
     .hero-subtitle {
         font-size: 1.8rem;
+    }
+    
+    .section-title h2 {
+        font-size: 2.2rem;
     }
 }
 
@@ -848,6 +859,14 @@ section {
     section {
         padding: 60px 0;
     }
+    
+    .tools-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .disclaimer-point {
+        padding: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -865,6 +884,7 @@ section {
     
     .btn {
         padding: 12px 20px;
+        font-size: 0.9rem;
     }
     
     .section-title h2 {
@@ -873,5 +893,44 @@ section {
     
     .tool-card {
         padding: 20px;
+    }
+    
+    .beta-box {
+        padding: 20px;
+    }
+    
+    .image-placeholder {
+        height: 250px;
+    }
+    
+    .image-placeholder i {
+        font-size: 4rem;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .header,
+    .hero-buttons,
+    .beta-section,
+    .modal,
+    .footer {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt !important;
+    }
+    
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    section {
+        padding: 20px 0 !important;
+        page-break-inside: avoid;
     }
 }
