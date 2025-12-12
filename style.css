@@ -1,3 +1,50 @@
+/* ===== LOGO STYLES ===== */
+.logo-image {
+    height: 40px; /* Adjust based on your logo */
+    width: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.logo-link {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.logo-link:hover .logo-image {
+    transform: scale(1.05);
+}
+
+/* If you keep text with logo */
+.logo-with-text {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* If you want text to appear on hover */
+.logo-text {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.brand:hover .logo-text {
+    opacity: 1;
+}
+
+/* Responsive logo sizing */
+@media (max-width: 768px) {
+    .logo-image {
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-image {
+        height: 30px;
+    }
+}
+
 /* ===== RESET & BASE STYLES ===== */
 * {
     margin: 0;
