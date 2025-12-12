@@ -1,8 +1,1 @@
-<!-- Save as favicon.svg -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#4f46e5"/>
-  <path d="M30,30 L70,30 L70,70 L30,70 Z" fill="white"/>
-  <path d="M35,35 L65,35 L65,45 L35,45 Z" fill="#4f46e5"/>
-  <path d="M35,55 L50,55 L50,65 L35,65 Z" fill="#4f46e5"/>
-  <path d="M60,55 L65,55 L65,65 L60,65 Z" fill="#4f46e5"/>
-</svg>
+
