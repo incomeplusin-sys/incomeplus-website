@@ -3,229 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - IncomePlus</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f8fafc; }
-        
-        /* Header */
-        .top-bar { background: white; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-        .user-info { display: flex; align-items: center; gap: 10px; }
-        .user-avatar { width: 40px; height: 40px; background: #4f46e5; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; }
-        .nav a { margin-left: 15px; color: #666; text-decoration: none; }
-        .nav a:hover { color: #4f46e5; }
-        
-        /* Main Content */
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        
-        /* Welcome Banner */
-        .welcome-banner { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; }
-        
-        /* Stats */
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
-        .stat-value { font-size: 2rem; font-weight: bold; color: #333; }
-        .stat-label { color: #666; font-size: 0.9rem; }
-        
-        /* Scanner Cards */
-        .scanner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .scanner-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s; }
-        .scanner-card:hover { transform: translateY(-5px); }
-        .scanner-icon { font-size: 2rem; color: #4f46e5; margin-bottom: 10px; }
-        
-        /* Test Results */
-        .test-results { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: #f8fafc; }
-        
-        /* Test Buttons */
-        .test-buttons { margin: 20px 0; }
-        .test-btn { background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px; }
-    </style>
+    <title>Dashboard - IncomePlus Scanner</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Top Bar -->
     <div class="top-bar">
-        <div class="user-info">
-            <div class="user-avatar">TU</div>
-            <div>
-                <div id="userName">Test User</div>
-                <div style="font-size: 0.8rem; color: #666;">Trial Plan (7 days left)</div>
+        <div class="container">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <div class="user-name">Loading...</div>
+                    <div class="user-plan">
+                        <span class="plan-badge">Trial</span>
+                        <span class="plan-expiry">Expires: --</span>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="nav">
-            <a href="index.html">Home</a>
-            <a href="#" id="logout">Logout</a>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Welcome Banner -->
-        <div class="welcome-banner">
-            <h1>Welcome to IncomePlus Dashboard</h1>
-            <p>Testing Version - All features operational</p>
-        </div>
-
-        <!-- Quick Stats -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-value" id="todayScans">0</div>
-                <div class="stat-label">Scans Today</div>
+            
+            <div class="dashboard-nav">
+                <a href="dashboard.html" class="active">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="scanners.html">
+                    <i class="fas fa-search"></i> Scanners
+                </a>
+                <a href="results.html">
+                    <i class="fas fa-history"></i> Results
+                </a>
+                <a href="subscription.html">
+                    <i class="fas fa-credit-card"></i> Subscription
+                </a>
+                <a href="profile.html">
+                    <i class="fas fa-user-cog"></i> Profile
+                </a>
+                <a href="#" id="logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="accuracy">0%</div>
-                <div class="stat-label">Accuracy Rate</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="daysLeft">7</div>
-                <div class="stat-label">Days Left</div>
-            </div>
-        </div>
-
-        <!-- Test Buttons -->
-        <div class="test-buttons">
-            <button class="test-btn" onclick="runTestScan()">Run Test Scan</button>
-            <button class="test-btn" onclick="showTestAlert()">Test Alert System</button>
-            <button class="test-btn" onclick="testSubscription()">Test Subscription</button>
-        </div>
-
-        <!-- Scanner Cards -->
-        <h2>Available Scanners</h2>
-        <div class="scanner-grid">
-            <div class="scanner-card" onclick="openScanner('volume')">
-                <div class="scanner-icon">📈</div>
-                <h3>Volume-Price Scanner</h3>
-                <p>Test volume-price patterns</p>
-            </div>
-            <div class="scanner-card" onclick="openScanner('breakout')">
-                <div class="scanner-icon">🚀</div>
-                <h3>Breakout Scanner</h3>
-                <p>Test breakout detection</p>
-            </div>
-            <div class="scanner-card" onclick="openScanner('momentum')">
-                <div class="scanner-icon">⚡</div>
-                <h3>Momentum Scanner</h3>
-                <p>Test momentum signals</p>
-            </div>
-        </div>
-
-        <!-- Test Results Table -->
-        <div class="test-results">
-            <h2>Recent Test Results</h2>
-            <table id="resultsTable">
-                <thead>
-                    <tr>
-                        <th>Stock</th>
-                        <th>Signal</th>
-                        <th>Confidence</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <tbody id="resultsBody">
-                    <!-- Results will be added here -->
-                </tbody>
-            </table>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </div>
-
-    <script>
-        // Load user data
-        function loadUserData() {
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
-            document.getElementById('userName').textContent = user.name || 'Test User';
+    
+    <!-- Main Dashboard -->
+    <div class="dashboard-main">
+        <div class="container">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-content">
+                    <h1>Welcome back, <span id="userFirstName">User</span>!</h1>
+                    <p>Here's what's happening with your scanners today.</p>
+                </div>
+                <div class="welcome-actions">
+                    <button class="btn-run-scan">
+                        <i class="fas fa-play"></i> Run Quick Scan
+                    </button>
+                </div>
+            </div>
             
-            // Calculate days left
-            if(user.subscription_end) {
-                const endDate = new Date(user.subscription_end);
-                const today = new Date();
-                const daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
-                document.getElementById('daysLeft').textContent = Math.max(0, daysLeft);
-            }
-        }
-        
-        // Run test scan
-        function runTestScan() {
-            const todayScans = document.getElementById('todayScans');
-            let current = parseInt(todayScans.textContent) || 0;
-            todayScans.textContent = current + 1;
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="todayScans">0</div>
+                        <div class="stat-label">Scans Today</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="activeAlerts">0</div>
+                        <div class="stat-label">Active Alerts</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="accuracyRate">0%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="daysLeft">7</div>
+                        <div class="stat-label">Days Left in Trial</div>
+                    </div>
+                </div>
+            </div>
             
-            // Update accuracy randomly
-            document.getElementById('accuracy').textContent = Math.floor(Math.random() * 30 + 70) + '%';
+            <!-- Scanner Grid -->
+            <div class="scanner-grid">
+                <div class="section-header">
+                    <h2><i class="fas fa-search-chart"></i> Available Scanners</h2>
+                    <a href="scanners.html" class="view-all">View All</a>
+                </div>
+                
+                <div class="scanners-container">
+                    <!-- Scanner cards will be loaded dynamically -->
+                </div>
+            </div>
             
-            // Add test result to table
-            const resultsBody = document.getElementById('resultsBody');
-            const stocks = ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK'];
-            const signals = ['Bullish', 'Bearish'];
+            <!-- Recent Results & Quick Actions -->
+            <div class="dashboard-columns">
+                <div class="column">
+                    <div class="recent-results">
+                        <div class="section-header">
+                            <h2><i class="fas fa-history"></i> Recent Scan Results</h2>
+                            <a href="results.html" class="view-all">View All</a>
+                        </div>
+                        
+                        <div class="results-table-container">
+                            <table class="results-table">
+                                <thead>
+                                    <tr>
+                                        <th>Scanner</th>
+                                        <th>Stock</th>
+                                        <th>Signal</th>
+                                        <th>Confidence</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentResultsBody">
+                                    <!-- Results loaded via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column">
+                    <div class="quick-actions">
+                        <div class="section-header">
+                            <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                        </div>
+                        
+                        <div class="actions-grid">
+                            <a href="scanners/volume-price.html" class="action-card">
+                                <div class="action-icon">
+                                    <i class="fas fa-wave-square"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h3>Volume-Price Scan</h3>
+                                    <p>Run quick volume-price analysis</p>
+                                </div>
+                            </a>
+                            
+                            <a href="scanners/breakout.html" class="action-card">
+                                <div class="action-icon">
+                                    <i class="fas fa-arrow-up-from-bracket"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h3>Breakout Scan</h3>
+                                    <p>Find breakout opportunities</p>
+                                </div>
+                            </a>
+                            
+                            <a href="watchlist.html" class="action-card">
+                                <div class="action-icon">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h3>Watchlist</h3>
+                                    <p>Manage your watchlist</p>
+                                </div>
+                            </a>
+                            
+                            <a href="alerts.html" class="action-card">
+                                <div class="action-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h3>Alerts</h3>
+                                    <p>Set up price alerts</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Subscription Status -->
+                    <div class="subscription-status">
+                        <div class="section-header">
+                            <h2><i class="fas fa-crown"></i> Subscription Status</h2>
+                        </div>
+                        
+                        <div class="status-content">
+                            <div class="status-info">
+                                <div class="status-label">Current Plan</div>
+                                <div class="status-value" id="currentPlan">7-Day Trial</div>
+                            </div>
+                            
+                            <div class="status-info">
+                                <div class="status-label">Expires In</div>
+                                <div class="status-value" id="expiresIn">7 days</div>
+                            </div>
+                            
+                            <div class="status-info">
+                                <div class="status-label">Scans Used</div>
+                                <div class="status-value" id="scansUsed">0/1000</div>
+                            </div>
+                            
+                            <a href="subscription.html" class="btn-upgrade">
+                                <i class="fas fa-rocket"></i> Upgrade Plan
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-chart-network"></i>
+                        <span>IncomePlus<span class="highlight">Scanner</span></span>
+                    </div>
+                    <p>Professional Stock Scanning Platform</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="scanners.html">Scanners</a>
+                    <a href="results.html">Results</a>
+                    <a href="subscription.html">Subscription</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <a href="help.html">Help Center</a>
+                    <a href="contact.html">Contact Us</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="docs.html">Documentation</a>
+                </div>
+            </div>
             
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>${stocks[Math.floor(Math.random() * stocks.length)]}</td>
-                <td style="color: ${Math.random() > 0.5 ? '#10b981' : '#fc5c65'}">
-                    ${signals[Math.floor(Math.random() * signals.length)]}
-                </td>
-                <td>${Math.floor(Math.random() * 30 + 65)}%</td>
-                <td>${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
-            `;
-            
-            resultsBody.insertBefore(newRow, resultsBody.firstChild);
-            
-            // Keep only last 5 results
-            if(resultsBody.children.length > 5) {
-                resultsBody.removeChild(resultsBody.lastChild);
-            }
-            
-            alert('Test scan completed! Check results table.');
-        }
-        
-        // Open scanner
-        function openScanner(type) {
-            alert(`Opening ${type} scanner test...\n\nThis would open the full scanner interface in production.`);
-        }
-        
-        // Test alert system
-        function showTestAlert() {
-            const alerts = [
-                "RELIANCE: Bullish signal detected (85% confidence)",
-                "TCS: Volume spike detected",
-                "Market opening alert: Nifty up 0.5%",
-                "Your daily scan limit: 45/50 scans used"
-            ];
-            
-            alert("Test Alert:\n\n" + alerts[Math.floor(Math.random() * alerts.length)]);
-        }
-        
-        // Test subscription
-        function testSubscription() {
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
-            alert(`Subscription Test:\n\nCurrent Plan: ${user.subscription_type || 'trial'}\nExpires: ${user.subscription_end || '2024-12-31'}\n\nIn production, this would show payment options.`);
-        }
-        
-        // Logout
-        document.getElementById('logout').addEventListener('click', function(e) {
-            e.preventDefault();
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
-            alert('Logged out successfully!');
-            window.location.href = 'login.html';
-        });
-        
-        // Initialize
-        window.onload = function() {
-            loadUserData();
-            
-            // Check if user is logged in
-            if(!localStorage.getItem('user')) {
-                alert('Please login first!');
-                window.location.href = 'login.html';
-            }
-            
-            // Add some initial test data
-            for(let i = 0; i < 3; i++) {
-                setTimeout(runTestScan, 100 * i);
-            }
-        };
-    </script>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2024 IncomePlus Scanner. All rights reserved.
+                </div>
+                <div class="legal-links">
+                    <a href="terms.html">Terms</a> |
+                    <a href="privacy.html">Privacy</a> |
+                    <a href="disclaimer.html">Disclaimer</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/dashboard.js"></script>
 </body>
-</html>dashboard.html 
+</html>
