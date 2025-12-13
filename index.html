@@ -200,6 +200,149 @@
         </div>
     </section>
 
+<!-- ===== STOCK SCREENER EDUCATIONAL TOOL ===== -->
+<section class="screener-section" id="screener">
+    <div class="container">
+        <div class="section-title">
+            <h2><i class="fas fa-filter"></i> Stock Analysis Practice Screener</h2>
+            <p>Educational tool for learning how to filter stocks based on parameters</p>
+            <div class="educational-note">
+                <i class="fas fa-graduation-cap"></i>
+                <span>This is a PRACTICE TOOL for learning purposes only</span>
+            </div>
+        </div>
+        
+        <!-- Screener Disclaimer -->
+        <div class="screener-disclaimer">
+            <h4><i class="fas fa-exclamation-circle"></i> Educational Use Only</h4>
+            <p>This tool demonstrates how stock screeners work. The data is for <strong>educational practice only</strong>. 
+            Do NOT use for actual investment decisions. Always consult a SEBI registered advisor.</p>
+        </div>
+        
+        <!-- Screener Controls -->
+        <div class="screener-controls">
+            <div class="control-group">
+                <label for="market-cap">
+                    <i class="fas fa-chart-bar"></i> Market Cap Practice
+                </label>
+                <select id="market-cap" class="screener-select">
+                    <option value="">Any (Learning All)</option>
+                    <option value="large">Large Cap (Practice)</option>
+                    <option value="mid">Mid Cap (Practice)</option>
+                    <option value="small">Small Cap (Practice)</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="pe-ratio">
+                    <i class="fas fa-calculator"></i> P/E Ratio Practice
+                </label>
+                <select id="pe-ratio" class="screener-select">
+                    <option value="">Any (Learning All)</option>
+                    <option value="low">Low P/E (< 15) - Practice</option>
+                    <option value="medium">Medium P/E (15-25) - Practice</option>
+                    <option value="high">High P/E (> 25) - Practice</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="sector">
+                    <i class="fas fa-industry"></i> Sector Practice
+                </label>
+                <select id="sector" class="screener-select">
+                    <option value="">All Sectors (Learn All)</option>
+                    <option value="it">IT - Practice Analysis</option>
+                    <option value="banking">Banking - Practice Analysis</option>
+                    <option value="fmcg">FMCG - Practice Analysis</option>
+                    <option value="auto">Automobile - Practice Analysis</option>
+                    <option value="pharma">Pharma - Practice Analysis</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="dividend">
+                    <i class="fas fa-money-bill-wave"></i> Dividend Yield Practice
+                </label>
+                <select id="dividend" class="screener-select">
+                    <option value="">Any (Learning All)</option>
+                    <option value="high">High Yield (> 3%) - Practice</option>
+                    <option value="medium">Medium Yield (1-3%) - Practice</option>
+                    <option value="low">Low Yield (< 1%) - Practice</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="screener-actions">
+            <button class="btn btn-primary" id="practiceFilter">
+                <i class="fas fa-play"></i> Practice Filtering
+            </button>
+            <button class="btn btn-secondary" id="resetScreener">
+                <i class="fas fa-redo"></i> Reset Practice
+            </button>
+            <button class="btn btn-educational" id="learnMore">
+                <i class="fas fa-book"></i> Learn How Screeners Work
+            </button>
+        </div>
+        
+        <!-- Results Table (Educational) -->
+        <div class="screener-results">
+            <h3><i class="fas fa-list-alt"></i> Practice Results (Sample Data)</h3>
+            <p class="results-note">Sample companies for educational practice. Not real-time data.</p>
+            
+            <div class="results-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Company (Practice)</th>
+                            <th>Sector (Learning)</th>
+                            <th>Market Cap (Example)</th>
+                            <th>P/E Ratio (Example)</th>
+                            <th>Dividend % (Example)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="screenerResults">
+                        <!-- Results will be loaded here -->
+                        <tr class="no-results">
+                            <td colspan="6">
+                                <i class="fas fa-search"></i>
+                                <p>Use the filters above to practice stock screening</p>
+                                <small>This is for learning how screeners work</small>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Educational Resources -->
+        <div class="educational-resources">
+            <h4><i class="fas fa-lightbulb"></i> Learning Resources</h4>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <i class="fas fa-video"></i>
+                    <h5>How Screeners Work</h5>
+                    <p>Learn the basics of stock screening</p>
+                    <a href="#" class="resource-link">Watch Tutorial</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <h5>Parameters Guide</h5>
+                    <p>Understanding P/E, market cap, etc.</p>
+                    <a href="#" class="resource-link">Download PDF</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h5>Practice Exercises</h5>
+                    <p>Try these screening exercises</p>
+                    <a href="#" class="resource-link">Start Exercises</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
     <!-- ===== BETA ACCESS SECTION ===== -->
     <section class="beta-section" id="beta-access">
         <div class="container">
