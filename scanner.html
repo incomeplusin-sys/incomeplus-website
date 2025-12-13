@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume-Price Pattern Scanner - Educational Tool | IncomePlus.in</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="scanner.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>IncomePlus<span>.in</span></h1>
+                    <p>Stock Market Education Platform</p>
+                </div>
+            </a>
+            
+            <!-- Navigation -->
+            <nav class="main-nav">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="index.html#tools"><i class="fas fa-tools"></i> Tools</a>
+                <a href="index.html#screener"><i class="fas fa-filter"></i> Screener</a>
+                <a href="#" class="active"><i class="fas fa-search"></i> Pattern Scanner</a>
+                <a href="index.html#beta"><i class="fas fa-flask"></i> Beta</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== EDUCATIONAL DISCLAIMER BANNER ===== -->
+    <div class="scanner-warning">
+        <div class="container">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong>EDUCATIONAL TOOL ONLY:</strong> This pattern scanner is for <strong>learning purposes only</strong>.
+                It demonstrates technical analysis concepts with <strong>delayed/historical data</strong>.
+                <strong>NOT SEBI REGISTERED. NOT FOR INVESTMENT DECISIONS.</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN SCANNER INTERFACE ===== -->
+    <main class="scanner-main">
+        <div class="container">
+            <!-- Scanner Header -->
+            <div class="scanner-header">
+                <h1><i class="fas fa-search-chart"></i> Volume-Price Pattern Scanner</h1>
+                <p class="scanner-subtitle">Educational tool for learning volume-price correlation patterns</p>
+                
+                <div class="scanner-educational-note">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>This tool helps you understand how volume and price move together. For learning only.</span>
+                </div>
+            </div>
+
+            <!-- Pattern Info -->
+            <div class="pattern-info">
+                <h2><i class="fas fa-bullseye"></i> Patterns This Scanner Looks For:</h2>
+                
+                <div class="pattern-cards">
+                    <div class="pattern-card bullish">
+                        <div class="pattern-icon">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <h3>📈 Volume UP + Price UP</h3>
+                        <p><strong>Educational Insight:</strong> Generally indicates buying interest when learning technical analysis.</p>
+                        <ul>
+                            <li>Volume generally increasing</li>
+                            <li>Price generally increasing</li>
+                            <li>Minimum 3 consecutive candles</li>
+                            <li>Volume change ≥ 5% (for learning)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="pattern-card bearish">
+                        <div class="pattern-icon">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <h3>📉 Volume DOWN + Price DOWN</h3>
+                        <p><strong>Educational Insight:</strong> Generally indicates selling pressure when learning technical analysis.</p>
+                        <ul>
+                            <li>Volume generally decreasing</li>
+                            <li>Price generally decreasing</li>
+                            <li>Minimum 3 consecutive candles</li>
+                            <li>Volume change ≥ 5% (for learning)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scanner Controls -->
+            <div class="scanner-controls">
+                <h2><i class="fas fa-sliders-h"></i> Scanner Settings (Educational)</h2>
+                
+                <div class="control-grid">
+                    <div class="control-group">
+                        <label for="stockSelect">
+                            <i class="fas fa-chart-line"></i> Practice With Stock
+                        </label>
+                        <select id="stockSelect" class="scanner-select">
+                            <option value="RELIANCE.NS">RELIANCE (Practice)</option>
+                            <option value="TCS.NS">TCS (Practice)</option>
+                            <option value="INFY.NS">INFOSYS (Practice)</option>
+                            <option value="HDFCBANK.NS">HDFC BANK (Practice)</option>
+                            <option value="ICICIBANK.NS">ICICI BANK (Practice)</option>
+                            <option value="multiple">Multiple Stocks (Practice)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="daysSelect">
+                            <i class="fas fa-calendar-alt"></i> Lookback Period
+                        </label>
+                        <select id="daysSelect" class="scanner-select">
+                            <option value="7">7 Days (Practice)</option>
+                            <option value="15" selected>15 Days (Practice)</option>
+                            <option value="30">30 Days (Practice)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="patternType">
+                            <i class="fas fa-shapes"></i> Pattern Type
+                        </label>
+                        <select id="patternType" class="scanner-select">
+                            <option value="both">Both Patterns (Learning)</option>
+                            <option value="bullish">📈 Volume UP + Price UP Only</option>
+                            <option value="bearish">📉 Volume DOWN + Price DOWN Only</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="minCandles">
+                            <i class="fas fa-candle-sticks"></i> Min Candles
+                        </label>
+                        <select id="minCandles" class="scanner-select">
+                            <option value="3">3 Candles (Easier)</option>
+                            <option value="4">4 Candles</option>
+                            <option value="5">5 Candles</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="scanner-actions">
+                    <button id="runScanner" class="btn-scanner-primary">
+                        <i class="fas fa-play-circle"></i> Run Educational Scan
+                    </button>
+                    <button id="resetScanner" class="btn-scanner-secondary">
+                        <i class="fas fa-redo"></i> Reset Practice
+                    </button>
+                    <button id="loadDemo" class="btn-scanner-demo">
+                        <i class="fas fa-eye"></i> View Demo Results
+                    </button>
+                    <button id="downloadGuide" class="btn-scanner-guide">
+                        <i class="fas fa-download"></i> Download Learning Guide
+                    </button>
+                </div>
+                
+                <div class="educational-note-small">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Note: Using free API with limited calls. For unlimited learning, use Demo mode.</span>
+                </div>
+            </div>
+
+            <!-- Scanner Results Area -->
+            <div class="scanner-results" id="resultsArea">
+                <div class="results-placeholder">
+                    <i class="fas fa-search"></i>
+                    <h3>Ready to Practice Pattern Scanning</h3>
+                    <p>Configure settings above and click "Run Educational Scan" to start learning</p>
+                    <p class="placeholder-note">This tool helps you understand how technical scanners work</p>
+                </div>
+                
+                <!-- Results will be loaded here -->
+                <div id="resultsContainer" style="display: none;">
+                    <div class="results-header">
+                        <h2><i class="fas fa-poll"></i> Scan Results (For Learning)</h2>
+                        <div class="results-meta">
+                            <span id="resultsCount">0 patterns found</span>
+                            <span id="scanTime">Scanned at: --:--</span>
+                        </div>
+                    </div>
+                    
+                    <div class="results-table-container">
+                        <table class="results-table" id="resultsTable">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Pattern (Learning)</th>
+                                    <th>Candles</th>
+                                    <th>Volume Δ</th>
+                                    <th>Price Δ</th>
+                                    <th>Current (Example)</th>
+                                    <th>Pattern Dates</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsBody">
+                                <!-- Results populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="results-actions">
+                        <button id="exportCSV" class="btn-export">
+                            <i class="fas fa-file-csv"></i> Export as CSV (Practice)
+                        </button>
+                        <button id="exportPDF" class="btn-export">
+                            <i class="fas fa-file-pdf"></i> Export as PDF (Practice)
+                        </button>
+                        <button id="printResults" class="btn-export">
+                            <i class="fas fa-print"></i> Print for Study
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Resources -->
+            <div class="learning-resources">
+                <h2><i class="fas fa-lightbulb"></i> Learning Resources</h2>
+                
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>How Volume-Price Patterns Work</h3>
+                        <p>Learn the theory behind volume and price correlation in technical analysis.</p>
+                        <a href="#" class="resource-link">Read Guide</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3>Video Tutorial</h3>
+                        <p>Watch a step-by-step tutorial on using pattern scanners for learning.</p>
+                        <a href="#" class="resource-link">Watch Video</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3>Practice Exercises</h3>
+                        <p>Try these exercises to improve your pattern recognition skills.</p>
+                        <a href="#" class="resource-link">Start Exercises</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Disclaimer -->
+            <div class="scanner-disclaimer">
+                <h3><i class="fas fa-exclamation-circle"></i> Important Educational Disclaimer</h3>
+                <p>
+                    <strong>This is an EDUCATIONAL TOOL ONLY.</strong> The Volume-Price Pattern Scanner is designed 
+                    for <strong>learning and practice purposes only</strong>. It uses historical/delayed data and 
+                    demonstrates technical analysis concepts. 
+                    <strong>DO NOT use this tool for actual investment decisions.</strong> 
+                    The patterns shown are for educational illustration only. 
+                    Always consult a SEBI registered investment advisor before making any investment decisions. 
+                    Past performance is not indicative of future results. Investments in securities market are 
+                    subject to market risks.
+                </p>
+                <div class="disclaimer-check">
+                    <input type="checkbox" id="understandDisclaimer" required>
+                    <label for="understandDisclaimer">
+                        I understand this is an educational tool only and will not use it for investment decisions.
+                    </label>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-chart-line"></i>
+                        <span>IncomePlus.in</span>
+                    </div>
+                    <p>Stock Market Educational Tools Platform</p>
+                    <p class="footer-tagline">Learn • Practice • Understand</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Educational Tools</h4>
+                    <a href="index.html#screener">Stock Screener Practice</a>
+                    <a href="scanner.html">Pattern Scanner</a>
+                    <a href="index.html#tools">Learning Tools</a>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> education@incomeplus.in</p>
+                    <p><i class="fas fa-building"></i> A sister concern of TRFSK Omkar Services Pvt Ltd</p>
+                </div>
+            </div>
+            
+            <div class="footer-disclaimer">
+                <h5><i class="fas fa-gavel"></i> Legal & Compliance</h5>
+                <p>
+                    <strong>DISCLAIMER:</strong> IncomePlus.in is an EDUCATIONAL PLATFORM ONLY. We provide learning tools 
+                    and practice platforms for stock market analysis education. We are NOT SEBI registered investment 
+                    advisors. We do NOT provide investment advice, stock recommendations, trading tips, or portfolio 
+                    management services. All content and tools are for LEARNING AND PRACTICE PURPOSES ONLY.
+                </p>
+                <p class="copyright">
+                    &copy; 2024 IncomePlus.in (TRFSK Omkar Services Pvt Ltd). All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="scanner.js" defer></script>
+</body>
+</html>
