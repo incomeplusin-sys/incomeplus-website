@@ -1,10 +1,8 @@
-// REAL WORKING Volume-Price Pattern Scanner
+// WORKING Volume-Price Pattern Scanner with Real Market Data
 document.addEventListener('DOMContentLoaded', function() {
     // ===== REAL WORKING CONFIGURATION =====
     const API_CONFIG = {
-        // Free APIs that work without registration
         YAHOO_FINANCE: 'https://query1.finance.yahoo.com/v8/finance/chart/',
-        ALPHA_VANTAGE: 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=',
         INDIAN_STOCKS: [
             'RELIANCE.BO',    // NSE: RELIANCE
             'TCS.BO',         // NSE: TCS
@@ -16,219 +14,137 @@ document.addEventListener('DOMContentLoaded', function() {
             'WIPRO.BO',       // NSE: WIPRO
             'BHARTIARTL.BO',  // NSE: BHARTIARTL
             'AXISBANK.BO'     // NSE: AXISBANK
-        ],
-        // Backup Indian indices if stock APIs fail
-        NIFTY_50: 'https://query1.finance.yahoo.com/v8/finance/chart/%5ENSEI?interval=1d&range=30d'
+        ]
     };
 
     // ===== ELEMENTS =====
     const runScannerBtn = document.getElementById('runScanner');
     const resetScannerBtn = document.getElementById('resetScanner');
     const loadDemoBtn = document.getElementById('loadDemo');
+    const downloadGuideBtn = document.getElementById('downloadGuide');
     const stockSelect = document.getElementById('stockSelect');
     const resultsBody = document.getElementById('resultsBody');
     const resultsCount = document.getElementById('resultsCount');
     const scanTime = document.getElementById('scanTime');
+    const dataSource = document.getElementById('dataSource');
+    const disclaimerCheckbox = document.getElementById('understandDisclaimer');
+    const exportCSVBtn = document.getElementById('exportCSV');
+    const exportPDFBtn = document.getElementById('exportPDF');
+    const printResultsBtn = document.getElementById('printResults');
 
     // ===== REAL DATA FETCHING =====
-    
-    // Method 1: Yahoo Finance API (Most Reliable)
-    async function fetchFromYahoo(symbol, days = 15) {
+    async function fetchStockData(symbol, days = 15) {
         try {
             const url = `${API_CONFIG.YAHOO_FINANCE}${symbol}?range=${days}d&interval=1d`;
-            console.log('Fetching from Yahoo:', url);
+            console.log('Fetching real data from:', url);
             
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const response = await fetch(url, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status} - API Error`);
+            }
             
             const data = await response.json();
             
             if (!data.chart?.result?.[0]) {
-                throw new Error('No data in response');
+                throw new Error('No market data available');
             }
-            
-            const result = data.chart.result[0];
-            const timestamps = result.timestamp || [];
-            const quotes = result.indicators.quote[0] || {};
-            
-            if (!quotes.volume || quotes.volume.length < 3) {
-                throw new Error('Insufficient volume data');
-            }
-            
-            // Filter out null values
-            const volumes = [];
-            const prices = [];
-            const dates = [];
-            
-            for (let i = 0; i < timestamps.length; i++) {
-                if (quotes.volume[i] && quotes.close[i]) {
-                    volumes.push(quotes.volume[i]);
-                    prices.push(quotes.close[i]);
-                    dates.push(new Date(timestamps[i] * 1000).toLocaleDateString());
-                }
-            }
-            
-            console.log(`Fetched ${volumes.length} days of data for ${symbol}`);
-            
-            return {
-                success: true,
-                symbol: symbol.replace('.BO', ''),
-                volumes: volumes.slice(-20), // Last 20 days
-                prices: prices.slice(-20),
-                dates: dates.slice(-20),
-                lastUpdated: new Date().toLocaleString()
-            };
-            
-        } catch (error) {
-            console.error('Yahoo API error:', error.message);
-            return { success: false, error: error.message };
-        }
-    }
-    
-    // Method 2: Alpha Vantage (Backup)
-    async function fetchFromAlphaVantage(symbol) {
-        try {
-            // Note: Requires free API key from alphavantage.co
-            const apiKey = 'demo'; // Replace with your free key
-            const url = `${API_CONFIG.ALPHA_VANTAGE}${symbol}&apikey=${apiKey}&outputsize=compact`;
-            
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            if (data['Error Message']) {
-                throw new Error(data['Error Message']);
-            }
-            
-            const timeSeries = data['Time Series (Daily)'];
-            const volumes = [];
-            const prices = [];
-            const dates = [];
-            
-            let count = 0;
-            for (const date in timeSeries) {
-                if (count >= 20) break;
-                volumes.push(parseFloat(timeSeries[date]['5. volume']));
-                prices.push(parseFloat(timeSeries[date]['4. close']));
-                dates.push(date);
-                count++;
-            }
-            
-            return {
-                success: true,
-                symbol: symbol,
-                volumes: volumes.reverse(),
-                prices: prices.reverse(),
-                dates: dates.reverse()
-            };
-            
-        } catch (error) {
-            return { success: false, error: error.message };
-        }
-    }
-    
-    // Method 3: Fallback to Nifty 50 data
-    async function fetchNiftyData() {
-        try {
-            const response = await fetch(API_CONFIG.NIFTY_50);
-            const data = await response.json();
             
             const result = data.chart.result[0];
             const quotes = result.indicators.quote[0];
             
-            const volumes = quotes.volume.slice(-20).filter(v => v);
-            const prices = quotes.close.slice(-20).filter(p => p);
+            // Filter out null/undefined values
+            const volumes = [];
+            const prices = [];
+            const timestamps = result.timestamp || [];
+            
+            for (let i = 0; i < timestamps.length; i++) {
+                if (quotes.volume[i] !== null && quotes.volume[i] !== undefined &&
+                    quotes.close[i] !== null && quotes.close[i] !== undefined) {
+                    volumes.push(quotes.volume[i]);
+                    prices.push(quotes.close[i]);
+                }
+            }
+            
+            if (volumes.length < 3) {
+                throw new Error('Insufficient data points for analysis');
+            }
             
             return {
                 success: true,
-                symbol: 'NIFTY50',
-                volumes: volumes,
-                prices: prices,
-                dates: result.timestamp.slice(-20).map(ts => 
-                    new Date(ts * 1000).toLocaleDateString()
-                )
+                symbol: symbol.replace('.BO', ''),
+                volumes: volumes.slice(-30), // Last 30 data points
+                prices: prices.slice(-30),
+                lastPrice: prices[prices.length - 1] || 0,
+                dataPoints: volumes.length
             };
             
         } catch (error) {
-            return { success: false, error: error.message };
+            console.error('Data fetch error:', error.message);
+            return { 
+                success: false, 
+                error: error.message,
+                symbol: symbol.replace('.BO', '')
+            };
         }
     }
-    
-    // ===== REAL PATTERN DETECTION ALGORITHM =====
-    
-    function detectVolumePricePatterns(volumes, prices, symbol) {
+
+    // ===== REAL PATTERN DETECTION =====
+    function detectRealPatterns(volumes, prices, symbol) {
         const patterns = [];
         const minCandles = parseInt(document.getElementById('minCandles').value) || 3;
         const patternType = document.getElementById('patternType').value;
         
-        if (volumes.length < minCandles || prices.length < minCandles) {
+        if (!volumes || !prices || volumes.length < minCandles || prices.length < minCandles) {
             return patterns;
         }
         
-        // Look for patterns of different lengths
+        // Check different pattern lengths
         for (let length = minCandles; length <= Math.min(7, volumes.length); length++) {
             for (let start = 0; start <= volumes.length - length; start++) {
-                const end = start + length - 1;
+                const volSlice = volumes.slice(start, start + length);
+                const priceSlice = prices.slice(start, start + length);
                 
-                const volSlice = volumes.slice(start, end + 1);
-                const priceSlice = prices.slice(start, end + 1);
+                // Calculate changes
+                const volChange = ((volSlice[length-1] - volSlice[0]) / volSlice[0]) * 100;
+                const priceChange = ((priceSlice[length-1] - priceSlice[0]) / priceSlice[0]) * 100;
                 
-                // Skip if any invalid data
-                if (volSlice.some(v => !v || v <= 0) || priceSlice.some(p => !p || p <= 0)) {
-                    continue;
+                // Check trends
+                let volTrendUp = true;
+                let volTrendDown = true;
+                let priceTrendUp = true;
+                let priceTrendDown = true;
+                
+                for (let i = 1; i < length; i++) {
+                    if (volSlice[i] < volSlice[i-1]) volTrendUp = false;
+                    if (volSlice[i] > volSlice[i-1]) volTrendDown = false;
+                    if (priceSlice[i] < priceSlice[i-1]) priceTrendUp = false;
+                    if (priceSlice[i] > priceSlice[i-1]) priceTrendDown = false;
                 }
                 
-                // Calculate trends with tolerance
-                let volTrend = 0;
-                let priceTrend = 0;
-                
-                for (let i = 0; i < length - 1; i++) {
-                    volTrend += volSlice[i + 1] - volSlice[i];
-                    priceTrend += priceSlice[i + 1] - priceSlice[i];
-                }
-                
-                // Calculate percentages
-                const volChangePct = ((volSlice[length - 1] - volSlice[0]) / volSlice[0]) * 100;
-                const priceChangePct = ((priceSlice[length - 1] - priceSlice[0]) / priceSlice[0]) * 100;
-                
-                // Check for Volume UP + Price UP pattern
-                if (volTrend > 0 && priceTrend > 0 && 
-                    Math.abs(volChangePct) >= 5 && priceChangePct >= 1) {
-                    
+                // Pattern 1: Volume UP + Price UP
+                if (volTrendUp && priceTrendUp && Math.abs(volChange) >= 5 && priceChange >= 1) {
                     if (patternType === 'both' || patternType === 'bullish') {
-                        patterns.push({
-                            symbol: symbol,
-                            pattern: '📈 Volume UP + Price UP',
-                            candles: length,
-                            volumeChange: volChangePct,
-                            priceChange: priceChangePct,
-                            currentPrice: prices[prices.length - 1],
-                            startIndex: start,
-                            endIndex: end,
-                            volumeData: volSlice.map(v => formatVolume(v)).join(' → '),
-                            priceData: priceSlice.map(p => `₹${p.toFixed(2)}`).join(' → '),
-                            confidence: calculateConfidence(volChangePct, priceChangePct, length)
-                        });
+                        patterns.push(createPatternObject(
+                            symbol, '📈 Volume UP + Price UP', length, 
+                            volChange, priceChange, prices[prices.length-1],
+                            start, start + length - 1, volSlice, priceSlice, true
+                        ));
                     }
                 }
                 
-                // Check for Volume DOWN + Price DOWN pattern
-                if (volTrend < 0 && priceTrend < 0 && 
-                    Math.abs(volChangePct) >= 5 && priceChangePct <= -1) {
-                    
+                // Pattern 2: Volume DOWN + Price DOWN
+                if (volTrendDown && priceTrendDown && Math.abs(volChange) >= 5 && priceChange <= -1) {
                     if (patternType === 'both' || patternType === 'bearish') {
-                        patterns.push({
-                            symbol: symbol,
-                            pattern: '📉 Volume DOWN + Price DOWN',
-                            candles: length,
-                            volumeChange: volChangePct,
-                            priceChange: priceChangePct,
-                            currentPrice: prices[prices.length - 1],
-                            startIndex: start,
-                            endIndex: end,
-                            volumeData: volSlice.map(v => formatVolume(v)).join(' → '),
-                            priceData: priceSlice.map(p => `₹${p.toFixed(2)}`).join(' → '),
-                            confidence: calculateConfidence(volChangePct, priceChangePct, length)
-                        });
+                        patterns.push(createPatternObject(
+                            symbol, '📉 Volume DOWN + Price DOWN', length,
+                            volChange, priceChange, prices[prices.length-1],
+                            start, start + length - 1, volSlice, priceSlice, false
+                        ));
                     }
                 }
             }
@@ -237,33 +153,57 @@ document.addEventListener('DOMContentLoaded', function() {
         return patterns;
     }
     
-    // Helper functions
-    function formatVolume(volume) {
-        if (volume >= 10000000) return `${(volume / 10000000).toFixed(1)}Cr`;
-        if (volume >= 100000) return `${(volume / 100000).toFixed(1)}L`;
-        if (volume >= 1000) return `${(volume / 1000).toFixed(1)}K`;
-        return volume.toFixed(0);
+    function createPatternObject(symbol, patternType, length, volChange, priceChange, 
+                                 currentPrice, startIdx, endIdx, volumes, prices, isBullish) {
+        const confidence = calculateConfidence(volChange, priceChange, length);
+        
+        return {
+            symbol: symbol,
+            pattern: patternType,
+            candles: length,
+            volumeChange: volChange,
+            priceChange: priceChange,
+            currentPrice: currentPrice,
+            startIndex: startIdx,
+            endIndex: endIdx,
+            confidence: confidence,
+            volumeData: volumes.map(v => formatVolume(v)).join(' → '),
+            priceData: prices.map(p => `₹${p.toFixed(2)}`).join(' → '),
+            isBullish: isBullish,
+            timestamp: new Date().toISOString()
+        };
     }
     
     function calculateConfidence(volChange, priceChange, length) {
         let confidence = 50;
         
-        // Longer patterns are more reliable
-        confidence += (length - 3) * 10;
+        // Longer patterns = more reliable
+        confidence += (length - 3) * 8;
         
-        // Stronger volume changes increase confidence
+        // Strong volume change = higher confidence
         confidence += Math.min(Math.abs(volChange) / 2, 20);
         
-        // Stronger price changes increase confidence
-        confidence += Math.min(Math.abs(priceChange) * 10, 20);
+        // Strong price change = higher confidence
+        confidence += Math.min(Math.abs(priceChange) * 8, 20);
         
         return Math.min(Math.round(confidence), 95);
     }
     
+    function formatVolume(volume) {
+        if (volume >= 10000000) return `${(volume / 10000000).toFixed(1)}Cr`;
+        if (volume >= 100000) return `${(volume / 100000).toFixed(1)}L`;
+        if (volume >= 1000) return `${(volume / 1000).toFixed(1)}K`;
+        return Math.round(volume).toString();
+    }
+
     // ===== MAIN SCANNER FUNCTION =====
-    
     async function runRealScanner() {
-        showLoadingState('Scanning real market data...');
+        if (!disclaimerCheckbox.checked) {
+            showMessage('Please acknowledge the educational disclaimer first.', 'warning');
+            return;
+        }
+        
+        showLoadingState();
         
         const selectedStock = stockSelect.value;
         const days = document.getElementById('daysSelect').value;
@@ -271,60 +211,59 @@ document.addEventListener('DOMContentLoaded', function() {
         
         try {
             if (selectedStock === 'multiple') {
-                // Scan all Indian stocks
-                for (const stock of API_CONFIG.INDIAN_STOCKS.slice(0, 5)) {
-                    showLoadingState(`Scanning ${stock.replace('.BO', '')}...`);
+                // Scan first 3 stocks (to avoid rate limiting)
+                const stocksToScan = API_CONFIG.INDIAN_STOCKS.slice(0, 3);
+                
+                for (const stock of stocksToScan) {
+                    updateLoadingMessage(`Fetching ${stock.replace('.BO', '')} data...`);
                     
-                    const data = await fetchFromYahoo(stock, days);
+                    const data = await fetchStockData(stock, days);
                     
                     if (data.success) {
-                        const patterns = detectVolumePricePatterns(
+                        const patterns = detectRealPatterns(
                             data.volumes, 
                             data.prices, 
                             data.symbol
                         );
-                        
                         allPatterns = allPatterns.concat(patterns);
                     }
                     
-                    // Delay to avoid rate limiting
-                    await delay(1000);
+                    // Delay between requests
+                    await delay(1500);
                 }
             } else {
-                // Scan single stock
-                const data = await fetchFromYahoo(selectedStock, days);
+                // Single stock scan
+                updateLoadingMessage(`Fetching ${selectedStock.replace('.BO', '')} data...`);
+                
+                const data = await fetchStockData(selectedStock, days);
                 
                 if (data.success) {
-                    allPatterns = detectVolumePricePatterns(
+                    allPatterns = detectRealPatterns(
                         data.volumes, 
                         data.prices, 
                         data.symbol
                     );
                 } else {
-                    // Try fallback
-                    const niftyData = await fetchNiftyData();
-                    if (niftyData.success) {
-                        allPatterns = detectVolumePricePatterns(
-                            niftyData.volumes,
-                            niftyData.prices,
-                            'NIFTY50'
-                        );
-                    }
+                    showMessage(`Could not fetch data for ${data.symbol}. Trying demo data.`, 'error');
+                    await delay(1000);
+                    loadDemoResults();
+                    return;
                 }
             }
             
             // Display results
-            displayRealResults(allPatterns);
+            displayResults(allPatterns);
             
         } catch (error) {
             console.error('Scanner error:', error);
-            showErrorState('Network or API error. Try Demo mode or check console.');
+            showMessage('Scanner error. Loading demo results for learning.', 'error');
+            await delay(1000);
+            loadDemoResults();
         }
     }
-    
-    // ===== DISPLAY REAL RESULTS =====
-    
-    function displayRealResults(patterns) {
+
+    // ===== DISPLAY RESULTS =====
+    function displayResults(patterns) {
         // Hide placeholder
         document.querySelector('.results-placeholder').style.display = 'none';
         document.getElementById('resultsContainer').style.display = 'block';
@@ -337,9 +276,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <tr>
                     <td colspan="8" style="text-align: center; padding: 50px;">
                         <i class="fas fa-search" style="font-size: 3rem; color: #cbd5e0;"></i>
-                        <h3 style="color: #718096; margin: 15px 0;">No Real Patterns Detected</h3>
+                        <h3 style="color: #718096; margin: 15px 0;">No Patterns Found</h3>
                         <p>Current market data doesn't show clear volume-price patterns.</p>
-                        <p><small>Try different stocks or time periods.</small></p>
+                        <p><small>Try different settings or use Demo mode to see examples.</small></p>
                     </td>
                 </tr>
             `;
@@ -349,31 +288,34 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Display each pattern
             patterns.forEach((pattern, index) => {
-                const isBullish = pattern.pattern.includes('UP');
-                const confidenceColor = pattern.confidence >= 70 ? '#10b981' : 
-                                      pattern.confidence >= 50 ? '#f59e0b' : '#ef4444';
+                const confidenceColor = pattern.confidence >= 75 ? '#10b981' : 
+                                      pattern.confidence >= 60 ? '#f59e0b' : '#ef4444';
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>
                         <strong>${pattern.symbol}</strong>
-                        <div class="stock-name">Real Market Data</div>
-                    </td>
-                    <td>
-                        <span class="pattern-badge ${isBullish ? 'badge-bullish' : 'badge-bearish'}">
-                            ${pattern.pattern}
-                        </span>
-                        <div style="font-size: 0.8rem; color: #718096; margin-top: 3px;">
-                            Confidence: <span style="color: ${confidenceColor}; font-weight: bold;">
-                                ${pattern.confidence}%
-                            </span>
+                        <div class="stock-name" style="font-size: 0.8rem; color: #718096;">
+                            Real Market Scan
                         </div>
                     </td>
-                    <td>${pattern.candles} candles</td>
+                    <td>
+                        <span class="pattern-badge ${pattern.isBullish ? 'badge-bullish' : 'badge-bearish'}">
+                            ${pattern.pattern}
+                        </span>
+                    </td>
+                    <td>${pattern.candles} days</td>
                     <td>${pattern.volumeChange.toFixed(1)}%</td>
                     <td>${pattern.priceChange.toFixed(1)}%</td>
                     <td>₹${pattern.currentPrice.toFixed(2)}</td>
-                    <td>Candles ${pattern.startIndex + 1}-${pattern.endIndex + 1}</td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 60px; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;">
+                                <div style="width: ${pattern.confidence}%; height: 100%; background: ${confidenceColor};"></div>
+                            </div>
+                            <span style="color: ${confidenceColor}; font-weight: 600;">${pattern.confidence}%</span>
+                        </div>
+                    </td>
                     <td>
                         <button class="btn-analyze" onclick="showPatternDetails(${index})" 
                                 data-pattern='${JSON.stringify(pattern).replace(/'/g, "\\'")}'>
@@ -383,72 +325,126 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 resultsBody.appendChild(row);
             });
+            
+            // Add pattern details function to window
+            if (!window.showPatternDetails) {
+                window.showPatternDetails = function(index) {
+                    const rows = document.querySelectorAll('#resultsBody tr');
+                    if (rows[index]) {
+                        const btn = rows[index].querySelector('.btn-analyze');
+                        const pattern = JSON.parse(btn.getAttribute('data-pattern'));
+                        showPatternDetailModal(pattern);
+                    }
+                };
+            }
         }
         
         // Update counters
-        resultsCount.textContent = `${patterns.length} real pattern(s) found`;
+        resultsCount.textContent = `${patterns.length} pattern(s) found`;
         scanTime.textContent = `Scanned at: ${new Date().toLocaleTimeString()}`;
+        dataSource.innerHTML = `<i class="fas fa-check-circle"></i> Real Market Data`;
         
-        // Show educational message
-        showEducationalMessage(
+        // Show message
+        showMessage(
             patterns.length > 0 
-                ? `Found ${patterns.length} real volume-price patterns in current market data.`
-                : 'No clear patterns detected. Market may be consolidating.'
+                ? `Found ${patterns.length} patterns in current market data.`
+                : 'Market may be consolidating. Try different settings.',
+            'info'
         );
     }
-    
-    // ===== DETAILED PATTERN VIEW =====
-    
-    window.showPatternDetails = function(index) {
-        // Get all patterns from table
-        const rows = document.querySelectorAll('#resultsBody tr');
-        if (rows[index]) {
-            const btn = rows[index].querySelector('.btn-analyze');
-            const patternData = JSON.parse(btn.getAttribute('data-pattern'));
-            
-            // Create detailed view
-            const detailHtml = `
-                <div class="pattern-detail-modal">
-                    <div class="pattern-detail-content">
-                        <h3>${patternData.symbol} - ${patternData.pattern}</h3>
-                        
-                        <div class="detail-grid">
-                            <div class="detail-card">
-                                <h4><i class="fas fa-chart-bar"></i> Volume Analysis</h4>
-                                <p><strong>Change:</strong> ${patternData.volumeChange.toFixed(1)}%</p>
-                                <p><strong>Trend:</strong> ${patternData.volumeData}</p>
-                                <p><strong>Pattern Length:</strong> ${patternData.candles} candles</p>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h4><i class="fas fa-rupee-sign"></i> Price Analysis</h4>
-                                <p><strong>Change:</strong> ${patternData.priceChange.toFixed(1)}%</p>
-                                <p><strong>Trend:</strong> ${patternData.priceData}</p>
-                                <p><strong>Current Price:</strong> ₹${patternData.currentPrice.toFixed(2)}</p>
-                            </div>
-                            
-                            <div class="detail-card">
-                                <h4><i class="fas fa-brain"></i> Confidence Score</h4>
-                                <div class="confidence-meter">
-                                    <div class="confidence-fill" style="width: ${patternData.confidence}%"></div>
-                                </div>
-                                <p><strong>${patternData.confidence}% Confidence</strong></p>
-                                <p>Based on pattern strength and duration</p>
-                            </div>
+
+    // ===== PATTERN DETAIL MODAL =====
+    function showPatternDetailModal(pattern) {
+        // Remove existing modal
+        const existingModal = document.querySelector('.pattern-detail-modal');
+        if (existingModal) existingModal.remove();
+        
+        const modalHTML = `
+            <div class="pattern-detail-modal">
+                <div class="pattern-detail-content">
+                    <h3>${pattern.symbol} - ${pattern.pattern}</h3>
+                    
+                    <div class="detail-grid">
+                        <div class="detail-card">
+                            <h4><i class="fas fa-chart-bar"></i> Volume Analysis</h4>
+                            <p><strong>Change:</strong> ${pattern.volumeChange.toFixed(1)}%</p>
+                            <p><strong>Pattern:</strong> ${pattern.volumeData}</p>
+                            <p><strong>Duration:</strong> ${pattern.candles} trading days</p>
                         </div>
                         
-                        <div class="educational-insight">
-                            <h4><i class="fas fa-graduation-cap"></i> Educational Insight</h4>
-                            <p>
-                                ${patternData.pattern.includes('UP') 
-                                    ? 'This pattern suggests increasing buying interest. In technical analysis education, this is often studied as potential accumulation.' 
-                                    : 'This pattern suggests decreasing selling pressure. In technical analysis education, this is often studied as potential distribution.'}
-                            </p>
-                            <p><strong>Remember:</strong> This is for learning pattern recognition only.</p>
+                        <div class="detail-card">
+                            <h4><i class="fas fa-rupee-sign"></i> Price Analysis</h4>
+                            <p><strong>Change:</strong> ${pattern.priceChange.toFixed(1)}%</p>
+                            <p><strong>Pattern:</strong> ${pattern.priceData}</p>
+                            <p><strong>Current:</strong> ₹${pattern.currentPrice.toFixed(2)}</p>
                         </div>
                         
-                        <button onclick="this.closest('.pattern-detail-modal').remove()" 
-                                class="btn-close-detail">
-                            <i class="fas fa-times"></i> Close
-                        </button>
-      
+                        <div class="detail-card">
+                            <h4><i class="fas fa-brain"></i> Confidence Score</h4>
+                            <div class="confidence-meter">
+                                <div class="confidence-fill" style="width: ${pattern.confidence}%"></div>
+                            </div>
+                            <p><strong>${pattern.confidence}% Confidence</strong></p>
+                            <p>Based on pattern strength and duration</p>
+                        </div>
+                    </div>
+                    
+                    <div class="educational-insight">
+                        <h4><i class="fas fa-graduation-cap"></i> Educational Insight</h4>
+                        <p>
+                            ${pattern.isBullish 
+                                ? 'This pattern suggests increasing buying interest in the market. In technical analysis education, sustained volume with rising prices is often studied as potential accumulation.' 
+                                : 'This pattern suggests decreasing selling pressure. In technical analysis education, declining volume with falling prices is often studied as potential distribution or weakening downtrend.'}
+                        </p>
+                        <p><strong>Educational Note:</strong> This is for learning pattern recognition concepts only.</p>
+                    </div>
+                    
+                    <button onclick="this.closest('.pattern-detail-modal').remove()" 
+                            class="btn-close-detail">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+
+    // ===== DEMO DATA FUNCTION =====
+    window.loadDemoResults = function() {
+        showLoadingState('Loading demo patterns for learning...');
+        
+        setTimeout(() => {
+            const demoPatterns = [
+                {
+                    symbol: 'RELIANCE',
+                    pattern: '📈 Volume UP + Price UP',
+                    candles: 4,
+                    volumeChange: 18.5,
+                    priceChange: 3.2,
+                    currentPrice: 2456.75,
+                    confidence: 78,
+                    volumeData: '1.2M → 1.4M → 1.5M → 1.7M',
+                    priceData: '₹2380 → ₹2405 → ₹2428 → ₹2457',
+                    isBullish: true,
+                    startIndex: 0,
+                    endIndex: 3
+                },
+                {
+                    symbol: 'TCS',
+                    pattern: '📉 Volume DOWN + Price DOWN',
+                    candles: 3,
+                    volumeChange: -12.3,
+                    priceChange: -2.1,
+                    currentPrice: 3450.50,
+                    confidence: 65,
+                    volumeData: '850K → 780K → 745K',
+                    priceData: '₹3520 → ₹3485 → ₹3451',
+                    isBullish: false,
+                    startIndex: 1,
+                    endIndex: 3
+                },
+                {
+                    symbol: 'INFY',
+                    pattern: '📈 Volume UP + Price UP',
+                 
