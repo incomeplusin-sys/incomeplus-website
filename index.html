@@ -3,90 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - IncomePlus</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        
-        .login-box { background: white; padding: 40px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        
-        h2 { color: #333; margin-bottom: 10px; text-align: center; }
-        .subtitle { color: #666; text-align: center; margin-bottom: 30px; }
-        
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; color: #555; font-weight: bold; }
-        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 5px; font-size: 16px; }
-        input:focus { outline: none; border-color: #4f46e5; }
-        
-        .btn { width: 100%; padding: 14px; background: #4f46e5; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .btn:hover { background: #4338ca; }
-        
-        .links { text-align: center; margin-top: 20px; }
-        .links a { color: #4f46e5; text-decoration: none; }
-        
-        .test-info { background: #f0f9ff; padding: 15px; border-radius: 5px; margin-top: 20px; border-left: 4px solid #4f46e5; }
-    </style>
+    <title>IncomePlus.in - Professional Stock Scanners Platform</title>
+    
+    <!-- Legal Meta Tags -->
+    <meta name="description" content="Professional stock scanning tools for technical analysis. Subscription-based access to real-time scanners.">
+    <meta name="keywords" content="stock scanner, technical analysis, trading tools, market scanners">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/auth.css">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 </head>
 <body>
-    <div class="login-box">
-        <h2>Login to IncomePlus</h2>
-        <p class="subtitle">Test Credentials: test@incomeplus.in / Test@123</p>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" value="test@incomeplus.in" required>
+    <!-- Legal Banner -->
+    <div class="legal-banner">
+        <div class="container">
+            <i class="fas fa-gavel"></i>
+            <div>
+                <strong>PROFESSIONAL TOOLS PLATFORM:</strong> Technical analysis scanning tools. 
+                <strong>NOT FOR INVESTMENT ADVICE.</strong> Not SEBI registered. Market data via third-party APIs.
             </div>
-            
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" value="Test@123" required>
-            </div>
-            
-            <button type="submit" class="btn">Login to Dashboard</button>
-        </form>
-        
-        <div class="links">
-            <a href="index.html">← Back to Home</a> | 
-            <a href="register.html">Create Account</a>
-        </div>
-        
-        <div class="test-info">
-            <strong>Testing Mode:</strong> This is a test login. Clicking login will redirect to dashboard.
         </div>
     </div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-area">
+                <div class="logo">
+                    <i class="fas fa-chart-network"></i>
+                    <span>IncomePlus<span class="highlight">Scanner</span></span>
+                </div>
+                <div class="tagline">Professional Stock Scanning Platform</div>
+            </div>
             
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            <nav class="main-nav">
+                <a href="#features">Features</a>
+                <a href="#scanners">Scanners</a>
+                <a href="#pricing">Pricing</a>
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="login.html?register=true" class="btn-primary">Start Free Trial</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Professional Stock Scanners</h1>
+                <h2>10 Advanced Scanning Engines with Real Market Data</h2>
+                
+                <div class="hero-features">
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <span>Real-time market data</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Fully customizable parameters</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-history"></i>
+                        <span>Historical backtesting</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-database"></i>
+                        <span>Results database</span>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="login.html?register=true" class="btn-primary btn-large">
+                        <i class="fas fa-rocket"></i> Start 7-Day Free Trial
+                    </a>
+                    <a href="#demo" class="btn-secondary">
+                        <i class="fas fa-play-circle"></i> Watch Demo
+                    </a>
+                </div>
+                
+                <div class="trial-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>7-day free trial. ₹999/month after trial. Cancel anytime.</span>
+                </div>
+            </div>
             
-            // Simple validation
-            if(!email || !password) {
-                alert('Please fill in both fields');
-                return;
-            }
+            <div class="hero-preview">
+                <div class="scanner-preview">
+                    <div class="preview-header">
+                        <i class="fas fa-search-chart"></i>
+                        <span>Live Scanner Preview</span>
+                    </div>
+                    <div class="preview-content">
+                        <div class="scan-result">
+                            <div class="stock">RELIANCE</div>
+                            <div class="pattern">Breakout Detected</div>
+                            <div class="confidence high">92%</div>
+                        </div>
+                        <div class="scan-result">
+                            <div class="stock">TCS</div>
+                            <div class="pattern">Volume Spike</div>
+                            <div class="confidence medium">78%</div>
+                        </div>
+                        <div class="scan-result">
+                            <div class="stock">HDFCBANK</div>
+                            <div class="pattern">Support Bounce</div>
+                            <div class="confidence high">85%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
             
-            // Store test user in localStorage
-            const testUser = {
-                email: email,
-                name: 'Test User',
-                subscription_type: 'trial',
-                subscription_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-            };
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>10 Advanced Scanners</h3>
+                    <p>Volume-Price, Breakout, Momentum, Support-Resistance, Moving Average, RSI Divergence, Volume Spike, Pattern Recognition, Gap, Option Chain</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Fully Customizable</h3>
+                    <p>Adjust all parameters, create custom presets, set alerts, and save your scanner configurations</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>Historical Backtesting</h3>
+                    <p>Test your scanner strategies on historical data to validate performance before using real-time</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Results Database</h3>
+                    <p>Store all scan results, track performance, and analyze scanner effectiveness over time</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Real-time Alerts</h3>
+                    <p>Get instant alerts via email or SMS when your scanners detect important market movements</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Performance Analytics</h3>
+                    <p>Detailed analytics showing scanner accuracy, win rates, and performance metrics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scanners Section -->
+    <section class="scanners-section" id="scanners">
+        <div class="container">
+            <h2 class="section-title">10 Professional Scanners</h2>
             
-            localStorage.setItem('user', JSON.stringify(testUser));
-            localStorage.setItem('token', 'test-token-' + Date.now());
+            <div class="scanners-grid">
+                <!-- Scanner 1 -->
+                <div class="scanner-card">
+                    <div class="scanner-header">
+                        <div class="scanner-icon">
+                            <i class="fas fa-wave-square"></i>
+                        </div>
+                        <h3>Volume-Price Scanner</h3>
+                    </div>
+                    <p>Detects volume-price divergence and correlation patterns in real-time</p>
+                    <div class="scanner-tags">
+                        <span class="tag">Real-time</span>
+                        <span class="tag">Divergence</span>
+                    </div>
+                </div>
+                
+                <!-- Scanner 2 -->
+                <div class="scanner-card">
+                    <div class="scanner-header">
+                        <div class="scanner-icon">
+                            <i class="fas fa-arrow-up-from-bracket"></i>
+                        </div>
+                        <h3>Breakout Scanner</h3>
+                    </div>
+                    <p>Identifies price breakouts from consolidation with volume confirmation</p>
+                    <div class="scanner-tags">
+                        <span class="tag">Breakout</span>
+                        <span class="tag">Consolidation</span>
+                    </div>
+                </div>
+                
+                <!-- Add 8 more scanner cards similarly -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple Pricing</h2>
             
-            // Redirect to dashboard
-            window.location.href = 'dashboard.html';
-        });
-        
-        // Auto-fill test credentials
-        console.log('Test Login Page Loaded');
-        console.log('Test Credentials: test@incomeplus.in / Test@123');
-    </script>
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>7-Day Trial</h3>
+                        <div class="price">₹0</div>
+                        <div class="period">for 7 days</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Full access to all scanners</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Real-time market data</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Basic backtesting</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Email support</span>
+                        </div>
+                    </div>
+                    <a href="login.html?register=true" class="btn-pricing">
+                        Start Free Trial
+                    </a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Monthly Plan</h3>
+                        <div class="price">₹999</div>
+                        <div class="period">per month</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Everything in Trial</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Advanced backtesting</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Results database</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Priority support</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>SMS alerts</span>
+                        </div>
+                    </div>
+                    <a href="login.html?register=true" class="btn-pricing btn-primary">
+                        Get Started
+                    </a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Annual Plan</h3>
+                        <div class="price">₹9,999</div>
+                        <div class="period">per year (Save 17%)</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Everything in Monthly</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Custom scanner development</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>API access</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Dedicated account manager</span>
+                        </div>
+                    </div>
+                    <a href="login.html?register=true" class="btn-pricing">
+                        Choose Annual
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legal Disclaimer -->
+    <div class="legal-disclaimer">
+        <div class="container">
+            <h3><i class="fas fa-exclamation-triangle"></i> Important Legal Disclaimer</h3>
+            <p>
+                <strong>IncomePlus Scanner is a technical analysis tools platform.</strong> We provide scanning tools that analyze market data. 
+                We are <strong>NOT SEBI registered</strong> investment advisors. We do <strong>NOT</strong> provide buy/sell recommendations, 
+                investment advice, or portfolio management services. All tools are for analysis purposes only. 
+                Trading in securities involves risk. Past performance is not indicative of future results. 
+                Users should consult with qualified financial advisors before making investment decisions.
+            </p>
+            <p>
+                Subscription fees are for tool access only, not for investment advice. Market data provided by third-party APIs 
+                with delays. We are not responsible for trading losses. By subscribing, you agree to our Terms of Service.
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-chart-network"></i>
+                        <span>IncomePlus<span class="highlight">Scanner</span></span>
+                    </div>
+                    <p>Professional Stock Scanning Platform</p>
+                    <p class="contact-email">
+                        <i class="fas fa-envelope"></i> support@incomeplus.in
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <a href="#features">Features</a>
+                    <a href="#scanners">Scanners</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="login.html">Login</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="refund.html">Refund Policy</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="support.html">Support</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2024 IncomePlus Scanner. All rights reserved.
+                </div>
+                <div class="company-info">
+                    A product of TRFSK Omkar Services Pvt Ltd
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
