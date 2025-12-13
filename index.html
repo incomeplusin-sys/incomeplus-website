@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - IncomePlus</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        
+        .login-box { background: white; padding: 40px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        
+        h2 { color: #333; margin-bottom: 10px; text-align: center; }
+        .subtitle { color: #666; text-align: center; margin-bottom: 30px; }
+        
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: bold; }
+        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 5px; font-size: 16px; }
+        input:focus { outline: none; border-color: #4f46e5; }
+        
+        .btn { width: 100%; padding: 14px; background: #4f46e5; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn:hover { background: #4338ca; }
+        
+        .links { text-align: center; margin-top: 20px; }
+        .links a { color: #4f46e5; text-decoration: none; }
+        
+        .test-info { background: #f0f9ff; padding: 15px; border-radius: 5px; margin-top: 20px; border-left: 4px solid #4f46e5; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Login to IncomePlus</h2>
+        <p class="subtitle">Test Credentials: test@incomeplus.in / Test@123</p>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="test@incomeplus.in" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" value="Test@123" required>
+            </div>
+            
+            <button type="submit" class="btn">Login to Dashboard</button>
+        </form>
+        
+        <div class="links">
+            <a href="index.html">← Back to Home</a> | 
+            <a href="register.html">Create Account</a>
+        </div>
+        
+        <div class="test-info">
+            <strong>Testing Mode:</strong> This is a test login. Clicking login will redirect to dashboard.
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation
+            if(!email || !password) {
+                alert('Please fill in both fields');
+                return;
+            }
+            
+            // Store test user in localStorage
+            const testUser = {
+                email: email,
+                name: 'Test User',
+                subscription_type: 'trial',
+                subscription_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+            };
+            
+            localStorage.setItem('user', JSON.stringify(testUser));
+            localStorage.setItem('token', 'test-token-' + Date.now());
+            
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+        
+        // Auto-fill test credentials
+        console.log('Test Login Page Loaded');
+        console.log('Test Credentials: test@incomeplus.in / Test@123');
+    </script>
+</body>
+</html>
