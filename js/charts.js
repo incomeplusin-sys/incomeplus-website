@@ -18,30 +18,45 @@ class ChartManager {
         const chartCanvas = document.getElementById('performanceChart');
         if (!chartCanvas) return;
         
+        // Check if it's already a canvas
+        if (chartCanvas.tagName !== 'CANVAS') {
+            // Create canvas if it's a div
+            const ctx = document.createElement('canvas');
+            chartCanvas.innerHTML = '';
+            chartCanvas.appendChild(ctx);
+            this.initPerformanceChart(); // Re-call with canvas
+            return;
+        }
+        
         // Get data from localStorage
         const savedResults = JSON.parse(localStorage.getItem('savedResults') || '[]');
         
         if (savedResults.length === 0) {
             // Show placeholder if no data
-            chartCanvas.innerHTML = `
-                <div class="chart-placeholder">
-                    <i class="fas fa-chart-line"></i>
-                    <p>No data available for chart</p>
-                    <p style="font-size: 0.9rem; margin-top: 10px; color: #94a3b8;">
-                        Run some scans to see performance data
-                    </p>
-                </div>
-            `;
+            const container = chartCanvas.parentElement;
+            if (container) {
+                container.innerHTML = `
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-line"></i>
+                        <p>No data available for chart</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px; color: #94a3b8;">
+                            Run some scans to see performance data
+                        </p>
+                    </div>
+                `;
+            }
             return;
         }
         
-        // Prepare chart data
         const ctx = chartCanvas.getContext('2d');
         
         // Group results by date
         const resultsByDate = {};
         savedResults.forEach(result => {
-            const date = new Date(result.savedAt).toLocaleDateString();
+            const date = new Date(result.savedAt).toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short'
+            });
             if (!resultsByDate[date]) {
                 resultsByDate[date] = {
                     totalConfidence: 0,
@@ -54,18 +69,39 @@ class ChartManager {
             resultsByDate[date].signals.push(result.signal);
         });
         
+        // Get last 7 days
+        const dates = [];
+        for (let i = 6; i >= 0; i--) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            dates.push(date.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short'
+            }));
+        }
+        
         // Calculate average confidence per day
-        const dates = Object.keys(resultsByDate).slice(-7); // Last 7 days
-        const avgConfidence = dates.map(date => 
-            Math.round(resultsByDate[date].totalConfidence / resultsByDate[date].count)
-        );
+        const avgConfidence = dates.map(date => {
+            if (resultsByDate[date]) {
+                return Math.round(resultsByDate[date].totalConfidence / resultsByDate[date].count);
+            }
+            return 0;
+        });
         
         // Calculate bullish signals percentage
         const bullishPercentages = dates.map(date => {
-            const signals = resultsByDate[date].signals;
-            const bullishCount = signals.filter(s => s.toLowerCase().includes('bullish')).length;
-            return Math.round((bullishCount / signals.length) * 100);
+            if (resultsByDate[date] && resultsByDate[date].signals.length > 0) {
+                const signals = resultsByDate[date].signals;
+                const bullishCount = signals.filter(s => s.toLowerCase().includes('bullish')).length;
+                return Math.round((bullishCount / signals.length) * 100);
+            }
+            return 0;
         });
+        
+        // Destroy existing chart if it exists
+        if (this.charts.performance) {
+            this.charts.performance.destroy();
+        }
         
         this.charts.performance = new Chart(ctx, {
             type: 'line',
@@ -87,8 +123,8 @@ class ChartManager {
                         data: bullishPercentages,
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
+                        borderWidth: 2,
+                        fill: false,
                         tension: 0.4,
                         yAxisID: 'y1'
                     }
@@ -102,15 +138,6 @@ class ChartManager {
                     intersect: false,
                 },
                 plugins: {
-                    title: {
-                        display: true,
-                        text: 'Scanner Performance Over Last 7 Days',
-                        font: {
-                            size: 14,
-                            family: 'Poppins'
-                        },
-                        color: '#1e293b'
-                    },
                     legend: {
                         position: 'top',
                         labels: {
@@ -161,15 +188,6 @@ class ChartManager {
                             callback: function(value) {
                                 return value + '%';
                             }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Confidence %',
-                            color: '#475569',
-                            font: {
-                                family: 'Poppins',
-                                weight: '500'
-                            }
                         }
                     },
                     y1: {
@@ -188,15 +206,6 @@ class ChartManager {
                             },
                             callback: function(value) {
                                 return value + '%';
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Bullish %',
-                            color: '#475569',
-                            font: {
-                                family: 'Poppins',
-                                weight: '500'
                             }
                         }
                     }
@@ -248,6 +257,11 @@ class ChartManager {
             scanCounts.push(dayScans);
         }
         
+        // Destroy existing chart if it exists
+        if (this.charts.dailyScans) {
+            this.charts.dailyScans.destroy();
+        }
+        
         this.charts.dailyScans = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -255,24 +269,8 @@ class ChartManager {
                 datasets: [{
                     label: 'Scans per Day',
                     data: scanCounts,
-                    backgroundColor: [
-                        'rgba(79, 70, 229, 0.7)',
-                        'rgba(79, 70, 229, 0.7)',
-                        'rgba(79, 70, 229, 0.7)',
-                        'rgba(79, 70, 229, 0.7)',
-                        'rgba(79, 70, 229, 0.7)',
-                        'rgba(79, 70, 229, 0.7)',
-                        'rgba(79, 70, 229, 0.7)'
-                    ],
-                    borderColor: [
-                        '#4f46e5',
-                        '#4f46e5',
-                        '#4f46e5',
-                        '#4f46e5',
-                        '#4f46e5',
-                        '#4f46e5',
-                        '#4f46e5'
-                    ],
+                    backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                    borderColor: '#4f46e5',
                     borderWidth: 1,
                     borderRadius: 6,
                     borderSkipped: false,
@@ -314,15 +312,6 @@ class ChartManager {
                                 family: 'Poppins'
                             },
                             stepSize: 1
-                        },
-                        title: {
-                            display: true,
-                            text: 'Number of Scans',
-                            color: '#475569',
-                            font: {
-                                family: 'Poppins',
-                                weight: '500'
-                            }
                         }
                     },
                     x: {
@@ -360,6 +349,16 @@ class ChartManager {
         const ctx = canvas.getContext('2d');
         const savedResults = JSON.parse(localStorage.getItem('savedResults') || '[]');
         
+        if (savedResults.length === 0) {
+            chartContainer.innerHTML = `
+                <div class="chart-placeholder">
+                    <i class="fas fa-chart-pie"></i>
+                    <p>No scanner data available</p>
+                </div>
+            `;
+            return;
+        }
+        
         // Group by scanner type
         const scannerData = {};
         savedResults.forEach(result => {
@@ -388,8 +387,13 @@ class ChartManager {
             'rgba(14, 165, 233, 0.7)'
         ];
         
+        // Destroy existing chart if it exists
+        if (this.charts.accuracyTrend) {
+            this.charts.accuracyTrend.destroy();
+        }
+        
         this.charts.accuracyTrend = new Chart(ctx, {
-            type: 'pie',
+            type: 'doughnut',
             data: {
                 labels: scanners,
                 datasets: [{
@@ -409,10 +413,10 @@ class ChartManager {
                         labels: {
                             font: {
                                 family: 'Poppins',
-                                size: 12
+                                size: 11
                             },
                             color: '#475569',
-                            padding: 20,
+                            padding: 15,
                             usePointStyle: true,
                             pointStyle: 'circle'
                         }
@@ -431,9 +435,7 @@ class ChartManager {
                             label: function(context) {
                                 const label = context.label || '';
                                 const value = context.raw || 0;
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = Math.round((value / total) * 100);
-                                return `${label}: ${value}% (${percentage}% of total)`;
+                                return `${label}: ${value}% accuracy`;
                             }
                         }
                     }
@@ -456,142 +458,13 @@ class ChartManager {
         let canvas = chartContainer.querySelector('canvas');
         if (!canvas) {
             canvas = document.createElement('canvas');
-            chartContainer.innerHTML = '';
             chartContainer.appendChild(canvas);
         }
         
         const ctx = canvas.getContext('2d');
-        const savedResults = JSON.parse(localStorage.getItem('savedResults') || '[]');
         
-        // Group by scanner type
-        const scannerStats = {};
-        savedResults.forEach(result => {
-            const scanner = result.scannerType;
-            if (!scannerStats[scanner]) {
-                scannerStats[scanner] = {
-                    totalConfidence: 0,
-                    count: 0,
-                    bullish: 0,
-                    bearish: 0,
-                    neutral: 0
-                };
-            }
-            scannerStats[scanner].totalConfidence += result.confidence;
-            scannerStats[scanner].count++;
-            
-            if (result.signal.toLowerCase().includes('bullish')) {
-                scannerStats[scanner].bullish++;
-            } else if (result.signal.toLowerCase().includes('bearish')) {
-                scannerStats[scanner].bearish++;
-            } else {
-                scannerStats[scanner].neutral++;
-            }
-        });
-        
-        const scanners = Object.keys(scannerStats);
-        const avgConfidences = scanners.map(scanner => 
-            Math.round(scannerStats[scanner].totalConfidence / scannerStats[scanner].count)
-        );
-        const totalScans = scanners.map(scanner => scannerStats[scanner].count);
-        
-        this.charts.scannerPerformance = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: scanners,
-                datasets: [
-                    {
-                        label: 'Avg Confidence %',
-                        data: avgConfidences,
-                        borderColor: '#4f46e5',
-                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#4f46e5',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5
-                    },
-                    {
-                        label: 'Total Scans',
-                        data: totalScans.map(count => count * 10), // Scale for better visualization
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#10b981',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 5
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                family: 'Poppins'
-                            },
-                            color: '#475569'
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                        titleFont: {
-                            family: 'Poppins'
-                        },
-                        bodyFont: {
-                            family: 'Poppins'
-                        },
-                        padding: 12,
-                        cornerRadius: 6,
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                let value = context.raw;
-                                
-                                if (label.includes('Total Scans')) {
-                                    value = value / 10; // Unscale the value
-                                    return `${label}: ${Math.round(value)} scans`;
-                                }
-                                return `${label}: ${value}%`;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    r: {
-                        angleLines: {
-                            color: 'rgba(226, 232, 240, 0.5)'
-                        },
-                        grid: {
-                            color: 'rgba(226, 232, 240, 0.3)'
-                        },
-                        pointLabels: {
-                            font: {
-                                family: 'Poppins',
-                                size: 11
-                            },
-                            color: '#475569'
-                        },
-                        ticks: {
-                            font: {
-                                family: 'Poppins'
-                            },
-                            color: '#64748b',
-                            backdropColor: 'transparent'
-                        },
-                        min: 0,
-                        max: 100
-                    }
-                },
-                animation: {
-                    duration: 1000,
-                    easing: 'easeOutQuart'
-                }
-            }
-        });
+        // This chart is optional - only initialize if needed
+        this.charts.scannerPerformance = null;
     }
     
     // Update all charts with new data
@@ -625,26 +498,73 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.chartManager) {
             window.chartManager.init();
         }
-    }, 500);
+    }, 1000);
     
-    // Update charts when new data is added
-    document.addEventListener('scanCompleted', function() {
-        if (window.chartManager) {
-            setTimeout(() => {
+    // Event listener for chart refresh
+    const refreshChartBtn = document.getElementById('refreshChart');
+    if (refreshChartBtn) {
+        refreshChartBtn.addEventListener('click', function() {
+            if (window.chartManager) {
                 window.chartManager.updateAllCharts();
-            }, 1000);
-        }
-    });
+                showNotification('Charts refreshed successfully!', 'success');
+            }
+        });
+    }
     
-    // Update charts when filters are applied
-    document.addEventListener('filtersApplied', function() {
-        if (window.chartManager) {
-            setTimeout(() => {
-                window.chartManager.updateAllCharts();
-            }, 500);
-        }
-    });
+    // Event listener for chart download
+    const downloadChartBtn = document.getElementById('downloadChart');
+    if (downloadChartBtn) {
+        downloadChartBtn.addEventListener('click', function() {
+            const chartCanvas = document.getElementById('performanceChart');
+            if (chartCanvas && chartCanvas.tagName === 'CANVAS') {
+                const link = document.createElement('a');
+                link.download = 'scanner-performance-' + new Date().toISOString().split('T')[0] + '.png';
+                link.href = chartCanvas.toDataURL('image/png');
+                link.click();
+                showNotification('Chart downloaded successfully!', 'success');
+            } else {
+                showNotification('No chart available to download', 'warning');
+            }
+        });
+    }
 });
+
+// Helper function for notifications
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification-toast ${type}`;
+    notification.innerHTML = `
+        <div class="toast-icon">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 
+                             type === 'error' ? 'exclamation-circle' : 
+                             type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+        </div>
+        <div class="toast-content">
+            <strong>${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
+            <p>${message}</p>
+        </div>
+        <button class="toast-close">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Show notification
+    setTimeout(() => notification.classList.add('show'), 100);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+    
+    // Close button
+    notification.querySelector('.toast-close').addEventListener('click', () => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    });
+}
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
