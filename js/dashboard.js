@@ -1,22 +1,22 @@
 // Dashboard JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check authentication
+    // Check authentication (keep this)
     checkAuth();
     
-    // Load user data
+    // Load user data (keep this)
     loadUserData();
     
-    // Load dashboard stats
+    // Load dashboard stats (keep this)
     loadDashboardStats();
     
-    // Load scanner cards
+    // Load scanner cards (ADD THIS FUNCTION)
     loadScannerCards();
     
-    // Load recent results
+    // Load recent results (ADD THIS FUNCTION)
     loadRecentResults();
     
-    // Mobile menu toggle
+    // Mobile menu toggle (keep this)
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     if (mobileMenuBtn) {
         mobileMenuBtn.addEventListener('click', function() {
@@ -25,7 +25,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Logout functionality
+    // Sidebar mobile toggle (ADD THIS)
+    const sidebarMenuBtn = document.querySelector('.mobile-menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebarMenuBtn && sidebar) {
+        sidebarMenuBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 1024 && 
+                sidebar.classList.contains('active') && 
+                !sidebar.contains(e.target) && 
+                !sidebarMenuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+    }
+    
+    // Logout functionality (keep this)
     const logoutBtn = document.getElementById('logout');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function(e) {
@@ -34,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Run quick scan button
+    // Run quick scan button (UPDATE THIS - add new function)
     const runScanBtn = document.querySelector('.btn-run-scan');
     if (runScanBtn) {
         runScanBtn.addEventListener('click', function() {
@@ -42,11 +61,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Initialize tooltips
+    // Run first scan button (ADD THIS)
+    const runFirstScanBtn = document.querySelector('.btn-run-first-scan');
+    if (runFirstScanBtn) {
+        runFirstScanBtn.addEventListener('click', function() {
+            window.location.href = 'scanners/volume-price.html';
+        });
+    }
+    
+    // Initialize tooltips (keep this)
     initializeTooltips();
+    
+    // Set greeting based on time of day (ADD THIS)
+    setGreeting();
 });
 
-// Check if user is authenticated
+// Check if user is authenticated (KEEP THIS FUNCTION)
 function checkAuth() {
     const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
@@ -70,14 +100,14 @@ function checkAuth() {
     }
 }
 
-// Load user data
+// Load user data (KEEP AND UPDATE THIS FUNCTION)
 function loadUserData() {
     const user = localStorage.getItem('user');
     if (!user) return;
     
     const userData = JSON.parse(user);
     
-    // Update user info in top bar
+    // Update user info in top bar (KEEP)
     const userNameElement = document.querySelector('.user-name');
     const userFirstNameElement = document.getElementById('userFirstName');
     const planBadge = document.querySelector('.plan-badge');
@@ -89,6 +119,14 @@ function loadUserData() {
         const firstName = userData.name.split(' ')[0];
         if (userFirstNameElement) userFirstNameElement.textContent = firstName;
         if (userNameElement) userNameElement.textContent = userData.name;
+        
+        // Update greeting name (ADD)
+        const greetingName = document.getElementById('greetingName');
+        if (greetingName) greetingName.textContent = firstName;
+        
+        // Update sidebar user name (ADD)
+        const sidebarUserName = document.getElementById('sidebarUserName');
+        if (sidebarUserName) sidebarUserName.textContent = firstName;
     }
     
     if (userData.subscription_type) {
@@ -115,16 +153,25 @@ function loadUserData() {
         if (daysLeftElement) {
             daysLeftElement.textContent = daysLeft;
         }
+        
+        // Update trial days (ADD)
+        const trialDaysElement = document.getElementById('trialDays');
+        if (trialDaysElement) {
+            trialDaysElement.textContent = daysLeft;
+        }
     }
+    
+    // Save to global for other pages (ADD)
+    window.userData = userData;
 }
 
-// Load dashboard statistics
+// Load dashboard statistics (KEEP AND UPDATE THIS FUNCTION)
 async function loadDashboardStats() {
     try {
         // Mock API call - Replace with actual API
         const stats = await fetchDashboardStats();
         
-        // Update stats
+        // Update stats (KEEP EXISTING)
         const todayScansElement = document.getElementById('todayScans');
         const activeAlertsElement = document.getElementById('activeAlerts');
         const accuracyRateElement = document.getElementById('accuracyRate');
@@ -134,12 +181,29 @@ async function loadDashboardStats() {
         if (activeAlertsElement) activeAlertsElement.textContent = stats.activeAlerts;
         if (accuracyRateElement) accuracyRateElement.textContent = stats.accuracyRate + '%';
         if (scansUsedElement) scansUsedElement.textContent = stats.scansUsed + '/1000';
+        
+        // Update new stat elements (ADD)
+        const scansTodayElement = document.getElementById('scansToday');
+        const trialDaysElement = document.getElementById('trialDays');
+        const scansUsedProgress = document.querySelector('.progress-fill');
+        
+        if (scansTodayElement) scansTodayElement.textContent = stats.todayScans;
+        if (trialDaysElement && window.userData && window.userData.subscription_end) {
+            const endDate = new Date(window.userData.subscription_end);
+            const today = new Date();
+            const daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
+            trialDaysElement.textContent = daysLeft;
+        }
+        if (scansUsedProgress) {
+            const progressPercent = Math.min((stats.scansUsed / 1000) * 100, 100);
+            scansUsedProgress.style.width = `${progressPercent}%`;
+        }
     } catch (error) {
         console.error('Error loading dashboard stats:', error);
     }
 }
 
-// Load scanner cards
+// ADD THIS NEW FUNCTION: Load scanner cards
 async function loadScannerCards() {
     const scannersContainer = document.querySelector('.scanners-container');
     if (!scannersContainer) return;
@@ -168,7 +232,7 @@ async function loadScannerCards() {
                         </div>
                     </div>
                     <div class="scanner-action">
-                        <i class="fas fa-arrow-right"></i>
+                        Run Scan <i class="fas fa-arrow-right"></i>
                     </div>
                 </div>
             </a>
@@ -179,53 +243,96 @@ async function loadScannerCards() {
     }
 }
 
-// Load recent scan results
+// ADD THIS NEW FUNCTION: Load recent scan results
 async function loadRecentResults() {
     const resultsBody = document.getElementById('recentResultsBody');
     if (!resultsBody) return;
     
     try {
-        const results = await fetchRecentResults();
+        // First check localStorage for saved results
+        const savedResults = JSON.parse(localStorage.getItem('savedResults') || '[]');
         
-        if (results.length === 0) {
-            resultsBody.innerHTML = `
+        if (savedResults.length > 0) {
+            // Get 5 most recent results from localStorage
+            const recentResults = savedResults
+                .sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt))
+                .slice(0, 5);
+            
+            resultsBody.innerHTML = recentResults.map(result => `
                 <tr>
-                    <td colspan="5" style="text-align: center; padding: 30px; color: #718096;">
-                        <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
-                        No scan results yet. Run your first scan!
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="scanner-badge">${result.scannerType}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>${result.symbol}</strong>
+                        <small style="display: block; color: #64748b; font-size: 0.85rem;">${result.name || ''}</small>
+                    </td>
+                    <td>
+                        <span class="signal-badge ${getSignalClass(result.signal)}">${result.signal}</span>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 60px; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;">
+                                <div style="width: ${result.confidence}%; height: 100%; background: linear-gradient(90deg, #4f46e5, #7c3aed); border-radius: 3px;"></div>
+                            </div>
+                            <span style="font-weight: 600; color: #475569;">${result.confidence}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        ${new Date(result.savedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                        <small style="display: block; color: #64748b; font-size: 0.85rem;">
+                            ${new Date(result.savedAt).toLocaleDateString()}
+                        </small>
                     </td>
                 </tr>
-            `;
-            return;
-        }
-        
-        resultsBody.innerHTML = results.map(result => `
-            <tr>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <i class="${result.icon}" style="color: #4f46e5;"></i>
-                        <span>${result.scanner}</span>
-                    </div>
-                </td>
-                <td>
-                    <strong>${result.stock}</strong>
-                </td>
-                <td>
-                    <span class="signal-badge ${result.signalClass}">${result.signal}</span>
-                </td>
-                <td>
-                    <div class="confidence-cell">
-                        <div class="confidence-bar">
-                            <div class="confidence-fill" style="width: ${result.confidence}%"></div>
+            `).join('');
+        } else {
+            // Fallback to mock data if no saved results
+            const results = await fetchRecentResults();
+            
+            if (results.length === 0) {
+                resultsBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="no-results">
+                            <i class="fas fa-inbox"></i>
+                            <p>No recent scans found</p>
+                            <button class="btn-run-first-scan">Run Your First Scan</button>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            resultsBody.innerHTML = results.map(result => `
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i class="${result.icon}" style="color: #4f46e5;"></i>
+                            <span>${result.scanner}</span>
                         </div>
-                        <span>${result.confidence}%</span>
-                    </div>
-                </td>
-                <td>
-                    <span style="color: #718096; font-size: 0.9rem;">${result.time}</span>
-                </td>
-            </tr>
-        `).join('');
+                    </td>
+                    <td>
+                        <strong>${result.stock}</strong>
+                    </td>
+                    <td>
+                        <span class="signal-badge ${result.signalClass}">${result.signal}</span>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 60px; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;">
+                                <div style="width: ${result.confidence}%; height: 100%; background: linear-gradient(90deg, #4f46e5, #7c3aed); border-radius: 3px;"></div>
+                            </div>
+                            <span>${result.confidence}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span style="color: #718096; font-size: 0.9rem;">${result.time}</span>
+                    </td>
+                </tr>
+            `).join('');
+        }
     } catch (error) {
         console.error('Error loading recent results:', error);
         resultsBody.innerHTML = `
@@ -239,7 +346,14 @@ async function loadRecentResults() {
     }
 }
 
-// Run quick scan
+// ADD THIS NEW FUNCTION: Get signal class
+function getSignalClass(signal) {
+    if (signal.toLowerCase().includes('bullish')) return 'bullish';
+    if (signal.toLowerCase().includes('bearish')) return 'bearish';
+    return 'neutral';
+}
+
+// Run quick scan (UPDATE THIS FUNCTION)
 async function runQuickScan() {
     const btn = document.querySelector('.btn-run-scan');
     const originalText = btn.innerHTML;
@@ -251,12 +365,46 @@ async function runQuickScan() {
         // Simulate scan
         await new Promise(resolve => setTimeout(resolve, 2000));
         
+        // Generate sample scan data
+        const scanData = {
+            scannerType: 'Volume-Price Scanner',
+            symbol: 'RELIANCE',
+            name: 'Reliance Industries',
+            signal: Math.random() > 0.5 ? 'Bullish' : 'Bearish',
+            confidence: Math.floor(Math.random() * 30 + 70), // 70-100%
+            currentPrice: 2500 + Math.random() * 100,
+            priceChange: (Math.random() * 10 - 5).toFixed(2),
+            savedAt: new Date().toISOString()
+        };
+        
+        // Save to results
+        let savedResults = JSON.parse(localStorage.getItem('savedResults') || '[]');
+        savedResults.unshift({
+            ...scanData,
+            id: `scan_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        });
+        localStorage.setItem('savedResults', JSON.stringify(savedResults));
+        
+        // Update user stats
+        const user = localStorage.getItem('user');
+        if (user) {
+            const userData = JSON.parse(user);
+            userData.totalScans = (userData.totalScans || 0) + 1;
+            localStorage.setItem('user', JSON.stringify(userData));
+        }
+        
         // Show success message
         showNotification('Quick scan completed! Found 3 new signals.', 'success');
         
-        // Refresh recent results
+        // Refresh dashboard data
         loadRecentResults();
         loadDashboardStats();
+        
+        // Show the scan results
+        setTimeout(() => {
+            window.location.href = 'results.html';
+        }, 1000);
+        
     } catch (error) {
         showNotification('Scan failed. Please try again.', 'error');
     } finally {
@@ -265,7 +413,23 @@ async function runQuickScan() {
     }
 }
 
-// Initialize tooltips
+// ADD THIS NEW FUNCTION: Set greeting based on time of day
+function setGreeting() {
+    const hour = new Date().getHours();
+    let greeting;
+    
+    if (hour < 12) greeting = 'Good morning';
+    else if (hour < 18) greeting = 'Good afternoon';
+    else greeting = 'Good evening';
+    
+    const greetingEl = document.getElementById('greetingName');
+    if (greetingEl) {
+        const currentText = greetingEl.textContent;
+        greetingEl.textContent = `${greeting}, ${currentText}`;
+    }
+}
+
+// Initialize tooltips (KEEP THIS FUNCTION)
 function initializeTooltips() {
     // Add tooltip functionality to elements with data-tooltip attribute
     document.querySelectorAll('[data-tooltip]').forEach(element => {
@@ -293,7 +457,7 @@ function initializeTooltips() {
     });
 }
 
-// Show notification
+// Show notification (KEEP THIS FUNCTION)
 function showNotification(message, type = 'info') {
     // Use the notification system from main.js if available
     if (window.showNotification) {
@@ -385,7 +549,7 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-// Logout function
+// Logout function (KEEP THIS FUNCTION)
 function logout() {
     // Clear local storage
     localStorage.removeItem('user');
@@ -395,18 +559,37 @@ function logout() {
     window.location.href = 'login.html?logout=true';
 }
 
-// Mock API functions (Replace with actual API calls)
+// Mock API functions (KEEP THESE BUT ADD NEW ONES)
+
+// Mock dashboard stats (KEEP)
 async function fetchDashboardStats() {
     await new Promise(resolve => setTimeout(resolve, 500));
     
+    // Check localStorage for actual data
+    const savedResults = JSON.parse(localStorage.getItem('savedResults') || '[]');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayScans = savedResults.filter(r => new Date(r.savedAt) >= today).length;
+    
+    const user = localStorage.getItem('user');
+    let scansUsed = 0;
+    if (user) {
+        const userData = JSON.parse(user);
+        scansUsed = userData.totalScans || 0;
+    }
+    
+    const accuracy = savedResults.length > 0 ? 
+        Math.floor(savedResults.reduce((sum, r) => sum + r.confidence, 0) / savedResults.length) : 75;
+    
     return {
-        todayScans: Math.floor(Math.random() * 50) + 10,
+        todayScans: todayScans,
         activeAlerts: Math.floor(Math.random() * 10) + 1,
-        accuracyRate: Math.floor(Math.random() * 30) + 70,
-        scansUsed: Math.floor(Math.random() * 500) + 50
+        accuracyRate: accuracy,
+        scansUsed: scansUsed
     };
 }
 
+// ADD THIS: Mock scanners data
 async function fetchScanners() {
     await new Promise(resolve => setTimeout(resolve, 300));
     
@@ -446,6 +629,7 @@ async function fetchScanners() {
     ];
 }
 
+// ADD THIS: Mock recent results data
 async function fetchRecentResults() {
     await new Promise(resolve => setTimeout(resolve, 400));
     
@@ -464,4 +648,52 @@ async function fetchRecentResults() {
         const confidence = Math.floor(Math.random() * 30) + 65;
         
         results.push({
-            scanner:
+            scanner: scanner.name,
+            icon: scanner.icon,
+            stock: stocks[Math.floor(Math.random() * stocks.length)],
+            signal: signal,
+            signalClass: signal.toLowerCase().includes('bullish') ? 'bullish' : 
+                       signal.toLowerCase().includes('bearish') ? 'bearish' : 'neutral',
+            confidence: confidence,
+            time: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        });
+    }
+    
+    return results;
+}
+
+// Global function to run scan from anywhere (ADD THIS)
+window.runQuickScanFromGlobal = function(scannerType = 'Volume-Price Scanner') {
+    const scanData = {
+        scannerType: scannerType,
+        symbol: 'RELIANCE',
+        name: 'Reliance Industries',
+        signal: Math.random() > 0.5 ? 'Bullish' : 'Bearish',
+        confidence: Math.floor(Math.random() * 30 + 70),
+        currentPrice: 2500 + Math.random() * 100,
+        priceChange: (Math.random() * 10 - 5).toFixed(2),
+        savedAt: new Date().toISOString()
+    };
+    
+    // Save to results
+    let savedResults = JSON.parse(localStorage.getItem('savedResults') || '[]');
+    savedResults.unshift({
+        ...scanData,
+        id: `scan_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    });
+    localStorage.setItem('savedResults', JSON.stringify(savedResults));
+    
+    // Update user stats
+    const user = localStorage.getItem('user');
+    if (user) {
+        const userData = JSON.parse(user);
+        userData.totalScans = (userData.totalScans || 0) + 1;
+        localStorage.setItem('user', JSON.stringify(userData));
+    }
+    
+    // Reload data if on dashboard
+    if (typeof loadRecentResults === 'function') loadRecentResults();
+    if (typeof loadDashboardStats === 'function') loadDashboardStats();
+    
+    return scanData;
+};
