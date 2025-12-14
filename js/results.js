@@ -1,4 +1,23 @@
 // Results History Management
+
+installChartDemo() {
+    // Check if Chart.js is loaded
+    if (typeof Chart === 'undefined') {
+        this.showNotification('Chart.js not loaded. Please check your internet connection or include Chart.js in your HTML.', 'error');
+        return;
+    }
+    
+    // Initialize charts
+    if (window.chartManager) {
+        window.chartManager.initPerformanceChart();
+        this.showNotification('Performance chart loaded successfully!', 'success');
+    } else {
+        this.showNotification('Chart manager not initialized. Refreshing page...', 'warning');
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
+    }
+}
 class ResultsManager {
     constructor() {
         this.currentPage = 1;
