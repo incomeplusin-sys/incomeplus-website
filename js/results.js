@@ -1,49 +1,4 @@
 // Results History Management
-
-// Add chart refresh button
-const refreshChartBtn = document.getElementById('refreshChart');
-if (refreshChartBtn) {
-    refreshChartBtn.addEventListener('click', () => {
-        if (window.chartManager) {
-            window.chartManager.updateAllCharts();
-            this.showNotification('Charts refreshed', 'success');
-        }
-    });
-}
-
-// Add chart download button
-const downloadChartBtn = document.getElementById('downloadChart');
-if (downloadChartBtn) {
-    downloadChartBtn.addEventListener('click', () => {
-        const chartCanvas = document.getElementById('performanceChart');
-        if (chartCanvas) {
-            const link = document.createElement('a');
-            link.download = 'performance-chart.png';
-            link.href = chartCanvas.toDataURL('image/png');
-            link.click();
-            this.showNotification('Chart downloaded', 'success');
-        }
-    });
-}
-
-installChartDemo() {
-    // Check if Chart.js is loaded
-    if (typeof Chart === 'undefined') {
-        this.showNotification('Chart.js not loaded. Please check your internet connection or include Chart.js in your HTML.', 'error');
-        return;
-    }
-    
-    // Initialize charts
-    if (window.chartManager) {
-        window.chartManager.initPerformanceChart();
-        this.showNotification('Performance chart loaded successfully!', 'success');
-    } else {
-        this.showNotification('Chart manager not initialized. Refreshing page...', 'warning');
-        setTimeout(() => {
-            location.reload();
-        }, 1000);
-    }
-}
 class ResultsManager {
     constructor() {
         this.currentPage = 1;
@@ -55,22 +10,9 @@ class ResultsManager {
     }
     
     init() {
-        // Initialize sample data if needed
-        this.initializeSampleData();
         this.loadResults();
         this.setupEventListeners();
         this.updateStats();
-        this.renderPerformanceChart();
-    }
-    
-    initializeSampleData() {
-        // Only create sample data if none exists
-        const savedResults = JSON.parse(localStorage.getItem('savedResults') || '[]');
-        if (savedResults.length === 0) {
-            // Generate sample data
-            const sampleResults = SampleDataGenerator.generateSampleResults(25);
-            localStorage.setItem('savedResults', JSON.stringify(sampleResults));
-        }
     }
     
     async loadResults() {
@@ -135,7 +77,6 @@ class ResultsManager {
                     break;
                 case 'custom':
                     // Handle custom date range here
-                    // You'll need to add date inputs for custom range
                     break;
             }
             
@@ -369,7 +310,9 @@ class ResultsManager {
                 this.selectedResults.clear();
                 this.loadResults();
                 this.updateStats();
-                this.renderPerformanceChart();
+                if (window.chartManager) {
+                    window.chartManager.updateAllCharts();
+                }
             });
         }
         
@@ -384,7 +327,9 @@ class ResultsManager {
                 this.selectedResults.clear();
                 this.loadResults();
                 this.updateStats();
-                this.renderPerformanceChart();
+                if (window.chartManager) {
+                    window.chartManager.updateAllCharts();
+                }
                 this.showNotification('Filters cleared', 'success');
             });
         }
@@ -448,16 +393,38 @@ class ResultsManager {
             deleteSelected.addEventListener('click', () => this.deleteSelectedResults());
         }
         
-        // Add sample data button (for testing)
-        const addSampleDataBtn = document.createElement('button');
-        addSampleDataBtn.innerHTML = '<i class="fas fa-plus"></i> Add Sample Data';
-        addSampleDataBtn.className = 'btn-secondary';
-        addSampleDataBtn.style.marginTop = '10px';
-        addSampleDataBtn.onclick = () => this.addSampleData();
+        // Add sample data button
+        const addSampleData = document.getElementById('addSampleData');
+        if (addSampleData) {
+            addSampleData.addEventListener('click', () => this.addSampleData());
+        }
         
-        const tableHeader = document.querySelector('.table-header');
-        if (tableHeader) {
-            tableHeader.appendChild(addSampleDataBtn);
+        // Chart refresh button
+        const refreshChartBtn = document.getElementById('refreshChart');
+        if (refreshChartBtn) {
+            refreshChartBtn.addEventListener('click', () => {
+                if (window.chartManager) {
+                    window.chartManager.updateAllCharts();
+                    this.showNotification('Charts refreshed', 'success');
+                }
+            });
+        }
+        
+        // Chart download button
+        const downloadChartBtn = document.getElementById('downloadChart');
+        if (downloadChartBtn) {
+            downloadChartBtn.addEventListener('click', () => {
+                const chartCanvas = document.getElementById('performanceChart');
+                if (chartCanvas && chartCanvas.tagName === 'CANVAS') {
+                    const link = document.createElement('a');
+                    link.download = 'performance-chart.png';
+                    link.href = chartCanvas.toDataURL('image/png');
+                    link.click();
+                    this.showNotification('Chart downloaded', 'success');
+                } else {
+                    this.showNotification('No chart available to download', 'warning');
+                }
+            });
         }
     }
     
@@ -604,33 +571,6 @@ class ResultsManager {
         }
         
         document.getElementById('bestScanner').textContent = bestScanner;
-    }
-    
-    renderPerformanceChart() {
-        const chartContainer = document.getElementById('performanceChart');
-        if (!chartContainer) return;
-        
-        // This is a placeholder for a real chart library like Chart.js
-        // For now, show a message
-        chartContainer.innerHTML = `
-            <div class="chart-placeholder">
-                <i class="fas fa-chart-line"></i>
-                <p>Performance chart will display here</p>
-                <p style="font-size: 0.9rem; margin-top: 10px; color: #94a3b8;">
-                    Install Chart.js to visualize scanner performance over time
-                </p>
-                <button onclick="window.resultsManager.installChartDemo()" 
-                        class="btn-secondary" 
-                        style="margin-top: 20px;">
-                    <i class="fas fa-chart-bar"></i> Load Demo Chart
-                </button>
-            </div>
-        `;
-    }
-    
-    installChartDemo() {
-        // This would integrate with Chart.js
-        alert('To add charts, install Chart.js and integrate with your data.');
     }
     
     viewResultDetails(resultId) {
@@ -906,6 +846,11 @@ class ResultsManager {
         this.loadResults();
         this.updateStats();
         
+        // Update charts
+        if (window.chartManager) {
+            window.chartManager.updateAllCharts();
+        }
+        
         const deletedCount = originalCount - savedResults.length;
         this.showNotification(`${deletedCount} result(s) deleted successfully`, 'success');
     }
@@ -926,6 +871,11 @@ class ResultsManager {
         this.loadResults();
         this.updateStats();
         
+        // Update charts
+        if (window.chartManager) {
+            window.chartManager.updateAllCharts();
+        }
+        
         this.showNotification('Result deleted successfully', 'success');
     }
     
@@ -937,6 +887,12 @@ class ResultsManager {
         
         this.loadResults();
         this.updateStats();
+        
+        // Update charts
+        if (window.chartManager) {
+            window.chartManager.updateAllCharts();
+        }
+        
         this.showNotification('10 sample results added', 'success');
     }
     
@@ -987,17 +943,10 @@ class ResultsManager {
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    // Load sample data generator
-    if (!window.SampleDataGenerator) {
-        // Load sample data generator dynamically if needed
-        console.log('SampleDataGenerator not found, loading inline...');
-        // The SampleDataGenerator code should be included before this file
-    }
-    
     // Initialize results manager
     window.resultsManager = new ResultsManager();
     
-    // Update user info (you'll need to implement this based on your auth system)
+    // Update user info
     updateUserInfo();
 });
 
