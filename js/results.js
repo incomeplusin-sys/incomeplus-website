@@ -1,5 +1,31 @@
 // Results History Management
 
+// Add chart refresh button
+const refreshChartBtn = document.getElementById('refreshChart');
+if (refreshChartBtn) {
+    refreshChartBtn.addEventListener('click', () => {
+        if (window.chartManager) {
+            window.chartManager.updateAllCharts();
+            this.showNotification('Charts refreshed', 'success');
+        }
+    });
+}
+
+// Add chart download button
+const downloadChartBtn = document.getElementById('downloadChart');
+if (downloadChartBtn) {
+    downloadChartBtn.addEventListener('click', () => {
+        const chartCanvas = document.getElementById('performanceChart');
+        if (chartCanvas) {
+            const link = document.createElement('a');
+            link.download = 'performance-chart.png';
+            link.href = chartCanvas.toDataURL('image/png');
+            link.click();
+            this.showNotification('Chart downloaded', 'success');
+        }
+    });
+}
+
 installChartDemo() {
     // Check if Chart.js is loaded
     if (typeof Chart === 'undefined') {
