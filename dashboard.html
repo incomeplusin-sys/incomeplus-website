@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -253,7 +253,6 @@
                                         </tr>
                                     </thead>
                                     <tbody id="recentResultsBody">
-                                        <!-- Results will be loaded here -->
                                         <tr>
                                             <td colspan="5" class="no-results">
                                                 <i class="fas fa-inbox"></i>
@@ -370,6 +369,26 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Daily Scans Chart -->
+                        <div class="chart-section">
+                            <div class="section-header">
+                                <h3><i class="fas fa-chart-bar"></i> Daily Scans</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="dailyScansChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Scanner Accuracy Chart -->
+                        <div class="chart-section">
+                            <div class="section-header">
+                                <h3><i class="fas fa-chart-pie"></i> Scanner Accuracy</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="accuracyTrendChart"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -377,14 +396,7 @@
     </div>
     
     <!-- Scripts -->
+    <script src="js/charts.js"></script>
     <script src="js/dashboard.js"></script>
-    <script src="js/sample-data.js"></script>
-<!-- Add these scripts before closing </body> tag -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="js/charts.js"></script>
-<script src="js/dashboard.js"></script>
-<!-- For results page -->
-<script src="js/results.js"></script>
-
 </body>
 </html>
