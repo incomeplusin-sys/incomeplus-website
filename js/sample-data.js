@@ -120,6 +120,11 @@ class SampleDataGenerator {
     }
 }
 
+// Initialize sample data when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    SampleDataGenerator.initializeSampleData();
+});
+
 // Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = SampleDataGenerator;
