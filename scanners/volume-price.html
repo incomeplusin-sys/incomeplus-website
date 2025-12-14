@@ -1,1 +1,200 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume-Price Scanner - IncomePlus</title>
+    <link rel="stylesheet" href="../../css/scanner.css">
+</head>
+<body>
+    <!-- Scanner Navigation -->
+    <div class="scanner-nav">
+        <div class="container">
+            <a href="dashboard.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <div class="scanner-title">
+                <h1><i class="fas fa-wave-square"></i> Volume-Price Scanner</h1>
+                <p>Real-time detection of volume-price correlation patterns</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="scanner-container">
+        <div class="container">
+            <!-- Scanner Controls -->
+            <div class="scanner-controls">
+                <div class="control-section">
+                    <h3><i class="fas fa-sliders-h"></i> Scanner Parameters</h3>
+                    
+                    <div class="parameter-group">
+                        <label for="timeframe">
+                            <i class="fas fa-clock"></i> Timeframe
+                        </label>
+                        <select id="timeframe" class="param-select">
+                            <option value="1">1 Minute</option>
+                            <option value="5">5 Minutes</option>
+                            <option value="15">15 Minutes</option>
+                            <option value="60" selected>1 Hour</option>
+                            <option value="240">4 Hours</option>
+                            <option value="D">Daily</option>
+                        </select>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="lookback">
+                            <i class="fas fa-history"></i> Lookback Period
+                        </label>
+                        <select id="lookback" class="param-select">
+                            <option value="7">7 Days</option>
+                            <option value="15" selected>15 Days</option>
+                            <option value="30">30 Days</option>
+                            <option value="60">60 Days</option>
+                            <option value="90">90 Days</option>
+                        </select>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="volumeThreshold">
+                            <i class="fas fa-chart-bar"></i> Volume Threshold (%)
+                        </label>
+                        <input type="range" id="volumeThreshold" min="10" max="500" value="100" step="10">
+                        <span id="volumeValue">100%</span>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="stocks">
+                            <i class="fas fa-list"></i> Stock Universe
+                        </label>
+                        <select id="stocks" class="param-select" multiple>
+                            <option value="NIFTY50" selected>NIFTY 50</option>
+                            <option value="NIFTY100">NIFTY 100</option>
+                            <option value="NIFTY200">NIFTY 200</option>
+                            <option value="custom">Custom List</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="control-section">
+                    <h3><i class="fas fa-filter"></i> Filters</h3>
+                    
+                    <div class="filter-group">
+                        <label for="minConfidence">
+                            <i class="fas fa-brain"></i> Minimum Confidence
+                        </label>
+                        <select id="minConfidence" class="param-select">
+                            <option value="70">70%</option>
+                            <option value="75">75%</option>
+                            <option value="80" selected>80%</option>
+                            <option value="85">85%</option>
+                            <option value="90">90%</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="priceChange">
+                            <i class="fas fa-percentage"></i> Minimum Price Change
+                        </label>
+                        <input type="range" id="priceChange" min="1" max="20" value="5" step="1">
+                        <span id="priceValue">5%</span>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="volumeChange">
+                            <i class="fas fa-exchange-alt"></i> Minimum Volume Change
+                        </label>
+                        <input type="range" id="volumeChange" min="10" max="200" value="50" step="10">
+                        <span id="volChangeValue">50%</span>
+                    </div>
+                </div>
+                
+                <div class="scanner-actions">
+                    <button id="runScan" class="btn-scan">
+                        <i class="fas fa-play"></i> Run Scan Now
+                    </button>
+                    <button id="scheduleScan" class="btn-secondary">
+                        <i class="fas fa-calendar-alt"></i> Schedule Scan
+                    </button>
+                    <button id="savePreset" class="btn-secondary">
+                        <i class="fas fa-save"></i> Save Preset
+                    </button>
+                    <button id="backtest" class="btn-secondary">
+                        <i class="fas fa-history"></i> Backtest
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Real-time Results -->
+            <div class="scanner-results">
+                <div class="results-header">
+                    <h2><i class="fas fa-poll"></i> Live Scan Results</h2>
+                    <div class="results-info">
+                        <span id="resultsCount">0 signals found</span>
+                        <span id="scanTime">Last scan: --:--</span>
+                        <span id="dataSource">
+                            <i class="fas fa-satellite-dish"></i> Real-time Data
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="results-table-container">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Signal</th>
+                                <th>Volume Δ</th>
+                                <th>Price Δ</th>
+                                <th>Current</th>
+                                <th>Confidence</th>
+                                <th>Timeframe</th>
+                                <th>History</th>
+                                <th>Alert</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsBody">
+                            <!-- Results loaded via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="results-actions">
+                    <button id="exportResults" class="btn-export">
+                        <i class="fas fa-file-export"></i> Export Results
+                    </button>
+                    <button id="saveResults" class="btn-export">
+                        <i class="fas fa-database"></i> Save to Database
+                    </button>
+                    <button id="createWatchlist" class="btn-export">
+                        <i class="fas fa-eye"></i> Create Watchlist
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Chart Visualization -->
+            <div class="scanner-chart">
+                <h3><i class="fas fa-chart-line"></i> Pattern Visualization</h3>
+                <div id="chartContainer">
+                    <!-- Chart will be rendered here -->
+                </div>
+            </div>
+            
+            <!-- Historical Performance -->
+            <div class="historical-performance">
+                <h3><i class="fas fa-chart-bar"></i> Historical Performance</h3>
+                <div class="performance-metrics">
+                    <div class="metric">
+                        <div class="metric-value">78%</div>
+                        <div class="metric-label">Accuracy (30 days)</div>
+                    </div>
+                    <!-- More metrics -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../js/scanner-core.js"></script>
+    <script src="../../js/volume-price-scanner.js"></script>
+</body>
+</html>
