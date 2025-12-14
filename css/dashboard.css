@@ -1,89 +1,7 @@
-/* Chart Styles */
-.chart-section {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
-}
-
-.chart-section:last-child {
-    margin-bottom: 0;
-}
-
-.chart-section .section-header {
-    margin-bottom: 20px;
-}
-
-.chart-section h3 {
-    font-family: 'Poppins', sans-serif;
-    color: #1e293b;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-}
-
-.chart-section h3 i {
-    color: #4f46e5;
-}
-
-.chart-container {
-    position: relative;
-    height: 250px;
-    width: 100%;
-}
-
-/* Chart placeholders */
-.chart-placeholder {
-    text-align: center;
-    padding: 40px 20px;
-    color: #94a3b8;
-    background: #f8fafc;
-    border-radius: 10px;
-    border: 2px dashed #e2e8f0;
-}
-
-.chart-placeholder i {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    display: block;
-    color: #cbd5e1;
-}
-
-.chart-placeholder p {
-    font-size: 1rem;
-    color: #64748b;
-    margin: 0;
-}
-
-.chart-placeholder button {
-    margin-top: 15px;
-    background: #4f46e5;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    font-family: 'Poppins', sans-serif;
-}
-
-.chart-placeholder button:hover {
-    background: #4338ca;
-}
-
-/* Chart.js specific styles */
-canvas {
-    display: block;
-    max-width: 100%;
-}
-
-
 /* ============================================
-   DASHBOARD PAGE SPECIFIC STYLES
+   DASHBOARD & RESULTS PAGE STYLES
    ============================================ */
+
 /* Dashboard Container */
 .dashboard-container {
     display: flex;
@@ -571,7 +489,7 @@ canvas {
     background: #f8fafc;
 }
 
-/* Signal badges for dashboard table */
+/* Signal badges */
 .signal-badge {
     padding: 6px 12px;
     border-radius: 20px;
@@ -814,6 +732,44 @@ canvas {
     line-height: 1.5;
 }
 
+/* Chart Styles */
+.chart-section {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.chart-section:last-child {
+    margin-bottom: 0;
+}
+
+.chart-section .section-header {
+    margin-bottom: 15px;
+}
+
+.chart-section h3 {
+    font-family: 'Poppins', sans-serif;
+    color: #1e293b;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.chart-section h3 i {
+    color: #4f46e5;
+    font-size: 0.9rem;
+}
+
+.chart-container {
+    position: relative;
+    height: 200px;
+    width: 100%;
+}
+
 /* Section Header */
 .section-header {
     display: flex;
@@ -851,94 +807,6 @@ canvas {
     color: #4338ca;
     gap: 8px;
 }
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .dashboard-columns {
-        grid-template-columns: 1fr;
-    }
-    
-    .scanners-container {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    }
-}
-
-@media (max-width: 1024px) {
-    .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
-    
-    .sidebar.active {
-        transform: translateX(0);
-    }
-    
-    .main-content {
-        margin-left: 0;
-    }
-    
-    .mobile-menu-btn {
-        display: block;
-    }
-}
-
-@media (max-width: 768px) {
-    .top-bar {
-        padding: 0 20px;
-        height: 70px;
-    }
-    
-    .dashboard-content {
-        padding: 20px;
-    }
-    
-    .welcome-banner {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-        padding: 25px 20px;
-    }
-    
-    .quick-stats {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .scanners-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .actions-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .stat-card {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-    }
-    
-    .stat-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .quick-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .welcome-content h1 {
-        font-size: 1.7rem;
-    }
-    
-    .btn-run-scan {
-        width: 100%;
-        justify-content: center;
-    }
-   }
-
 
 /* ============================================
    RESULTS PAGE SPECIFIC STYLES
@@ -997,59 +865,12 @@ canvas {
     margin-bottom: 30px;
 }
 
-.stat-card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    transition: transform 0.3s;
-    border: 1px solid #e2e8f0;
-}
-
-.stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-
-.stat-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #4f46e5;
-    font-size: 1.5rem;
-}
-
-.stat-content {
-    flex: 1;
-}
-
-.stat-value {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #1e293b;
-    line-height: 1;
-    margin-bottom: 5px;
-}
-
-.stat-label {
-    color: #64748b;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
 /* Results Table Container */
 .results-table-container {
     background: white;
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
     margin-bottom: 30px;
 }
 
@@ -1082,19 +903,43 @@ canvas {
 }
 
 /* Button Styles */
-.btn-export {
-    background: #d1fae5;
-    color: #065f46;
-    border: 2px solid #a7f3d0;
+.btn-primary, .btn-secondary, .btn-export, .btn-danger {
     padding: 12px 20px;
     border-radius: 8px;
-    cursor: pointer;
     font-weight: 600;
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     transition: all 0.3s;
+    border: none;
     font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary {
+    background: #4f46e5;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #4338ca;
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border: 2px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+}
+
+.btn-export {
+    background: #d1fae5;
+    color: #065f46;
+    border: 2px solid #a7f3d0;
 }
 
 .btn-export:hover {
@@ -1107,15 +952,6 @@ canvas {
     background: #fef2f2;
     color: #dc2626;
     border: 2px solid #fecaca;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s;
-    font-size: 0.95rem;
 }
 
 .btn-danger:hover {
@@ -1185,31 +1021,6 @@ canvas {
     font-weight: 600;
     display: inline-block;
     white-space: nowrap;
-}
-
-/* Signal Badge */
-.signal-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: inline-block;
-    white-space: nowrap;
-}
-
-.signal-badge.bullish {
-    background: #d1fae5;
-    color: #065f46;
-}
-
-.signal-badge.bearish {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.signal-badge.neutral {
-    background: #fef3c7;
-    color: #92400e;
 }
 
 /* Confidence Meter */
@@ -1413,7 +1224,7 @@ canvas {
     padding: 30px;
     border-radius: 15px;
     margin-top: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
 }
 
 .performance-chart-section h3 {
@@ -1582,8 +1393,83 @@ canvas {
     color: #475569;
 }
 
-/* Responsive Design for Results Page */
+/* Chart Actions */
+.chart-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard-columns {
+        grid-template-columns: 1fr;
+    }
+    
+    .scanners-container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
 @media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-bar {
+        padding: 0 20px;
+        height: 70px;
+    }
+    
+    .dashboard-content {
+        padding: 20px;
+    }
+    
+    .welcome-banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        padding: 25px 20px;
+    }
+    
+    .quick-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .scanners-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
     .results-filters {
         flex-direction: column;
         align-items: stretch;
@@ -1592,9 +1478,7 @@ canvas {
     .filter-group {
         min-width: 100%;
     }
-}
-
-@media (max-width: 768px) {
+    
     .table-header {
         flex-direction: column;
         align-items: stretch;
@@ -1610,25 +1494,23 @@ canvas {
         justify-content: center;
     }
     
-    .results-table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-    
-    .results-stats {
-        grid-template-columns: 1fr 1fr;
+    .chart-container {
+        height: 180px;
     }
 }
 
 @media (max-width: 480px) {
-    .results-stats {
+    .quick-stats {
         grid-template-columns: 1fr;
     }
     
-    .stat-card {
-        flex-direction: column;
-        text-align: center;
+    .welcome-content h1 {
+        font-size: 1.7rem;
+    }
+    
+    .btn-run-scan {
+        width: 100%;
+        justify-content: center;
     }
     
     .action-buttons {
