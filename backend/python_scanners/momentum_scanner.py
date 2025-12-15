@@ -1,2 +1,0 @@
-momentum_scanner.py
-
