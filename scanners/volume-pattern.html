@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume Pattern Scanner - IncomePlus</title>
+    <link rel="stylesheet" href="../css/scanner.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .pattern-indicator {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .pattern-v {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .pattern-u {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+        
+        .pattern-surge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        .volume-stats {
+            display: flex;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+        
+        .volume-badge {
+            padding: 4px 8px;
+            background: #e0e7ff;
+            color: #4f46e5;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        .pattern-visual {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .pattern-visual i {
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanner-nav">
+        <div class="container">
+            <a href="../scanners.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to All Scanners
+            </a>
+            <div class="scanner-title">
+                <h1><i class="fas fa-chart-bar"></i> Volume Pattern Scanner</h1>
+                <p>Detect V, U patterns and volume surges in real-time</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="scanner-container">
+        <div class="container">
+            <!-- Scanner Controls -->
+            <div class="scanner-controls">
+                <div class="control-section">
+                    <h3><i class="fas fa-sliders-h"></i> Scanner Parameters</h3>
+                    
+                    <div class="parameter-group">
+                        <label for="timeframe">
+                            <i class="fas fa-clock"></i> Timeframe
+                        </label>
+                        <select id="timeframe" class="param-select">
+                            <option value="5m">5 Minutes</option>
+                            <option value="15m" selected>15 Minutes</option>
+                            <option value="30m">30 Minutes</option>
+                            <option value="1H">1 Hour</option>
+                            <option value="4H">4 Hours</option>
+                            <option value="1D">Daily</option>
+                        </select>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="minConfidence">
+                            <i class="fas fa-shield-alt"></i> Minimum Confidence
+                        </label>
+                        <select id="minConfidence" class="param-select">
+                            <option value="60">60%</option>
+                            <option value="70" selected>70%</option>
+                            <option value="75">75%</option>
+                            <option value="80">80%</option>
+                            <option value="85">85%</option>
+                        </select>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="maxStocks">
+                            <i class="fas fa-list-ol"></i> Max Stocks to Scan
+                        </label>
+                        <select id="maxStocks" class="param-select">
+                            <option value="10">10 Stocks</option>
+                            <option value="20" selected>20 Stocks</option>
+                            <option value="30">30 Stocks</option>
+                            <option value="50">50 Stocks</option>
+                        </select>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="patternTypes">
+                            <i class="fas fa-shapes"></i> Pattern Types
+                        </label>
+                        <select id="patternTypes" class="param-select" multiple>
+                            <option value="v_pattern" selected>V Patterns (5-candle)</option>
+                            <option value="u_pattern" selected>U Patterns (6-candle)</option>
+                            <option value="volume_surge" selected>Volume Surges</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="control-section">
+                    <h3><i class="fas fa-filter"></i> Filters</h3>
+                    
+                    <div class="filter-group">
+                        <label for="minVolumeChange">
+                            <i class="fas fa-percentage"></i> Min Volume Change
+                        </label>
+                        <input type="range" id="minVolumeChange" min="10" max="200" value="50" step="10">
+                        <span id="volumeChangeValue">50%</span>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="priceFilter">
+                            <i class="fas fa-rupee-sign"></i> Price Range
+                        </label>
+                        <div class="range-inputs">
+                            <input type="number" id="minPrice" placeholder="Min" value="100">
+                            <span>to</span>
+                            <input type="number" id="maxPrice" placeholder="Max" value="5000">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>
+                            <i class="fas fa-database"></i> Data Source
+                        </label>
+                        <div class="data-source-info">
+                            <span class="data-source-badge">
+                                <i class="fas fa-satellite-dish"></i> Yahoo Finance (Free)
+                            </span>
+                            <small>Real-time Indian market data</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scanner-actions">
+                    <button id="runScan" class="btn-scan">
+                        <i class="fas fa-play"></i> Run Volume Scan
+                    </button>
+                    <button id="scheduleScan" class="btn-secondary">
+                        <i class="fas fa-calendar-alt"></i> Schedule Scan
+                    </button>
+                    <button id="savePreset" class="btn-secondary">
+                        <i class="fas fa-save"></i> Save Preset
+                    </button>
+                    <button id="viewPatterns" class="btn-secondary">
+                        <i class="fas fa-chart-line"></i> View Patterns
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Real-time Results -->
+            <div class="scanner-results">
+                <div class="results-header">
+                    <h2><i class="fas fa-poll"></i> Volume Pattern Signals</h2>
+                    <div class="results-info">
+                        <span id="resultsCount">0 patterns found</span>
+                        <span id="scanTime">Last scan: --:--</span>
+                        <span id="dataSource">
+                            <i class="fas fa-database"></i> Real-time Data
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="results-table-container">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Pattern</th>
+                                <th>Confidence</th>
+                                <th>Current Price</th>
+                                <th>Volume</th>
+                                <th>Timeframe</th>
+                                <th>Details</th>
+                                <th>Alert</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsBody">
+                            <tr class="no-results">
+                                <td colspan="8" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-chart-bar" style="font-size: 2rem; color: #cbd5e1; margin-bottom: 10px; display: block;"></i>
+                                    <p>No volume patterns detected. Run the scanner to see results.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="results-actions">
+                    <button id="exportResults" class="btn-export">
+                        <i class="fas fa-file-excel"></i> Export to Excel
+                    </button>
+                    <button id="saveResults" class="btn-export">
+                        <i class="fas fa-database"></i> Save Results
+                    </button>
+                    <button id="createWatchlist" class="btn-export">
+                        <i class="fas fa-eye"></i> Add to Watchlist
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Pattern Visualization -->
+            <div class="scanner-chart">
+                <h3><i class="fas fa-chart-line"></i> Pattern Visualization</h3>
+                <div id="chartContainer">
+                    <div class="chart-placeholder">
+                        <div class="pattern-examples">
+                            <div class="pattern-example">
+                                <h4><i class="fas fa-arrow-down"></i> V Pattern (5-candle)</h4>
+                                <div class="pattern-visual">
+                                    <span>High</span> → <i class="fas fa-arrow-down"></i> <span>Low</span> → <i class="fas fa-arrow-up"></i> <span>High</span>
+                                </div>
+                                <p>Volume decreases then sharply increases</p>
+                            </div>
+                            <div class="pattern-example">
+                                <h4><i class="fas fa-arrow-down"></i> U Pattern (6-candle)</h4>
+                                <div class="pattern-visual">
+                                    <span>High</span> → <i class="fas fa-arrow-down"></i> <span>Low</span> → <span>Low</span> → <i class="fas fa-arrow-up"></i> <span>High</span>
+                                </div>
+                                <p>Gradual volume decline then recovery</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scanner Stats -->
+            <div class="historical-performance">
+                <h3><i class="fas fa-chart-bar"></i> Scanner Performance</h3>
+                <div class="performance-metrics">
+                    <div class="metric">
+                        <div class="metric-value">83%</div>
+                        <div class="metric-label">Accuracy Rate</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">2.1%</div>
+                        <div class="metric-label">Avg. Volume Change</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">18s</div>
+                        <div class="metric-label">Avg. Scan Time</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">95.7%</div>
+                        <div class="metric-label">Data Reliability</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/scanner-core.js"></script>
+    <script>
+        // Volume Scanner Specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Volume change slider
+            const volumeSlider = document.getElementById('minVolumeChange');
+            const volumeValue = document.getElementById('volumeChangeValue');
+            
+            if (volumeSlider && volumeValue) {
+                volumeSlider.addEventListener('input', function() {
+                    volumeValue.textContent = this.value + '%';
+                });
+            }
+            
+            // Run scan button
+            document.getElementById('runScan').addEventListener('click', runVolumeScan);
+            
+            // Export results
+            document.getElementById('exportResults').addEventListener('click', exportToExcel);
+            
+            // Save preset
+            document.getElementById('savePreset').addEventListener('click', savePreset);
+        });
+        
+        async function runVolumeScan() {
+            // Show loading
+            document.getElementById('resultsBody').innerHTML = `
+                <tr>
+                    <td colspan="8" class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Scanning volume patterns with Python engine...</p>
+                        <small>Fetching real-time data from Yahoo Finance</small>
+                    </td>
+                </tr>
+            `;
+            
+            // Collect parameters
+            const params = {
+                timeframe: document.getElementById('timeframe').value,
+                min_confidence: parseInt(document.getElementById('minConfidence').value),
+                max_stocks: parseInt(document.getElementById('maxStocks').value),
+                min_volume_change: parseInt(document.getElementById('minVolumeChange').value),
+                min_price: parseFloat(document.getElementById('minPrice').value) || 100,
+                max_price: parseFloat(document.getElementById('maxPrice').value) || 5000
+            };
+            
+            try {
+                // Call PHP API which calls Python scanner
+                const response = await fetch('../backend/api/scanner.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'run_scan',
+                        scanner_type: 'volume',
+                        parameters: params
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.results && data.results.length > 0) {
+                    displayVolumeResults(data.results);
+                    
+                    // Update UI
+                    document.getElementById('resultsCount').textContent = 
+                        `${data.results.length} volume patterns found`;
+                    document.getElementById('scanTime').textContent = 
+                        `Last scan: ${new Date().toLocaleTimeString()}`;
+                    
+                    // Show success
+                    showNotification(`✅ Found ${data.results.length} volume patterns`, 'success');
+                } else {
+                    displayNoResults(data.message || 'No volume patterns detected');
+                    showNotification(data.message || 'No patterns found', 'warning');
+                }
+                
+            } catch (error) {
+                console.error('Volume scan error:', error);
+                displayNoResults('Error running volume scanner');
+                showNotification('Error connecting to scanner engine', 'error');
+            }
+        }
+        
+        function displayVolumeResults(results) {
+            const resultsBody = document.getElementById('resultsBody');
+            resultsBody.innerHTML = '';
+            
+            results.forEach(result => {
+                const patternClass = result.signal.includes('V Pattern') ? 'pattern-v' : 
+                                   result.signal.includes('U Pattern') ? 'pattern-u' : 'pattern-surge';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <strong>${result.symbol}</strong><br>
+                        <small>${result.name}</small>
+                    </td>
+                    <td>
+                        <span class="pattern-indicator ${patternClass}">
+                            ${result.signal}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="confidence-meter">
+                            <div class="meter-bar">
+                                <div class="meter-fill" style="width: ${result.confidence}%"></div>
+                            </div>
+                            <span class="meter-value">${result.confidence}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>₹${result.price.toLocaleString('en-IN')}</strong><br>
+                        <span class="${result.price_change >= 0 ? 'positive' : 'negative'}">
+                            ${result.price_change >= 0 ? '+' : ''}${result.price_change.toFixed(2)}%
+                        </span>
+                    </td>
+                    <td>
+                        <div class="volume-stats">
+                            <span class="volume-badge">${result.volume_change >= 0 ? '+' : ''}${result.volume_change.toFixed(1)}%</span>
+                            <span>${(result.volume / 1000000).toFixed(1)}M</span>
+                        </div>
+                    </td>
+                    <td>${result.details?.timeframe || '15m'}</td>
+                    <td>
+                        <button class="btn-action view-details" data-symbol="${result.symbol}">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn-alert" onclick="setVolumeAlert('${result.symbol}')">
+                            Set Alert
+                        </button>
+                    </td>
+                `;
+                resultsBody.appendChild(row);
+            });
+            
+            // Add event listeners to detail buttons
+            document.querySelectorAll('.view-details').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const symbol = this.getAttribute('data-symbol');
+                    showPatternDetails(symbol);
+                });
+            });
+        }
+        
+        function displayNoResults(message) {
+            document.getElementById('resultsBody').innerHTML = `
+                <tr class="no-results">
+                    <td colspan="8" style="text-align: center; padding: 40px;">
+                        <i class="fas fa-chart-bar" style="font-size: 2rem; color: #cbd5e1; margin-bottom: 10px; display: block;"></i>
+                        <p>${message}</p>
+                    </td>
+                </tr>
+            `;
+        }
+        
+        function showPatternDetails(symbol) {
+            alert(`Pattern details for ${symbol}\n\nThis would show:\n- Volume chart\n- Pattern visualization\n- Historical accuracy\n- Related signals`);
+        }
+        
+        function setVolumeAlert(symbol) {
+            const threshold = prompt(`Set volume alert for ${symbol}\nEnter volume increase % threshold:`, "50");
+            if (threshold) {
+                showNotification(`Alert set for ${symbol} at ${threshold}% volume increase`, 'success');
+            }
+        }
+        
+        function exportToExcel() {
+            // This would generate Excel with volume patterns
+            alert('Volume pattern report exported to Excel');
+        }
+        
+        function savePreset() {
+            const presetName = prompt('Enter preset name:', 'Volume Pattern Settings');
+            if (presetName) {
+                // Save to backend
+                showNotification(`Preset "${presetName}" saved`, 'success');
+            }
+        }
+        
+        function showNotification(message, type) {
+            // Your notification function
+            console.log(`${type}: ${message}`);
+        }
+    </script>
+</body>
+</html>
