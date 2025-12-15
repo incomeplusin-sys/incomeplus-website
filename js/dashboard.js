@@ -1,1431 +1,654 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Volume Pattern Scanner</title>
-    <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        /* Additional dashboard styles */
-        .dashboard-container {
-            display: flex;
-            min-height: 100vh;
-            background: #f8fafc;
-        }
-        
-        /* Welcome Banner */
-        .welcome-banner {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .welcome-content h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        
-        .welcome-content p {
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-        
-        .btn-run-scan {
-            background: white;
-            color: #4f46e5;
-            padding: 15px 30px;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: transform 0.3s ease;
-        }
-        
-        .btn-run-scan:hover {
-            transform: translateY(-2px);
-        }
-        
-        /* Quick Stats */
-        .quick-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .stat-content {
-            flex: 1;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #718096;
-            font-size: 0.9rem;
-        }
-        
-        /* Dashboard Columns */
-        .dashboard-columns {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-        }
-        
-        @media (max-width: 1024px) {
-            .dashboard-columns {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Available Scanners */
-        .available-scanners {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .section-header h2 {
-            color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.3rem;
-        }
-        
-        .view-all {
-            color: #4f46e5;
-            text-decoration: none;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .view-all:hover {
-            text-decoration: underline;
-        }
-        
-        .scanners-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .scanner-card {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            border: 2px solid #e2e8f0;
-        }
-        
-        .scanner-card:hover {
-            transform: translateY(-3px);
-            border-color: #4f46e5;
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.1);
-        }
-        
-        .scanner-card-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .scanner-card-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-        
-        .scanner-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: #2d3748;
-        }
-        
-        .scanner-card p {
-            color: #718096;
-            font-size: 0.9rem;
-        }
-        
-        .scanner-card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #e2e8f0;
-        }
-        
-        .scanner-stats {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .scanner-stats .stat {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #718096;
-            font-size: 0.9rem;
-        }
-        
-        .scanner-action {
-            color: #4f46e5;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        /* Recent Results */
-        .recent-results {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        
-        .results-table-container {
-            overflow-x: auto;
-        }
-        
-        .results-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .results-table th {
-            background: #f8fafc;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: #4a5568;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        
-        .results-table td {
-            padding: 15px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .results-table tbody tr:hover {
-            background: #f8fafc;
-        }
-        
-        .signal-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .signal-badge.bullish {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .signal-badge.bearish {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        
-        .signal-badge.neutral {
-            background: #e0e7ff;
-            color: #3730a3;
-        }
-        
-        .confidence-indicator {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-align: center;
-            display: inline-block;
-        }
-        
-        .confidence-indicator.high {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .confidence-indicator.medium {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        
-        .confidence-indicator.low {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 50px !important;
-            color: #a0aec0;
-        }
-        
-        .no-results i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            opacity: 0.5;
-        }
-        
-        .btn-run-first-scan {
-            background: #4f46e5;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            border: none;
-            font-weight: 500;
-            margin-top: 15px;
-            cursor: pointer;
-        }
-        
-        /* Quick Actions */
-        .quick-actions {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        
-        .action-card {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            border: 2px solid #e2e8f0;
-        }
-        
-        .action-card:hover {
-            transform: translateY(-2px);
-            border-color: #4f46e5;
-        }
-        
-        .action-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            margin-bottom: 15px;
-        }
-        
-        .action-content h3 {
-            font-size: 1rem;
-            margin-bottom: 5px;
-            color: #2d3748;
-        }
-        
-        .action-content p {
-            color: #718096;
-            font-size: 0.85rem;
-        }
-        
-        /* Subscription Status */
-        .subscription-status {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .status-content {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .status-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .status-label {
-            color: #cbd5e0;
-            font-size: 0.9rem;
-        }
-        
-        .status-value {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            border-radius: 4px;
-            width: 30%;
-            transition: width 0.3s ease;
-        }
-        
-        .btn-upgrade {
-            background: white;
-            color: #1e293b;
-            padding: 12px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: transform 0.3s ease;
-            text-align: center;
-        }
-        
-        .btn-upgrade:hover {
-            transform: translateY(-2px);
-        }
-        
-        /* Quick Tips */
-        .quick-tips {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        
-        .tips-content {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .tip {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        
-        .tip i {
-            color: #10b981;
-            margin-top: 2px;
-        }
-        
-        .tip p {
-            color: #4a5568;
-            font-size: 0.9rem;
-        }
-        
-        /* Chart Sections */
-        .chart-section {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        
-        .chart-section h3 {
-            margin-bottom: 20px;
-            color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .chart-container {
-            height: 200px;
-            position: relative;
-        }
-        
-        /* Alerts Container Styles */
-        .alerts-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-        }
-        
-        .alert-item {
-            background: #fff7ed;
-            border-left: 4px solid #f97316;
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            transition: transform 0.2s ease;
-        }
-        
-        .alert-item:hover {
-            transform: translateX(2px);
-        }
-        
-        .alert-item.high {
-            background: #fef2f2;
-            border-left-color: #ef4444;
-        }
-        
-        .alert-item.medium {
-            background: #fffbeb;
-            border-left-color: #f59e0b;
-        }
-        
-        .alert-item.low {
-            background: #f0f9ff;
-            border-left-color: #0ea5e9;
-        }
-        
-        .alert-icon {
-            width: 40px;
-            height: 40px;
-            background: #fed7aa;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #9a3412;
-        }
-        
-        .alert-item.high .alert-icon {
-            background: #fecaca;
-            color: #991b1b;
-        }
-        
-        .alert-content {
-            flex: 1;
-        }
-        
-        .alert-title {
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 4px;
-        }
-        
-        .alert-message {
-            color: #4a5568;
-            font-size: 0.9rem;
-            margin-bottom: 4px;
-        }
-        
-        .alert-time {
-            font-size: 0.8rem;
-            color: #a0aec0;
-        }
-        
-        .alert-dismiss {
-            background: none;
-            border: none;
-            color: #cbd5e0;
-            cursor: pointer;
-            padding: 4px;
-            transition: color 0.2s ease;
-        }
-        
-        .alert-dismiss:hover {
-            color: #718096;
-        }
-        
-        .no-alerts {
-            text-align: center;
-            padding: 40px 20px;
-            color: #a0aec0;
-        }
-        
-        .no-alerts i {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            opacity: 0.5;
-        }
-        
-        /* Dashboard Actions */
-        .dashboard-actions {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 100;
-        }
-        
-        .btn-action {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border: none;
-            border-radius: 50%;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            color: #4f46e5;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-action:hover {
-            background: #4f46e5;
-            color: white;
-            transform: translateY(-2px);
-        }
-        
-        /* Notification Footer */
-        .notifications-footer {
-            padding: 15px 20px;
-            border-top: 1px solid #e2e8f0;
-            text-align: center;
-        }
-        
-        .view-all-notifications {
-            color: #4f46e5;
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .view-all-notifications:hover {
-            text-decoration: underline;
-        }
-        
-        /* Recent Alerts Section */
-        .recent-alerts {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .welcome-banner {
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
-            }
+// dashboard.js - Volume Pattern Scanner Dashboard
+class Dashboard {
+    constructor() {
+        console.log('Dashboard initialized');
+        this.init();
+    }
+    
+    init() {
+        this.loadDashboardData();
+        this.setupQuickActions();
+        this.setupCharts();
+        this.setupRealTimeUpdates();
+        this.setupEventListeners();
+        this.setupNotifications();
+    }
+    
+    async loadDashboardData() {
+        const loader = app.showLoading();
+        
+        try {
+            // Load multiple data sources in parallel (simulated)
+            const stats = {
+                todayScans: 12,
+                activeAlerts: 3,
+                accuracyRate: 82,
+                trialDays: '∞',
+                scansUsed: 120,
+                totalScans: 1000
+            };
             
-            .scanners-container {
-                grid-template-columns: 1fr;
-            }
+            const recentScans = {
+                results: [
+                    {
+                        scanner_type: 'volume_price',
+                        stock_symbol: 'RELIANCE',
+                        signal_type: 'Bullish',
+                        confidence: 92,
+                        scan_time: new Date().toISOString()
+                    },
+                    {
+                        scanner_type: 'breakout',
+                        stock_symbol: 'TCS',
+                        signal_type: 'Bullish',
+                        confidence: 88,
+                        scan_time: new Date().toISOString()
+                    },
+                    {
+                        scanner_type: 'momentum',
+                        stock_symbol: 'HDFCBANK',
+                        signal_type: 'Bearish',
+                        confidence: 76,
+                        scan_time: new Date().toISOString()
+                    },
+                    {
+                        scanner_type: 'support_resistance',
+                        stock_symbol: 'INFY',
+                        signal_type: 'Neutral',
+                        confidence: 65,
+                        scan_time: new Date().toISOString()
+                    },
+                    {
+                        scanner_type: 'volume_price',
+                        stock_symbol: 'ICICIBANK',
+                        signal_type: 'Bullish',
+                        confidence: 84,
+                        scan_time: new Date().toISOString()
+                    }
+                ]
+            };
             
-            .actions-grid {
-                grid-template-columns: 1fr;
-            }
+            const alerts = {
+                alerts: [
+                    {
+                        id: 1,
+                        title: 'Volume Spike Alert',
+                        message: 'RELIANCE volume increased by 250%',
+                        priority: 'medium',
+                        type: 'volume',
+                        created_at: new Date().toISOString()
+                    },
+                    {
+                        id: 2,
+                        title: 'Breakout Alert',
+                        message: 'TCS broke resistance at ₹4,200',
+                        priority: 'high',
+                        type: 'price',
+                        created_at: new Date().toISOString()
+                    }
+                ]
+            };
             
-            .quick-stats {
-                grid-template-columns: repeat(2, 1fr);
+            // Update dashboard with data
+            this.updateStats(stats);
+            this.updateRecentResults(recentScans.results);
+            this.updateAlerts(alerts.alerts);
+            
+        } catch (error) {
+            console.error('Failed to load dashboard data:', error);
+            app.showToast('Failed to load dashboard data', 'error');
+        } finally {
+            app.hideLoading(loader);
+        }
+    }
+    
+    updateStats(stats) {
+        // Update quick stats cards
+        document.getElementById('scansToday').textContent = stats.todayScans || 0;
+        document.getElementById('activeAlerts').textContent = stats.activeAlerts || 0;
+        document.getElementById('accuracyRate').textContent = `${stats.accuracyRate || 0}%`;
+        
+        // Update trial days if applicable
+        const trialDaysElement = document.getElementById('trialDays');
+        if (trialDaysElement) {
+            const userPlan = document.getElementById('currentPlan')?.textContent.toLowerCase();
+            if (userPlan === 'trial' && stats.trialDays) {
+                trialDaysElement.textContent = stats.trialDays;
             }
         }
         
-        @media (max-width: 480px) {
-            .quick-stats {
-                grid-template-columns: 1fr;
-            }
+        // Update scans used progress bar
+        const progressFill = document.querySelector('.progress-fill');
+        if (progressFill && stats.scansUsed && stats.totalScans) {
+            const percentage = (stats.scansUsed / stats.totalScans) * 100;
+            progressFill.style.width = `${Math.min(percentage, 100)}%`;
+        }
+    }
+    
+    updateRecentResults(results) {
+        const tbody = document.getElementById('recentResultsBody');
+        
+        if (!results || results.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="no-results">
+                        <i class="fas fa-inbox"></i>
+                        <p>No recent scans found</p>
+                        <button class="btn-run-first-scan" onclick="window.location.href='scanner.html'">
+                            Run Your First Scan
+                        </button>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        let html = '';
+        
+        results.forEach((scan, index) => {
+            const confidenceClass = scan.confidence >= 80 ? 'high' : 
+                                   scan.confidence >= 60 ? 'medium' : 'low';
             
-            .scanner-card-footer {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-            
-            .scanner-stats {
-                justify-content: center;
-            }
-        }
-        
-        /* Notifications Panel */
-        .notifications-panel {
-            position: fixed;
-            top: 70px;
-            right: 30px;
-            width: 350px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            z-index: 1000;
-            display: none;
-            overflow: hidden;
-        }
-        
-        .notifications-panel.active {
-            display: block;
-        }
-        
-        .notifications-header {
-            padding: 20px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .notifications-header h3 {
-            margin: 0;
-            color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .notifications-body {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .notification-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            transition: background 0.3s ease;
-        }
-        
-        .notification-item:hover {
-            background: #f8fafc;
-        }
-        
-        .notification-item.unread {
-            background: #f0f9ff;
-        }
-        
-        .notification-icon {
-            width: 40px;
-            height: 40px;
-            background: #e0e7ff;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #4f46e5;
-        }
-        
-        .notification-content {
-            flex: 1;
-        }
-        
-        .notification-title {
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 5px;
-        }
-        
-        .notification-message {
-            color: #718096;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-        }
-        
-        .notification-time {
-            font-size: 0.8rem;
-            color: #a0aec0;
-        }
-        
-        .no-notifications {
-            padding: 40px 20px;
-            text-align: center;
-            color: #a0aec0;
-        }
-        
-        /* Notification Bell */
-        .notification-bell {
-            position: relative;
-            cursor: pointer;
-            margin-right: 15px;
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ef4444;
-            color: white;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-    </style>
-</head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <i class="fas fa-chart-network"></i>
-                    <span>Volume<span class="highlight">Pattern</span>Scanner</span>
-                </div>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <a href="dashboard.html" class="nav-item active">
-                    <i class="fas fa-home"></i> Dashboard
-                </a>
-                <a href="scanner.html" class="nav-item">
-                    <i class="fas fa-search"></i> Scanner
-                </a>
-                <a href="results.html" class="nav-item">
-                    <i class="fas fa-history"></i> Results
-                </a>
-                <a href="watchlist.html" class="nav-item">
-                    <i class="fas fa-bookmark"></i> Watchlist
-                </a>
-                <a href="alerts.html" class="nav-item">
-                    <i class="fas fa-bell"></i> Alerts
-                </a>
-                <a href="subscription.html" class="nav-item">
-                    <i class="fas fa-credit-card"></i> Subscription
-                </a>
-                <a href="profile.html" class="nav-item">
-                    <i class="fas fa-user-cog"></i> Profile
-                </a>
-                <a href="#" id="logout" class="nav-item">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </nav>
-            
-            <div class="sidebar-footer">
-                <div class="user-profile">
-                    <div class="user-avatar-small">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="user-info-small">
-                        <div class="user-name-small" id="sidebarUserName">Trader</div>
-                        <div class="user-plan-small">Pro Plan</div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-        
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Top Bar -->
-            <div class="top-bar">
-                <div class="top-bar-left">
-                    <button class="mobile-menu-btn">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="page-title">
-                        <h1><i class="fas fa-home"></i> Dashboard</h1>
-                    </div>
-                </div>
-                
-                <div class="top-bar-right">
-                    <div class="notification-bell" id="notificationBell">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge" id="notificationBadge">3</span>
-                    </div>
-                    
-                    <div class="user-info">
-                        <div class="user-avatar">
-                            <i class="fas fa-user"></i>
+            html += `
+                <tr>
+                    <td>
+                        <div class="scanner-type">
+                            <i class="fas fa-${this.getScannerIcon(scan.scanner_type)}"></i>
+                            ${this.formatScannerName(scan.scanner_type)}
                         </div>
-                        <div class="user-details">
-                            <div class="user-name" id="userName">John Trader</div>
-                            <div class="user-plan">
-                                <span class="plan-badge" id="currentPlan">Pro</span>
-                                <span class="plan-expiry" id="planExpiry">Expires: Dec 31, 2024</span>
-                            </div>
+                    </td>
+                    <td><strong>${scan.stock_symbol}</strong></td>
+                    <td>
+                        <span class="signal-badge ${scan.signal_type?.toLowerCase() || 'neutral'}">
+                            ${scan.signal_type || 'Neutral'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="confidence-indicator ${confidenceClass}">
+                            ${scan.confidence || 0}%
                         </div>
+                    </td>
+                    <td>${this.formatTime(scan.scan_time)}</td>
+                </tr>
+            `;
+        });
+        
+        tbody.innerHTML = html;
+    }
+    
+    updateAlerts(alerts) {
+        const alertsContainer = document.getElementById('alertsContainer');
+        if (!alertsContainer) return;
+        
+        if (!alerts || alerts.length === 0) {
+            alertsContainer.innerHTML = '<div class="no-alerts">No active alerts</div>';
+            return;
+        }
+        
+        let html = '';
+        
+        alerts.forEach(alert => {
+            html += `
+                <div class="alert-item ${alert.priority}">
+                    <div class="alert-icon">
+                        <i class="fas fa-${this.getAlertIcon(alert.type)}"></i>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Dashboard Content -->
-            <div class="dashboard-content">
-                <!-- Welcome Banner -->
-                <div class="welcome-banner">
-                    <div class="welcome-content">
-                        <h1>Welcome back, <span id="greetingName">John</span>!</h1>
-                        <p>Here's what's happening with your volume scanners today.</p>
+                    <div class="alert-content">
+                        <div class="alert-title">${alert.title}</div>
+                        <div class="alert-message">${alert.message}</div>
+                        <div class="alert-time">${this.formatTime(alert.created_at)}</div>
                     </div>
-                    <button class="btn-run-scan" id="quickScanBtn">
-                        <i class="fas fa-bolt"></i> Run Quick Scan
+                    <button class="alert-dismiss" data-id="${alert.id}">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
-                
-                <!-- Quick Stats -->
-                <div class="quick-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="scansToday">12</div>
-                            <div class="stat-label">Scans Today</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-bell"></i>
-                        </div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="activeAlerts">3</div>
-                            <div class="stat-label">Active Alerts</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-percentage"></i>
-                        </div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="accuracyRate">82%</div>
-                            <div class="stat-label">Accuracy Rate</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar"></i>
-                        </div>
-                        <div class="stat-content">
-                            <div class="stat-value" id="trialDays">∞</div>
-                            <div class="stat-label">Days Left</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Dashboard Columns -->
-                <div class="dashboard-columns">
-                    <!-- Left Column -->
-                    <div class="column left-column">
-                        <!-- Available Scanners -->
-                        <div class="available-scanners">
-                            <div class="section-header">
-                                <h2><i class="fas fa-search"></i> Available Scanners</h2>
-                                <a href="scanner.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                            
-                            <div class="scanners-container">
-                                <!-- Scanner Card 1 -->
-                                <a href="scanner.html?type=volume-price" class="scanner-card">
-                                    <div class="scanner-card-header">
-                                        <div class="scanner-card-icon">
-                                            <i class="fas fa-chart-bar"></i>
-                                        </div>
-                                        <div>
-                                            <h3>Volume-Price Scanner</h3>
-                                            <p>Analyze volume and price movements for breakout signals</p>
-                                        </div>
-                                    </div>
-                                    <div class="scanner-card-footer">
-                                        <div class="scanner-stats">
-                                            <span class="stat">
-                                                <i class="fas fa-bolt"></i> 85% Accuracy
-                                            </span>
-                                            <span class="stat">
-                                                <i class="fas fa-clock"></i> 2 min
-                                            </span>
-                                        </div>
-                                        <span class="scanner-action">Run Scan →</span>
-                                    </div>
-                                </a>
-                                
-                                <!-- Scanner Card 2 -->
-                                <a href="scanner.html?type=breakout" class="scanner-card">
-                                    <div class="scanner-card-header">
-                                        <div class="scanner-card-icon">
-                                            <i class="fas fa-chart-line"></i>
-                                        </div>
-                                        <div>
-                                            <h3>Breakout Scanner</h3>
-                                            <p>Identify stocks breaking key resistance levels</p>
-                                        </div>
-                                    </div>
-                                    <div class="scanner-card-footer">
-                                        <div class="scanner-stats">
-                                            <span class="stat">
-                                                <i class="fas fa-bolt"></i> 78% Accuracy
-                                            </span>
-                                            <span class="stat">
-                                                <i class="fas fa-clock"></i> 3 min
-                                            </span>
-                                        </div>
-                                        <span class="scanner-action">Run Scan →</span>
-                                    </div>
-                                </a>
-                                
-                                <!-- Scanner Card 3 -->
-                                <a href="scanner.html?type=momentum" class="scanner-card">
-                                    <div class="scanner-card-header">
-                                        <div class="scanner-card-icon">
-                                            <i class="fas fa-fire"></i>
-                                        </div>
-                                        <div>
-                                            <h3>Momentum Scanner</h3>
-                                            <p>Find stocks with strong momentum trends</p>
-                                        </div>
-                                    </div>
-                                    <div class="scanner-card-footer">
-                                        <div class="scanner-stats">
-                                            <span class="stat">
-                                                <i class="fas fa-bolt"></i> 82% Accuracy
-                                            </span>
-                                            <span class="stat">
-                                                <i class="fas fa-clock"></i> 1.5 min
-                                            </span>
-                                        </div>
-                                        <span class="scanner-action">Run Scan →</span>
-                                    </div>
-                                </a>
-                                
-                                <!-- Scanner Card 4 -->
-                                <a href="scanner.html?type=support-resistance" class="scanner-card">
-                                    <div class="scanner-card-header">
-                                        <div class="scanner-card-icon">
-                                            <i class="fas fa-layer-group"></i>
-                                        </div>
-                                        <div>
-                                            <h3>Support-Resistance Scanner</h3>
-                                            <p>Identify key support and resistance levels</p>
-                                        </div>
-                                    </div>
-                                    <div class="scanner-card-footer">
-                                        <div class="scanner-stats">
-                                            <span class="stat">
-                                                <i class="fas fa-bolt"></i> 75% Accuracy
-                                            </span>
-                                            <span class="stat">
-                                                <i class="fas fa-clock"></i> 2.5 min
-                                            </span>
-                                        </div>
-                                        <span class="scanner-action">Run Scan →</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <!-- Recent Alerts -->
-                        <div class="recent-alerts">
-                            <div class="section-header">
-                                <h2><i class="fas fa-exclamation-triangle"></i> Active Alerts</h2>
-                                <a href="alerts.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                            
-                            <div id="alertsContainer" class="alerts-container">
-                                <div class="alert-item medium">
-                                    <div class="alert-icon">
-                                        <i class="fas fa-chart-bar"></i>
-                                    </div>
-                                    <div class="alert-content">
-                                        <div class="alert-title">Volume Spike Alert</div>
-                                        <div class="alert-message">RELIANCE volume increased by 250%</div>
-                                        <div class="alert-time">10:30 AM</div>
-                                    </div>
-                                    <button class="alert-dismiss" data-id="1">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="alert-item high">
-                                    <div class="alert-icon">
-                                        <i class="fas fa-chart-line"></i>
-                                    </div>
-                                    <div class="alert-content">
-                                        <div class="alert-title">Breakout Alert</div>
-                                        <div class="alert-message">TCS broke resistance at ₹4,200</div>
-                                        <div class="alert-time">10:15 AM</div>
-                                    </div>
-                                    <button class="alert-dismiss" data-id="2">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Recent Results -->
-                        <div class="recent-results">
-                            <div class="section-header">
-                                <h2><i class="fas fa-history"></i> Recent Scan Results</h2>
-                                <a href="results.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                            
-                            <div class="results-table-container">
-                                <table class="results-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Scanner</th>
-                                            <th>Stock</th>
-                                            <th>Signal</th>
-                                            <th>Confidence</th>
-                                            <th>Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="recentResultsBody">
-                                        <tr>
-                                            <td>
-                                                <div class="scanner-type">
-                                                    <i class="fas fa-chart-bar"></i>
-                                                    Volume-Price
-                                                </div>
-                                            </td>
-                                            <td><strong>RELIANCE</strong></td>
-                                            <td>
-                                                <span class="signal-badge bullish">Bullish</span>
-                                            </td>
-                                            <td>
-                                                <div class="confidence-indicator high">92%</div>
-                                            </td>
-                                            <td>10:25 AM</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="scanner-type">
-                                                    <i class="fas fa-chart-line"></i>
-                                                    Breakout
-                                                </div>
-                                            </td>
-                                            <td><strong>TCS</strong></td>
-                                            <td>
-                                                <span class="signal-badge bullish">Bullish</span>
-                                            </td>
-                                            <td>
-                                                <div class="confidence-indicator high">88%</div>
-                                            </td>
-                                            <td>10:15 AM</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="scanner-type">
-                                                    <i class="fas fa-fire"></i>
-                                                    Momentum
-                                                </div>
-                                            </td>
-                                            <td><strong>HDFCBANK</strong></td>
-                                            <td>
-                                                <span class="signal-badge bearish">Bearish</span>
-                                            </td>
-                                            <td>
-                                                <div class="confidence-indicator medium">76%</div>
-                                            </td>
-                                            <td>09:45 AM</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="scanner-type">
-                                                    <i class="fas fa-layer-group"></i>
-                                                    Support-Resistance
-                                                </div>
-                                            </td>
-                                            <td><strong>INFY</strong></td>
-                                            <td>
-                                                <span class="signal-badge neutral">Neutral</span>
-                                            </td>
-                                            <td>
-                                                <div class="confidence-indicator low">65%</div>
-                                            </td>
-                                            <td>09:30 AM</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="scanner-type">
-                                                    <i class="fas fa-chart-bar"></i>
-                                                    Volume-Price
-                                                </div>
-                                            </td>
-                                            <td><strong>ICICIBANK</strong></td>
-                                            <td>
-                                                <span class="signal-badge bullish">Bullish</span>
-                                            </td>
-                                            <td>
-                                                <div class="confidence-indicator high">84%</div>
-                                            </td>
-                                            <td>09:15 AM</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Right Column -->
-                    <div class="column right-column">
-                        <!-- Quick Actions -->
-                        <div class="quick-actions">
-                            <div class="section-header">
-                                <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
-                            </div>
-                            
-                            <div class="actions-grid">
-                                <a href="scanner.html?type=volume-price" class="action-card">
-                                    <div class="action-icon">
-                                        <i class="fas fa-chart-bar"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <h3>Volume-Price Scan</h3>
-                                        <p>Run quick volume-price analysis</p>
-                                    </div>
-                                </a>
-                                
-                                <a href="scanner.html?type=breakout" class="action-card">
-                                    <div class="action-icon">
-                                        <i class="fas fa-chart-line"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <h3>Breakout Scan</h3>
-                                        <p>Find breakout opportunities</p>
-                                    </div>
-                                </a>
-                                
-                                <a href="watchlist.html" class="action-card">
-                                    <div class="action-icon">
-                                        <i class="fas fa-bookmark"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <h3>Watchlist</h3>
-                                        <p>Manage your watchlist</p>
-                                    </div>
-                                </a>
-                                
-                                <a href="alerts.html" class="action-card">
-                                    <div class="action-icon">
-                                        <i class="fas fa-bell"></i>
-                                    </div>
-                                    <div class="action-content">
-                                        <h3>Alerts</h3>
-                                        <p>Set up price alerts</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <!-- Subscription Status -->
-                        <div class="subscription-status">
-                            <div class="section-header">
-                                <h2><i class="fas fa-crown"></i> Subscription Status</h2>
-                            </div>
-                            
-                            <div class="status-content">
-                                <div class="status-info">
-                                    <div class="status-label">Current Plan</div>
-                                    <div class="status-value">Pro Plan</div>
-                                </div>
-                                
-                                <div class="status-info">
-                                    <div class="status-label">Expires in</div>
-                                    <div class="status-value">30 days</div>
-                                </div>
-                                
-                                <div class="status-info">
-                                    <div class="status-label">Scans Used</div>
-                                    <div class="status-value">120/1000</div>
-                                </div>
-                                
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 12%"></div>
-                                </div>
-                                
-                                <a href="subscription.html" class="btn-upgrade">
-                                    <i class="fas fa-rocket"></i> Upgrade Plan
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <!-- Quick Tips -->
-                        <div class="quick-tips">
-                            <div class="section-header">
-                                <h2><i class="fas fa-lightbulb"></i> Quick Tips</h2>
-                            </div>
-                            <div class="tips-content">
-                                <div class="tip">
-                                    <i class="fas fa-check-circle"></i>
-                                    <p>Run scans during market hours (9:15 AM - 3:30 PM) for best results</p>
-                                </div>
-                                <div class="tip">
-                                    <i class="fas fa-check-circle"></i>
-                                    <p>Combine volume-price scanner with breakout scanner for better accuracy</p>
-                                </div>
-                                <div class="tip">
-                                    <i class="fas fa-check-circle"></i>
-                                    <p>Set alerts for your favorite stocks to get notified of volume spikes</p>
-                                </div>
-                                <div class="tip">
-                                    <i class="fas fa-check-circle"></i>
-                                    <p>Export scan results to Excel for detailed analysis</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Daily Scans Chart -->
-                        <div class="chart-section">
-                            <div class="section-header">
-                                <h3><i class="fas fa-chart-bar"></i> Daily Scans</h3>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="dailyScansChart"></canvas>
-                            </div>
-                        </div>
-                        
-                        <!-- Scanner Accuracy Chart -->
-                        <div class="chart-section">
-                            <div class="section-header">
-                                <h3><i class="fas fa-chart-pie"></i> Scanner Accuracy</h3>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="accuracyTrendChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Dashboard Actions -->
-            <div class="dashboard-actions">
-                <button data-action="refresh" class="btn-action" title="Refresh Dashboard">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
-                <button data-action="export_data" class="btn-action" title="Export Data">
-                    <i class="fas fa-download"></i>
-                </button>
-                <button data-action="settings" class="btn-action" title="Settings">
-                    <i class="fas fa-cog"></i>
-                </button>
-            </div>
-        </main>
-    </div>
-    
-    <!-- Notifications Panel -->
-    <div class="notifications-panel" id="notificationsPanel">
-        <div class="notifications-header">
-            <h3><i class="fas fa-bell"></i> Notifications</h3>
-            <button class="btn-secondary btn-small" id="markAllRead">
-                <i class="fas fa-check-double"></i> Mark All Read
-            </button>
-        </div>
+            `;
+        });
         
-        <div class="notifications-body">
-            <div class="notification-item unread">
-                <div class="notification-icon">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <div class="notification-content">
-                    <div class="notification-title">Volume Spike Detected</div>
-                    <div class="notification-message">RELIANCE shows 250% volume increase above average</div>
-                    <div class="notification-time">10:30 AM</div>
-                </div>
-            </div>
-            
-            <div class="notification-item unread">
-                <div class="notification-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="notification-content">
-                    <div class="notification-title">Breakout Alert</div>
-                    <div class="notification-message">TCS breaks resistance at ₹4,200 with high volume</div>
-                    <div class="notification-time">10:15 AM</div>
-                </div>
-            </div>
-            
-            <div class="notification-item">
-                <div class="notification-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="notification-content">
-                    <div class="notification-title">Scan Completed</div>
-                    <div class="notification-message">Momentum scan completed. 12 stocks identified.</div>
-                    <div class="notification-time">09:50 AM</div>
-                </div>
-            </div>
-            
-            <div class="notification-item">
-                <div class="notification-icon">
-                    <i class="fas fa-crown"></i>
-                </div>
-                <div class="notification-content">
-                    <div class="notification-title">Subscription Reminder</div>
-                    <div class="notification-message">Your Pro plan expires in 30 days</div>
-                    <div class="notification-time">Yesterday</div>
-                </div>
-            </div>
-        </div>
+        alertsContainer.innerHTML = html;
         
-        <div class="notifications-footer">
-            <a href="notifications.html" class="view-all-notifications">View All Notifications</a>
-        </div>
-    </div>
+        // Setup dismiss buttons
+        const dismissButtons = document.querySelectorAll('.alert-dismiss');
+        dismissButtons.forEach(button => {
+            button.addEventListener('click', () => this.dismissAlert(button.dataset.id));
+        });
+    }
     
-    <!-- Scripts -->
-    <script src="js/app.js"></script>
-    <script src="js/dashboard.js"></script>
-</body>
-</html>
+    setupQuickActions() {
+        const quickActions = document.querySelectorAll('.action-card');
+        quickActions.forEach(action => {
+            action.addEventListener('click', (e) => {
+                e.preventDefault();
+                const actionType = action.querySelector('h3').textContent;
+                this.handleQuickAction(actionType);
+            });
+        });
+        
+        // Run quick scan button
+        const runQuickScanBtn = document.querySelector('.btn-run-scan');
+        if (runQuickScanBtn) {
+            runQuickScanBtn.addEventListener('click', () => this.runQuickScan());
+        }
+    }
+    
+    handleQuickAction(action) {
+        switch (action) {
+            case 'Volume-Price Scan':
+                window.location.href = 'scanner.html?preset=volume_price';
+                break;
+            case 'Breakout Scan':
+                window.location.href = 'scanner.html?preset=breakout';
+                break;
+            case 'Watchlist':
+                window.location.href = 'watchlist.html';
+                break;
+            case 'Alerts':
+                window.location.href = 'alerts.html';
+                break;
+            default:
+                app.showToast(`${action} clicked`, 'info');
+        }
+    }
+    
+    async runQuickScan() {
+        const loader = app.showLoading('Running quick scan...');
+        
+        try {
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            const newResult = {
+                scanner_type: 'volume_price',
+                stock_symbol: 'SBIN',
+                signal_type: 'Bullish',
+                confidence: 87,
+                scan_time: new Date().toISOString()
+            };
+            
+            // Add to recent results
+            const tbody = document.getElementById('recentResultsBody');
+            const newRow = `
+                <tr>
+                    <td>
+                        <div class="scanner-type">
+                            <i class="fas fa-chart-bar"></i>
+                            Volume-Price
+                        </div>
+                    </td>
+                    <td><strong>SBIN</strong></td>
+                    <td>
+                        <span class="signal-badge bullish">Bullish</span>
+                    </td>
+                    <td>
+                        <div class="confidence-indicator high">87%</div>
+                    </td>
+                    <td>Just now</td>
+                </tr>
+            `;
+            
+            // Add to top of table
+            tbody.innerHTML = newRow + tbody.innerHTML;
+            
+            // Update scans counter
+            const scansElement = document.getElementById('scansToday');
+            scansElement.textContent = parseInt(scansElement.textContent) + 1;
+            
+            app.showToast('Quick scan completed! Found bullish signal in SBIN', 'success');
+            
+        } catch (error) {
+            console.error('Quick scan error:', error);
+            app.showToast('Scan failed. Please try again.', 'error');
+        } finally {
+            app.hideLoading(loader);
+        }
+    }
+    
+    setupCharts() {
+        // Daily scans chart
+        this.setupDailyScansChart();
+        
+        // Accuracy trend chart
+        this.setupAccuracyTrendChart();
+    }
+    
+    setupDailyScansChart() {
+        const ctx = document.getElementById('dailyScansChart');
+        if (!ctx) return;
+        
+        // Mock data - in production, fetch from API
+        const data = {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Daily Scans',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                borderColor: 'rgba(79, 70, 229, 1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }]
+        };
+        
+        new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false
+                        },
+                        ticks: {
+                            stepSize: 20
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    setupAccuracyTrendChart() {
+        const ctx = document.getElementById('accuracyTrendChart');
+        if (!ctx) return;
+        
+        const data = {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Accuracy %',
+                data: [72, 78, 75, 82],
+                backgroundColor: [
+                    'rgba(16, 185, 129, 0.2)',
+                    'rgba(16, 185, 129, 0.3)',
+                    'rgba(16, 185, 129, 0.4)',
+                    'rgba(16, 185, 129, 0.5)'
+                ],
+                borderColor: [
+                    'rgb(16, 185, 129)',
+                    'rgb(16, 185, 129)',
+                    'rgb(16, 185, 129)',
+                    'rgb(16, 185, 129)'
+                ],
+                borderWidth: 2
+            }]
+        };
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {
+                            drawBorder: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    setupRealTimeUpdates() {
+        // Poll for updates every 30 seconds
+        setInterval(() => {
+            // Update random stats for demo
+            const activeAlertsElement = document.getElementById('activeAlerts');
+            const currentAlerts = parseInt(activeAlertsElement.textContent) || 0;
+            const randomChange = Math.random() > 0.7 ? 1 : Math.random() < 0.3 ? -1 : 0;
+            const newAlerts = Math.max(1, currentAlerts + randomChange);
+            activeAlertsElement.textContent = newAlerts;
+            
+            // Update accuracy rate
+            const accuracyRateElement = document.getElementById('accuracyRate');
+            const currentAccuracy = parseInt(accuracyRateElement.textContent) || 82;
+            const accuracyChange = Math.random() > 0.5 ? 1 : -1;
+            const newAccuracy = Math.min(95, Math.max(75, currentAccuracy + accuracyChange));
+            accuracyRateElement.textContent = newAccuracy + '%';
+            
+        }, 30000); // Update every 30 seconds
+    }
+    
+    setupEventListeners() {
+        // Setup notification bell
+        const notificationBell = document.getElementById('notificationBell');
+        if (notificationBell) {
+            notificationBell.addEventListener('click', () => this.toggleNotifications());
+        }
+        
+        // Setup all quick action buttons
+        const actionButtons = document.querySelectorAll('[data-action]');
+        actionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const action = button.dataset.action;
+                this.handleButtonAction(action);
+            });
+        });
+        
+        // Logout button
+        const logoutBtn = document.getElementById('logout');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    app.showToast('Logging out...', 'info');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                }
+            });
+        }
+    }
+    
+    setupNotifications() {
+        const notificationBell = document.getElementById('notificationBell');
+        const notificationsPanel = document.getElementById('notificationsPanel');
+        const markAllReadBtn = document.getElementById('markAllRead');
+        
+        if (notificationBell && notificationsPanel) {
+            notificationBell.addEventListener('click', (e) => {
+                e.stopPropagation();
+                notificationsPanel.classList.toggle('active');
+            });
+            
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!notificationsPanel.contains(e.target) && 
+                    !notificationBell.contains(e.target)) {
+                    notificationsPanel.classList.remove('active');
+                }
+            });
+        }
+        
+        if (markAllReadBtn) {
+            markAllReadBtn.addEventListener('click', () => {
+                const unreadNotifications = document.querySelectorAll('.notification-item.unread');
+                unreadNotifications.forEach(notification => {
+                    notification.classList.remove('unread');
+                });
+                
+                // Update badge
+                const notificationBadge = document.getElementById('notificationBadge');
+                if (notificationBadge) {
+                    notificationBadge.style.display = 'none';
+                }
+                
+                app.showToast('All notifications marked as read', 'success');
+            });
+        }
+    }
+    
+    toggleNotifications() {
+        const panel = document.getElementById('notificationsPanel');
+        if (panel) {
+            panel.classList.toggle('active');
+        }
+    }
+    
+    async handleButtonAction(action) {
+        switch (action) {
+            case 'refresh':
+                await this.loadDashboardData();
+                app.showToast('Dashboard refreshed', 'success');
+                break;
+                
+            case 'export_data':
+                await this.exportDashboardData();
+                break;
+                
+            case 'settings':
+                window.location.href = 'profile.html';
+                break;
+        }
+    }
+    
+    async exportDashboardData() {
+        const confirmed = await app.confirmDialog('Export all dashboard data to CSV?');
+        
+        if (confirmed) {
+            const loader = app.showLoading('Exporting data...');
+            
+            try {
+                // Simulate export
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Create sample CSV data
+                const csvData = `Scanner,Stock,Signal,Confidence,Time\nVolume-Price,RELIANCE,Bullish,92%,10:25 AM\nBreakout,TCS,Bullish,88%,10:15 AM\nMomentum,HDFCBANK,Bearish,76%,09:45 AM`;
+                
+                downloadFile(csvData, `dashboard_export_${new Date().toISOString().split('T')[0]}.csv`);
+                app.showToast('Data exported successfully', 'success');
+                
+            } catch (error) {
+                console.error('Export error:', error);
+                app.showToast('Export failed', 'error');
+            } finally {
+                app.hideLoading(loader);
+            }
+        }
+    }
+    
+    async dismissAlert(alertId) {
+        try {
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Remove alert from UI
+            const alertItems = document.querySelectorAll('.alert-item');
+            alertItems.forEach(item => {
+                const dismissBtn = item.querySelector('.alert-dismiss');
+                if (dismissBtn && dismissBtn.dataset.id === alertId) {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(20px)';
+                    setTimeout(() => {
+                        item.remove();
+                    }, 300);
+                }
+            });
+            
+            // Update counter
+            const activeAlertsElement = document.getElementById('activeAlerts');
+            const currentAlerts = parseInt(activeAlertsElement.textContent) || 0;
+            activeAlertsElement.textContent = Math.max(0, currentAlerts - 1);
+            
+            app.showToast('Alert dismissed', 'success');
+            
+        } catch (error) {
+            console.error('Dismiss alert error:', error);
+            app.showToast('Failed to dismiss alert', 'error');
+        }
+    }
+    
+    // Helper methods
+    getScannerIcon(scannerType) {
+        const icons = {
+            'volume_price': 'chart-bar',
+            'breakout': 'chart-line',
+            'momentum': 'fire',
+            'support_resistance': 'layer-group',
+            'moving_average': 'wave-square',
+            'rsi_divergence': 'percentage',
+            'volume_spike': 'bolt',
+            'pattern_recognition': 'shapes',
+            'gap': 'arrows-alt-v',
+            'option_chain': 'link'
+        };
+        return icons[scannerType] || 'search';
+    }
+    
+    formatScannerName(scannerType) {
+        return scannerType.split('_').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+    }
+    
+    getAlertIcon(alertType) {
+        const icons = {
+            'price': 'dollar-sign',
+            'volume': 'chart-bar',
+            'pattern': 'wave-square',
+            'system': 'cog',
+            'warning': 'exclamation-triangle'
+        };
+        return icons[alertType] || 'bell';
+    }
+    
+    formatTime(timestamp) {
+        if (!timestamp) return '--';
+        
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+        
+        if (diff < 60000) { // Less than 1 minute
+            return 'Just now';
+        } else if (diff < 3600000) { // Less than 1 hour
+            const minutes = Math.floor(diff / 60000);
+            return `${minutes}m ago`;
+        } else if (diff < 86400000) { // Less than 1 day
+            const hours = Math.floor(diff / 3600000);
+            return `${hours}h ago`;
+        } else {
+            return date.toLocaleDateString('en-IN', {
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+    }
+}
+
+// Initialize dashboard when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector('.dashboard-container')) {
+        window.dashboard = new Dashboard();
+    }
+});
