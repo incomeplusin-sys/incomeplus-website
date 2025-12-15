@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume Pattern Scanner - Professional Stock Analysis Tool</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-chart-network"></i>
+                <span>Volume<span class="highlight">Pattern</span>Scanner</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#scanner">Live Demo</a>
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="login.html?register=true" class="btn-primary">Start Free Trial</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Advanced Volume Pattern Scanner</h1>
+                <h2>Detect V & U Volume Patterns in Real-Time</h2>
+                <p class="hero-subtitle">Professional-grade volume analysis using Yahoo Finance data. No credits required.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">200+</div>
+                        <div class="stat-label">Indian Stocks</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">Real-time</div>
+                        <div class="stat-label">Data Updates</div>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="login.html?register=true" class="btn-primary btn-large">
+                        <i class="fas fa-rocket"></i> Start 7-Day Free Trial
+                    </a>
+                    <a href="#scanner" class="btn-secondary">
+                        <i class="fas fa-play"></i> Try Live Scanner
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="scanner-preview">
+                    <div class="preview-header">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Live Volume Scanner</h3>
+                    </div>
+                    <div class="preview-content">
+                        <div class="scan-result">
+                            <div class="stock-info">
+                                <span class="stock-symbol">RELIANCE</span>
+                                <span class="pattern-badge v-pattern">V Pattern</span>
+                            </div>
+                            <div class="confidence">92%</div>
+                        </div>
+                        <div class="scan-result">
+                            <div class="stock-info">
+                                <span class="stock-symbol">TCS</span>
+                                <span class="pattern-badge u-pattern">U Pattern</span>
+                            </div>
+                            <div class="confidence">85%</div>
+                        </div>
+                        <div class="scan-result">
+                            <div class="stock-info">
+                                <span class="stock-symbol">HDFCBANK</span>
+                                <span class="pattern-badge v-pattern">V Pattern</span>
+                            </div>
+                            <div class="confidence">78%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Volume Analysis Features</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <h3>V Pattern Detection</h3>
+                    <p>Identify classic 5-candle V volume patterns for potential reversal signals</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-area"></i>
+                    </div>
+                    <h3>U Pattern Detection</h3>
+                    <p>Detect 6-candle U volume patterns indicating accumulation phases</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Real-time Data</h3>
+                    <p>Direct integration with Yahoo Finance API - no credits required</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <h3>Excel Reports</h3>
+                    <p>Export scan results to Excel with timestamps for easy analysis</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3>Advanced Filters</h3>
+                    <p>Filter by price range, volume threshold, and pattern confidence</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>Historical Backtesting</h3>
+                    <p>Test patterns on historical data to validate strategy performance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Scanner Demo -->
+    <section class="scanner-demo" id="scanner">
+        <div class="container">
+            <h2 class="section-title">Try Our Live Scanner</h2>
+            
+            <div class="demo-container">
+                <div class="scanner-controls">
+                    <h3>Volume Pattern Scanner</h3>
+                    
+                    <div class="control-group">
+                        <label>Scan Type</label>
+                        <select id="scanType">
+                            <option value="both">Both V & U Patterns</option>
+                            <option value="v">V Pattern Only</option>
+                            <option value="u">U Pattern Only</option>
+                        </select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Minimum Confidence</label>
+                        <input type="range" id="confidenceRange" min="50" max="100" value="75">
+                        <span id="confidenceValue">75%</span>
+                    </div>
+                    
+                    <button id="runDemoScan" class="btn-primary">
+                        <i class="fas fa-search"></i> Run Demo Scan
+                    </button>
+                </div>
+                
+                <div class="results-panel">
+                    <div class="results-header">
+                        <h3><i class="fas fa-list"></i> Scan Results</h3>
+                        <button id="exportResults" class="btn-secondary">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                    </div>
+                    <div class="results-container" id="demoResults">
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <p>Click "Run Demo Scan" to see results</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How Our Scanner Works</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Data Collection</h3>
+                    <p>Fetch real-time volume data from Yahoo Finance API for 200+ Indian stocks</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Pattern Analysis</h3>
+                    <p>Apply algorithmic detection for V (5-candle) and U (6-candle) volume patterns</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Signal Generation</h3>
+                    <p>Generate confidence scores and highlight potential trading opportunities</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Report Generation</h3>
+                    <p>Export results to Excel with detailed pattern information and timestamps</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple & Transparent Pricing</h2>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Free Trial</h3>
+                        <div class="price">₹0</div>
+                        <div class="period">7 days free</div>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Full scanner access</li>
+                        <li><i class="fas fa-check"></i> Real-time data</li>
+                        <li><i class="fas fa-check"></i> Basic reports</li>
+                        <li><i class="fas fa-check"></i> Email support</li>
+                    </ul>
+                    <a href="login.html?register=true" class="btn-pricing">
+                        Start Free Trial
+                    </a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Monthly</h3>
+                        <div class="price">₹999</div>
+                        <div class="period">per month</div>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Unlimited scans</li>
+                        <li><i class="fas fa-check"></i> Advanced filters</li>
+                        <li><i class="fas fa-check"></i> Excel exports</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                        <li><i class="fas fa-check"></i> Historical data</li>
+                    </ul>
+                    <a href="login.html?register=true" class="btn-pricing btn-primary">
+                        Get Started
+                    </a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Annual</h3>
+                        <div class="price">₹9,999</div>
+                        <div class="period">per year</div>
+                        <div class="savings">Save 17%</div>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Everything in Monthly</li>
+                        <li><i class="fas fa-check"></i> Custom patterns</li>
+                        <li><i class="fas fa-check"></i> API access</li>
+                        <li><i class="fas fa-check"></i> Dedicated support</li>
+                        <li><i class="fas fa-check"></i> Training sessions</li>
+                    </ul>
+                    <a href="login.html?register=true" class="btn-pricing">
+                        Choose Annual
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-chart-network"></i>
+                        <span>Volume<span class="highlight">Pattern</span>Scanner</span>
+                    </div>
+                    <p>Professional Volume Analysis Platform</p>
+                    <p><i class="fas fa-envelope"></i> support@volumescanner.in</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <a href="#features">Features</a>
+                    <a href="#scanner">Live Scanner</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="login.html">Login</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="terms.html">Terms</a>
+                    <a href="privacy.html">Privacy</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Volume Pattern Scanner. All rights reserved.</p>
+                <p>For educational purposes only. Not investment advice.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/scanner.js"></script>
+</body>
+</html>
