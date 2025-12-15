@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results - Volume Pattern Scanner</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/scanner.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-network"></i>
+                    <span>Volume<span class="highlight">Scanner</span></span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="scanner.html" class="nav-item">
+                    <i class="fas fa-search"></i> Scanner
+                </a>
+                <a href="results.html" class="nav-item active">
+                    <i class="fas fa-history"></i> Results
+                </a>
+                <a href="watchlist.html" class="nav-item">
+                    <i class="fas fa-bookmark"></i> Watchlist
+                </a>
+                <a href="alerts.html" class="nav-item">
+                    <i class="fas fa-bell"></i> Alerts
+                </a>
+                <a href="subscription.html" class="nav-item">
+                    <i class="fas fa-credit-card"></i> Subscription
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i class="fas fa-user-cog"></i> Profile
+                </a>
+                <a href="#" id="logout" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Trader</div>
+                        <div class="user-plan">
+                            <span class="plan-badge" id="currentPlan">Pro</span>
+                            <span class="plan-expiry" id="planExpiry">Scans: ∞</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <!-- Results Header -->
+                <div class="results-header">
+                    <h1><i class="fas fa-history"></i> Scan Results History</h1>
+                    <p>View and manage all your volume pattern scan results</p>
+                </div>
+                
+                <!-- Results Filters -->
+                <div class="results-filters">
+                    <div class="filter-group">
+                        <label for="dateFilter"><i class="fas fa-calendar"></i> Date Range</label>
+                        <select id="dateFilter">
+                            <option value="today">Today</option>
+                            <option value="week">Last 7 Days</option>
+                            <option value="month" selected>Last 30 Days</option>
+                            <option value="quarter">Last 90 Days</option>
+                            <option value="all">All Time</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="scannerFilter"><i class="fas fa-search"></i> Scanner Type</label>
+                        <select id="scannerFilter">
+                            <option value="all">All Scanners</option>
+                            <option value="volume_pattern">Volume Pattern</option>
+                            <option value="volume_spike">Volume Spike</option>
+                            <option value="breakout">Breakout</option>
+                            <option value="momentum">Momentum</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="patternFilter"><i class="fas fa-wave-square"></i> Pattern Type</label>
+                        <select id="patternFilter">
+                            <option value="all">All Patterns</option>
+                            <option value="V">V Pattern Only</option>
+                            <option value="U">U Pattern Only</option>
+                            <option value="Spike">Volume Spike Only</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="confidenceFilter"><i class="fas fa-percentage"></i> Min Confidence</label>
+                        <select id="confidenceFilter">
+                            <option value="0">All</option>
+                            <option value="70">70%+</option>
+                            <option value="80">80%+</option>
+                            <option value="90">90%+</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="stockFilter"><i class="fas fa-chart-line"></i> Stock Symbol</label>
+                        <input type="text" id="stockFilter" placeholder="e.g., RELIANCE">
+                    </div>
+                    
+                    <button id="applyFilters" class="btn-primary">
+                        <i class="fas fa-filter"></i> Apply Filters
+                    </button>
+                    
+                    <button id="clearFilters" class="btn-secondary">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+                
+                <!-- Results Stats -->
+                <div class="results-stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalScans">0</div>
+                            <div class="stat-label">Total Scans</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wave-square"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalPatterns">0</div>
+                            <div class="stat-label">Patterns Found</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="avgConfidence">0%</div>
+                            <div class="stat-label">Avg Confidence</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="successRate">0%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="vPatterns">0</div>
+                            <div class="stat-label">V Patterns</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-area"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="uPatterns">0</div>
+                            <div class="stat-label">U Patterns</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Actions -->
+                <div class="results-actions">
+                    <div class="actions-left">
+                        <button id="exportSelected" class="btn-export" disabled>
+                            <i class="fas fa-file-excel"></i> Export Selected
+                        </button>
+                        <button id="exportAll" class="btn-export">
+                            <i class="fas fa-file-export"></i> Export All
+                        </button>
+                        <button id="deleteSelected" class="btn-danger" disabled>
+                            <i class="fas fa-trash"></i> Delete Selected
+                        </button>
+                    </div>
+                    
+                    <div class="actions-right">
+                        <div class="results-count">
+                            Showing <span id="shownCount">0</span> of <span id="totalCount">0</span> results
+                        </div>
+                        <button id="refreshResults" class="btn-secondary">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Results Table -->
+                <div class="results-table-container">
+                    <table class="results-table" id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th width="50">
+                                    <input type="checkbox" id="selectAll">
+                                </th>
+                                <th>Date & Time</th>
+                                <th>Stock</th>
+                                <th>Pattern</th>
+                                <th>Confidence</th>
+                                <th>Price</th>
+                                <th>Change</th>
+                                <th>Volume</th>
+                                <th>Scanner</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsBody">
+                            <!-- Results will be loaded here -->
+                            <tr class="empty-row">
+                                <td colspan="10">
+                                    <div class="empty-state">
+                                        <i class="fas fa-search"></i>
+                                        <h3>No scan results found</h3>
+                                        <p>Run your first scan to see results here</p>
+                                        <a href="scanner.html" class="btn-primary">
+                                            <i class="fas fa-bolt"></i> Run Scan Now
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <button id="firstPage" class="pagination-btn" disabled>
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button id="prevPage" class="pagination-btn" disabled>
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        
+                        <div class="page-numbers">
+                            <span id="pageInfo">Page 1 of 1</span>
+                        </div>
+                        
+                        <button id="nextPage" class="pagination-btn" disabled>
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button id="lastPage" class="pagination-btn" disabled>
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-row">
+                        <!-- Pattern Distribution Chart -->
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3><i class="fas fa-chart-pie"></i> Pattern Distribution</h3>
+                                <div class="chart-actions">
+                                    <button class="btn-chart-action" data-chart="patternDistribution">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="patternDistributionChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Confidence Trend Chart -->
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3><i class="fas fa-chart-line"></i> Confidence Trend</h3>
+                                <div class="chart-actions">
+                                    <button class="btn-chart-action" data-chart="confidenceTrend">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="confidenceTrendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-row">
+                        <!-- Scanner Performance Chart -->
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3><i class="fas fa-chart-bar"></i> Scanner Performance</h3>
+                                <div class="chart-actions">
+                                    <select id="performancePeriod">
+                                        <option value="week">Last 7 Days</option>
+                                        <option value="month" selected>Last 30 Days</option>
+                                        <option value="quarter">Last 90 Days</option>
+                                    </select>
+                                    <button class="btn-chart-action" data-chart="scannerPerformance">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="scannerPerformanceChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Time of Day Analysis -->
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3><i class="fas fa-clock"></i> Scan Time Analysis</h3>
+                                <div class="chart-actions">
+                                    <button class="btn-chart-action" data-chart="timeAnalysis">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="timeAnalysisChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Top Performing Stocks -->
+                <div class="top-stocks-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-trophy"></i> Top Performing Stocks</h2>
+                        <select id="topStocksPeriod">
+                            <option value="week">This Week</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="quarter">Last 90 Days</option>
+                        </select>
+                    </div>
+                    
+                    <div class="top-stocks-grid" id="topStocksGrid">
+                        <div class="top-stock-card">
+                            <div class="stock-rank">1</div>
+                            <div class="stock-info">
+                                <div class="stock-symbol">RELIANCE</div>
+                                <div class="stock-name">Reliance Industries</div>
+                            </div>
+                            <div class="stock-stats">
+                                <div class="stat">
+                                    <span class="stat-label">Patterns</span>
+                                    <span class="stat-value">12</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Avg Confidence</span>
+                                    <span class="stat-value">85%</span>
+                                </div>
+                            </div>
+                            <button class="btn-view-details">
+                                <i class="fas fa-chart-line"></i> View
+                            </button>
+                        </div>
+                        
+                        <!-- More stock cards will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Export Modal -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-export"></i> Export Results</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="export-options">
+                    <div class="export-option">
+                        <input type="radio" name="exportFormat" id="formatExcel" value="excel" checked>
+                        <label for="formatExcel">
+                            <i class="fas fa-file-excel"></i>
+                            <div>
+                                <h4>Excel (.xlsx)</h4>
+                                <p>Full report with all columns and formatting</p>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="export-option">
+                        <input type="radio" name="exportFormat" id="formatCSV" value="csv">
+                        <label for="formatCSV">
+                            <i class="fas fa-file-csv"></i>
+                            <div>
+                                <h4>CSV (.csv)</h4>
+                                <p>Simple data export for analysis</p>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="export-option">
+                        <input type="radio" name="exportFormat" id="formatPDF" value="pdf">
+                        <label for="formatPDF">
+                            <i class="fas fa-file-pdf"></i>
+                            <div>
+                                <h4>PDF (.pdf)</h4>
+                                <p>Formatted report with charts</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="export-settings">
+                    <h4>Export Settings</h4>
+                    <div class="setting-group">
+                        <label>
+                            <input type="checkbox" id="includeCharts" checked>
+                            Include charts in export
+                        </label>
+                    </div>
+                    <div class="setting-group">
+                        <label>
+                            <input type="checkbox" id="includeSummary" checked>
+                            Include summary statistics
+                        </label>
+                    </div>
+                    <div class="setting-group">
+                        <label>
+                            <input type="checkbox" id="filteredOnly" checked>
+                            Export filtered results only
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="export-preview">
+                    <h4>Export Preview</h4>
+                    <div class="preview-info">
+                        <div class="preview-item">
+                            <span>Rows to export:</span>
+                            <span id="exportRowCount">0</span>
+                        </div>
+                        <div class="preview-item">
+                            <span>Columns:</span>
+                            <span>10</span>
+                        </div>
+                        <div class="preview-item">
+                            <span>Estimated file size:</span>
+                            <span id="exportFileSize">0 KB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-cancel">Cancel</button>
+                <button class="btn-primary" id="confirmExport">
+                    <i class="fas fa-download"></i> Export Now
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Confirm Deletion</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <span id="deleteCount">0</span> selected scan results?</p>
+                <p class="warning-text">This action cannot be undone. All selected results will be permanently deleted.</p>
+                
+                <div class="delete-options">
+                    <label>
+                        <input type="checkbox" id="deleteBackup">
+                        Create backup before deleting
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-cancel">Cancel</button>
+                <button class="btn-danger" id="confirmDelete">
+                    <i class="fas fa-trash"></i> Delete Permanently
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stock Details Modal -->
+    <div class="modal" id="stockDetailsModal">
+        <div class="modal-content wide">
+            <div class="modal-header">
+                <h3><i class="fas fa-chart-line"></i> Stock Analysis</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="stock-header">
+                    <div class="stock-title">
+                        <h2 id="modalStockSymbol">RELIANCE</h2>
+                        <p id="modalStockName">Reliance Industries Ltd</p>
+                    </div>
+                    <div class="stock-price">
+                        <div class="current-price" id="modalStockPrice">₹2,450.25</div>
+                        <div class="price-change positive" id="modalStockChange">+2.5%</div>
+                    </div>
+                </div>
+                
+                <div class="stock-tabs">
+                    <button class="tab-btn active" data-tab="patterns">Pattern History</button>
+                    <button class="tab-btn" data-tab="performance">Performance</button>
+                    <button class="tab-btn" data-tab="charts">Charts</button>
+                    <button class="tab-btn" data-tab="fundamentals">Fundamentals</button>
+                </div>
+                
+                <div class="tab-content active" id="patternsTab">
+                    <table class="stock-patterns-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Pattern</th>
+                                <th>Confidence</th>
+                                <th>Price</th>
+                                <th>Volume</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockPatternsBody">
+                            <!-- Patterns will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="tab-content" id="performanceTab">
+                    <!-- Performance content will be loaded here -->
+                </div>
+                
+                <div class="tab-content" id="chartsTab">
+                    <!-- Charts content will be loaded here -->
+                </div>
+                
+                <div class="tab-content" id="fundamentalsTab">
+                    <!-- Fundamentals content will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary">
+                    <i class="fas fa-bookmark"></i> Add to Watchlist
+                </button>
+                <button class="btn-primary">
+                    <i class="fas fa-search"></i> Scan This Stock
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/dashboard.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/results.js"></script>
+    
+    <style>
+        /* Results Page Specific Styles */
+        .results-header {
+            margin-bottom: 30px;
+        }
+        
+        .results-header h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .results-header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        /* Filters */
+        .results-filters {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+        
+        .filter-group {
+            margin-bottom: 0;
+        }
+        
+        .filter-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        /* Results Stats Grid */
+        .results-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        /* Results Actions */
+        .results-actions {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .actions-left,
+        .actions-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .btn-export {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .btn-export:hover {
+            background: #059669;
+        }
+        
+        .btn-danger {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 2px solid #fecaca;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .btn-danger:disabled,
+        .btn-export:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .results-count {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        /* Results Table */
+        .results-table-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .results-table th {
+            background: #f8fafc;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #4a5568;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .results-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .results-table tbody tr:hover {
+            background: #f8fafc;
+        }
+        
+        .empty-row td {
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .empty-state {
+            color: #a0aec0;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            margin: 10px 0;
+            color: #4a5568;
+        }
+        
+        /* Pattern Badges */
+        .pattern-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .pattern-badge.v-pattern {
+            background: rgba(79, 70, 229, 0.1);
+            color: #4f46e5;
+            border: 1px solid rgba(79, 70, 229, 0.2);
+        }
+        
+        .pattern-badge.u-pattern {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .pattern-badge.spike {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        
+        /* Confidence Indicator */
+        .confidence-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        .confidence-indicator.high {
+            color: #10b981;
+        }
+        
+        .confidence-indicator.medium {
+            color: #f59e0b;
+        }
+        
+        .confidence-indicator.low {
+            color: #ef4444;
+        }
+        
+        /* Price Change */
+        .price-change {
+            font-weight: 600;
+        }
+        
+        .price-change.positive {
+            color: #10b981;
+        }
+        
+        .price-change.negative {
+            color: #ef4444;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        
+        .pagination-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            color: #4a5568;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-numbers {
+            padding: 0 20px;
+            color: #4a5568;
+        }
+        
+        /* Charts Section */
+        .charts-section {
+            margin-bottom: 40px;
+        }
+        
+        .chart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .chart-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chart-header h3 {
+            color: #2d3748;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chart-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .btn-chart-action {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 8px;
+            color: #4a5568;
+            cursor: pointer;
+        }
+        
+        .chart-wrapper {
+            padding: 20px;
+            height: 300px;
+        }
+        
+        /* Top Stocks Section */
+        .top-stocks-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .section-header h2 {
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .top-stocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .top-stock-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 15px;
+            align-items: center;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .stock-rank {
+            width: 40px;
+            height: 40px;
+            background: #4f46e5;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .stock-info {
+            flex: 1;
+        }
+        
+        .stock-symbol {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #2d3748;
+        }
+        
+        .stock-name {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+        
+        .stock-stats {
+            display: grid;
+            gap: 5px;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 0.85rem;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .btn-view-details {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-content.wide {
+            max-width: 900px;
+        }
+        
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #718096;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-body {
+            padding: 25px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+        
+        /* Export Options */
+        .export-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .export-option input {
+            display: none;
+        }
+        
+        .export-option label {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .export-option input:checked + label {
+            border-color: #4f46e5;
+            background: rgba(79, 70, 229, 0.05);
+        }
+        
+        .export-option i {
+            font-size: 2rem;
+            color: #4f46e5;
+        }
+        
+        .export-option h4 {
+            margin: 0 0 5px 0;
+            color: #2d3748;
+        }
+        
+        .export-option p {
+            margin: 0;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .export-settings {
+            margin-bottom: 25px;
+        }
+        
+        .export-settings h4 {
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .setting-group {
+            margin-bottom: 10px;
+        }
+        
+        .setting-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4a5568;
+            cursor: pointer;
+        }
+        
+        .export-preview h4 {
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .preview-info {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .preview-item {
+            display: flex;
+            justify-content: space-between;
+            color: #4a5568;
+        }
+        
+        /* Warning Text */
+        .warning-text {
+            color: #dc2626;
+            font-weight: 500;
+            margin: 15px 0;
+            padding: 10px;
+            background: #fef2f2;
+            border-radius: 8px;
+        }
+        
+        /* Stock Details */
+        .stock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .stock-title h2 {
+            margin: 0;
+            color: #2d3748;
+        }
+        
+        .stock-title p {
+            margin: 5px 0 0 0;
+            color: #718096;
+        }
+        
+        .stock-price .current-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .stock-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            color: #718096;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .tab-btn.active {
+            color: #4f46e5;
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #4f46e5;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-filters {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .results-filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .actions-left,
+            .actions-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .top-stocks-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .results-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stock-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</body>
+</html>
