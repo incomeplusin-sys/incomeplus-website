@@ -1,4 +1,29 @@
 <?php
+session_start();
+
+// Check if user is logged in
+function is_logged_in() {
+    return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+}
+
+// Redirect to login if not authenticated
+function require_auth() {
+    if (!is_logged_in()) {
+        header('Location: index.html');
+        exit();
+    }
+}
+
+// Logout function
+function logout() {
+    session_destroy();
+    setcookie('user_token', '', time() - 3600, '/');
+    header('Location: index.html');
+    exit();
+}
+?>
+
+<?php
 header('Content-Type: application/json');
 require_once 'config.php';
 
