@@ -1,5 +1,110 @@
 // Chart Management for IncomePlus Scanner
-
+// Dashboard functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+    
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+    }
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+        if (window.innerWidth <= 992) {
+            if (sidebar && sidebar.classList.contains('active') && 
+                !sidebar.contains(event.target) && 
+                !mobileMenuBtn.contains(event.target)) {
+                sidebar.classList.remove('active');
+            }
+        }
+    });
+    
+    // User data (simulated)
+    const userData = {
+        name: "John Trader",
+        plan: "Trial",
+        planExpiry: "Expires in 7 days",
+        scansToday: 0,
+        activeAlerts: 0,
+        accuracyRate: "0%",
+        trialDays: 7
+    };
+    
+    // Update user info
+    function updateUserInfo() {
+        document.getElementById('userName').textContent = userData.name;
+        document.getElementById('sidebarUserName').textContent = userData.name.split(' ')[0]; // First name only
+        document.getElementById('currentPlan').textContent = userData.plan;
+        document.getElementById('planExpiry').textContent = userData.planExpiry;
+        document.getElementById('greetingName').textContent = userData.name.split(' ')[0];
+        document.getElementById('scansToday').textContent = userData.scansToday;
+        document.getElementById('activeAlerts').textContent = userData.activeAlerts;
+        document.getElementById('accuracyRate').textContent = userData.accuracyRate;
+        document.getElementById('trialDays').textContent = userData.trialDays;
+    }
+    
+    // Simulate recent results
+    function loadRecentResults() {
+        const recentResultsBody = document.getElementById('recentResultsBody');
+        if (recentResultsBody && userData.scansToday === 0) {
+            recentResultsBody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="no-results">
+                        <i class="fas fa-inbox"></i>
+                        <p>No recent scans found</p>
+                        <button class="btn-run-first-scan">Run Your First Scan</button>
+                    </td>
+                </tr>
+            `;
+            
+            // Add event listener to run first scan button
+            const btn = document.querySelector('.btn-run-first-scan');
+            if (btn) {
+                btn.addEventListener('click', function() {
+                    window.location.href = 'scanners/volume-price.html';
+                });
+            }
+        }
+    }
+    
+    // Run quick scan button
+    const quickScanBtn = document.querySelector('.btn-run-scan');
+    if (quickScanBtn) {
+        quickScanBtn.addEventListener('click', function() {
+            window.location.href = 'scanners/volume-price.html';
+        });
+    }
+    
+    // Logout functionality
+    const logoutBtn = document.getElementById('logout');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real app, this would clear session/token
+                localStorage.removeItem('userToken');
+                window.location.href = 'index.html';
+            }
+        });
+    }
+    
+    // Initialize dashboard
+    updateUserInfo();
+    loadRecentResults();
+    
+    // Simulate data updates (for demo purposes)
+    setInterval(() => {
+        // Update random stats every 5 seconds
+        if (Math.random() > 0.7) {
+            userData.scansToday++;
+            updateUserInfo();
+            loadRecentResults();
+        }
+    }, 5000);
+});
 class ChartManager {
     constructor() {
         this.charts = {};
