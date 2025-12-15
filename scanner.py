@@ -1,5 +1,5 @@
 """
-Complete Volume Pattern Scanner with Web Integration
+Complete Incomeplus Scanner with Web Integration
 """
 
 import yfinance as yf
@@ -17,7 +17,7 @@ import hashlib
 warnings.filterwarnings('ignore')
 
 class VolumePatternScanner:
-    """Advanced volume pattern scanner for Indian stocks"""
+    """Advanced Incomeplus Scanner for Indian stocks"""
     
     def __init__(self, config_file: str = None):
         self.stocks = self.load_indian_stocks()
@@ -504,7 +504,7 @@ scanner = VolumePatternScanner()
 def index():
     return jsonify({
         'status': 'online',
-        'service': 'Volume Pattern Scanner API',
+        'service': 'Incomeplus Scanner API',
         'version': '1.0.0',
         'endpoints': {
             '/api/scan': 'POST - Run volume pattern scan',
@@ -610,7 +610,7 @@ def api_stats():
 
 def main():
     """Main function for command line usage"""
-    print("🎯 VOLUME PATTERN SCANNER")
+    print("🎯 Incomeplus Scanner")
     print("=" * 50)
     print("📊 Professional volume analysis tool for Indian stocks")
     print("=" * 50)
@@ -618,7 +618,7 @@ def main():
     # Parse command line arguments
     import argparse
     
-    parser = argparse.ArgumentParser(description='Volume Pattern Scanner')
+    parser = argparse.ArgumentParser(description='Incomeplus Scanner')
     parser.add_argument('--scan', action='store_true', help='Run scan')
     parser.add_argument('--export', choices=['excel', 'json'], help='Export format')
     parser.add_argument('--config', help='Configuration file')
@@ -720,7 +720,7 @@ def main():
 if __name__ == '__main__':
     # Run as web server if FLASK_APP is set, otherwise run in CLI mode
     if os.environ.get('FLASK_APP') == __file__:
-        print("🚀 Starting Volume Pattern Scanner API...")
+        print("🚀 Starting Incomeplus Scanner API...")
         print(f"📡 API running at: http://localhost:5000")
         app.run(debug=True, host='0.0.0.0', port=5000)
     else:
