@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Volume Pattern Scanner</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional styles for login page */
+        .legal-banner {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .legal-banner .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .legal-banner i {
+            font-size: 1.2rem;
+        }
+        
+        .legal-banner.warning {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+        }
+        
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+        
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .logo .highlight {
+            color: #4f46e5;
+        }
+        
+        .tagline {
+            color: #718096;
+            font-size: 0.9rem;
+            padding-left: 20px;
+            border-left: 2px solid #e2e8f0;
+        }
+        
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .main-nav a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .main-nav a:hover {
+            color: #4f46e5;
+        }
+        
+        .btn-login {
+            padding: 8px 20px;
+            border: 2px solid #4f46e5;
+            color: #4f46e5;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .auth-container {
+            min-height: calc(100vh - 120px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .footer {
+            background: #2d3748;
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-brand .logo {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .footer-brand p {
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .contact-email {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: #cbd5e0;
+        }
+        
+        .footer-links h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .footer-links a {
+            display: block;
+            color: #cbd5e0;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #4a5568;
+            padding-top: 30px;
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        .auth-box {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .legal-agreement {
+            background: #f8fafc;
+            padding: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .legal-agreement h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .agreement-content {
+            padding-right: 10px;
+        }
+        
+        .agreement-content > p {
+            margin-bottom: 20px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .agreement-points {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #4f46e5;
+        }
+        
+        .point i {
+            color: #4f46e5;
+            font-size: 1.2rem;
+            min-width: 20px;
+        }
+        
+        .point span {
+            color: #2d3748;
+            font-weight: 500;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            accent-color: #4f46e5;
+            margin-top: 3px;
+        }
+        
+        .checkbox-group label {
+            color: #4a5568;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+        
+        .auth-form {
+            padding: 40px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .form-header h2 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .form-header p {
+            color: #718096;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .remember input[type="checkbox"] {
+            accent-color: #4f46e5;
+        }
+        
+        .remember label {
+            color: #4a5568;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .form-options a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-auth {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-auth.btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .btn-auth.btn-secondary:hover {
+            background: #cbd5e0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .auth-divider {
+            position: relative;
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e2e8f0;
+        }
+        
+        .auth-divider span {
+            position: relative;
+            background: white;
+            padding: 0 15px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .register-form {
+            display: none;
+        }
+        
+        .register-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .register-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .trial-benefits {
+            background: #f0f9ff;
+            border: 2px solid #bae6fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .trial-benefits h4 {
+            color: #0369a1;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .benefits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0c4a6e;
+        }
+        
+        .benefit-item i {
+            color: #0ea5e9;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .form-footer a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Forgot Password Modal */
+        .forgot-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .forgot-modal.active {
+            display: flex;
+        }
+        
+        .forgot-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .forgot-content h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .forgot-content p {
+            color: #718096;
+            margin-bottom: 25px;
+        }
+        
+        .forgot-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-box {
+                margin: 20px;
+            }
+            
+            .auth-form {
+                padding: 30px 20px;
+            }
+            
+            .legal-agreement {
+                padding: 20px;
+            }
+            
+            .register-form .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header .container {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .logo-area {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .tagline {
+                padding-left: 0;
+                border-left: none;
+                border-top: 2px solid #e2e8f0;
+                padding-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Legal Banner -->
+    <div class="legal-banner">
+        <div class="container">
+            <i class="fas fa-gavel"></i>
+            <div>
+                <strong>TECHNICAL ANALYSIS TOOLS PLATFORM:</strong> For educational purposes only. 
+                <strong>NOT SEBI REGISTERED.</strong> Not investment advice.
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-area">
+                <div class="logo">
+                    <i class="fas fa-chart-network"></i>
+                    <span>Volume<span class="highlight">Pattern</span>Scanner</span>
+                </div>
+                <div class="tagline">Professional Volume Analysis Platform</div>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="index.html">Home</a>
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="#register" class="btn-primary">Start Free Trial</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Authentication Container -->
+    <div class="auth-container">
+        <div class="auth-box">
+            <!-- Legal Agreement -->
+            <div class="legal-agreement">
+                <h2><i class="fas fa-file-contract"></i> Terms of Use Agreement</h2>
+                <div class="agreement-content">
+                    <p><strong>READ CAREFULLY BEFORE PROCEEDING</strong></p>
+                    
+                    <div class="agreement-points">
+                        <div class="point">
+                            <i class="fas fa-ban"></i>
+                            <span>This is a technical analysis TOOLS platform only</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-ban"></i>
+                            <span>NOT SEBI registered. NOT investment advice</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-ban"></i>
+                            <span>No buy/sell recommendations provided</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-check"></i>
+                            <span>Tools for technical analysis practice</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-check"></i>
+                            <span>Market data from third-party APIs</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-check"></i>
+                            <span>7-day free trial, then ₹999/month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">
+                            I agree that this is a tools platform only. I will not use it for investment decisions. 
+                            I understand this is NOT investment advice.
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeSEBI" required>
+                        <label for="agreeSEBI">
+                            I understand Volume Pattern Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
+                            for investment decisions.
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="auth-form" id="loginFormContainer">
+                <div class="form-header">
+                    <h2>Access Professional Volume Scanner</h2>
+                    <p>Login to your account</p>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="form-options">
+                        <div class="remember">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="#" id="forgotPassword">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn-auth">
+                        <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                    </button>
+                    
+                    <div class="auth-divider">
+                        <span>New User?</span>
+                    </div>
+                    
+                    <button type="button" class="btn-auth btn-secondary" id="showRegisterForm">
+                        <i class="fas fa-user-plus"></i> Start 7-Day Free Trial
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>By continuing, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></p>
+                </div>
+            </div>
+            
+            <!-- Registration Form -->
+            <div class="auth-form register-form" id="registerFormContainer">
+                <div class="form-header">
+                    <h2>Start Your Free Trial</h2>
+                    <p>Create your account in 30 seconds</p>
+                </div>
+                
+                <div class="trial-benefits">
+                    <h4><i class="fas fa-gift"></i> Free Trial Includes:</h4>
+                    <div class="benefits-list">
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>7 days full access</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>All 10 volume pattern scanners</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Real-time market data</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Excel report exports</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="registerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="registerName">Full Name</label>
+                            <input type="text" id="registerName" placeholder="John Doe" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerEmail">Email Address</label>
+                            <input type="email" id="registerEmail" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" id="registerPassword" placeholder="Create a password" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerConfirmPassword">Confirm Password</label>
+                            <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="registerPhone">Phone Number (Optional)</label>
+                            <input type="tel" id="registerPhone" placeholder="+91 9876543210">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerCompany">Company (Optional)</label>
+                            <input type="text" id="registerCompany" placeholder="Your company name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerExperience">Experience Level</label>
+                        <select id="registerExperience" required>
+                            <option value="">Select your experience</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                            <option value="professional">Professional</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-auth">
+                        <i class="fas fa-rocket"></i> Start Free Trial
+                    </button>
+                    
+                    <div class="auth-divider">
+                        <span>Already have an account?</span>
+                    </div>
+                    
+                    <button type="button" class="btn-auth btn-secondary" id="showLoginForm">
+                        <i class="fas fa-sign-in-alt"></i> Back to Login
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>By signing up, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="forgot-modal" id="forgotModal">
+        <div class="forgot-content">
+            <h3><i class="fas fa-key"></i> Reset Password</h3>
+            <p>Enter your email address and we'll send you instructions to reset your password.</p>
+            
+            <div class="form-group">
+                <input type="email" id="forgotEmail" placeholder="your@email.com" required>
+            </div>
+            
+            <div class="forgot-actions">
+                <button class="btn-secondary" id="cancelForgot">Cancel</button>
+                <button class="btn-primary" id="sendResetEmail">Send Instructions</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-chart-network"></i>
+                        <span>Volume<span class="highlight">Pattern</span>Scanner</span>
+                    </div>
+                    <p>Professional Volume Analysis Platform</p>
+                    <p class="contact-email">
+                        <i class="fas fa-envelope"></i> support@volumescanner.in
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <a href="index.html">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="login.html">Login</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="refund.html">Refund Policy</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="support.html">Support</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2024 Volume Pattern Scanner. All rights reserved.
+                </div>
+                <div class="company-info">
+                    A product of TRFSK Omkar Services Pvt Ltd
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Additional login page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle between login and register forms
+            const showRegisterForm = document.getElementById('showRegisterForm');
+            const showLoginForm = document.getElementById('showLoginForm');
+            const loginFormContainer = document.getElementById('loginFormContainer');
+            const registerFormContainer = document.getElementById('registerFormContainer');
+            
+            if (showRegisterForm && showLoginForm) {
+                showRegisterForm.addEventListener('click', function() {
+                    loginFormContainer.style.display = 'none';
+                    registerFormContainer.style.display = 'block';
+                });
+                
+                showLoginForm.addEventListener('click', function() {
+                    registerFormContainer.style.display = 'none';
+                    loginFormContainer.style.display = 'block';
+                });
+            }
+            
+            // Forgot password modal
+            const forgotPassword = document.getElementById('forgotPassword');
+            const forgotModal = document.getElementById('forgotModal');
+            const cancelForgot = document.getElementById('cancelForgot');
+            const sendResetEmail = document.getElementById('sendResetEmail');
+            
+            if (forgotPassword && forgotModal) {
+                forgotPassword.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    forgotModal.classList.add('active');
+                });
+                
+                cancelForgot.addEventListener('click', function() {
+                    forgotModal.classList.remove('active');
+                });
+                
+                sendResetEmail.addEventListener('click', function() {
+                    const email = document.getElementById('forgotEmail').value;
+                    if (email && email.includes('@')) {
+                        alert(`Password reset instructions sent to ${email}`);
+                        forgotModal.classList.remove('active');
+                    } else {
+                        alert('Please enter a valid email address');
+                    }
+                });
+                
+                // Close modal when clicking outside
+                forgotModal.addEventListener('click', function(e) {
+                    if (e.target === forgotModal) {
+                        forgotModal.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Check if coming from registration link
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('register') === 'true') {
+                loginFormContainer.style.display = 'none';
+                registerFormContainer.style.display = 'block';
+            }
+            
+            // Form validation
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('loginEmail').value;
+                    const password = document.getElementById('loginPassword').value;
+                    
+                    if (!email || !password) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+                    
+                    // Simulate login
+                    console.log('Login attempt:', email);
+                    // In production, this would call auth.js
+                });
+            }
+            
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('registerName').value;
+                    const email = document.getElementById('registerEmail').value;
+                    const password = document.getElementById('registerPassword').value;
+                    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+                    
+                    if (!name || !email || !password || !confirmPassword) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        alert('Passwords do not match');
+                        return;
+                    }
+                    
+                    if (password.length < 8) {
+                        alert('Password must be at least 8 characters');
+                        return;
+                    }
+                    
+                    // Simulate registration
+                    console.log('Registration attempt:', { name, email });
+                    // In production, this would call auth.js
+                    
+                    // Show success message
+                    alert(`Welcome ${name}! Your 7-day free trial has started. Redirecting to dashboard...`);
+                    
+                    // Redirect to dashboard after delay
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                });
+            }
+            
+            // Terms agreement validation
+            const agreeTerms = document.getElementById('agreeTerms');
+            const agreeSEBI = document.getElementById('agreeSEBI');
+            const submitButtons = document.querySelectorAll('.btn-auth[type="submit"]');
+            
+            function validateTerms() {
+                const isValid = agreeTerms.checked && agreeSEBI.checked;
+                submitButtons.forEach(button => {
+                    button.disabled = !isValid;
+                });
+            }
+            
+            if (agreeTerms && agreeSEBI && submitButtons.length > 0) {
+                agreeTerms.addEventListener('change', validateTerms);
+                agreeSEBI.addEventListener('change', validateTerms);
+                validateTerms(); // Initial validation
+            }
+        });
+    </script>
+</body>
+</html>
