@@ -1,3 +1,31 @@
+/* Touch-friendly buttons */
+button, 
+a.btn, 
+.action-card, 
+.scanner-card {
+    min-height: 44px; /* Minimum touch target size */
+    padding: 12px 16px;
+}
+
+/* Prevent text size adjustment */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Smooth scrolling for mobile */
+html, body {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+}
+
+/* Fix for iOS input styling */
+input, textarea, select {
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+
+
 /* Global Styles */
 * {
     margin: 0;
