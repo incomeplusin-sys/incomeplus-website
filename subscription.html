@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription - Volume Pattern Scanner</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-network"></i>
+                    <span>Volume<span class="highlight">Scanner</span></span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="scanner.html" class="nav-item">
+                    <i class="fas fa-search"></i> Scanner
+                </a>
+                <a href="results.html" class="nav-item">
+                    <i class="fas fa-history"></i> Results
+                </a>
+                <a href="watchlist.html" class="nav-item">
+                    <i class="fas fa-bookmark"></i> Watchlist
+                </a>
+                <a href="alerts.html" class="nav-item">
+                    <i class="fas fa-bell"></i> Alerts
+                </a>
+                <a href="subscription.html" class="nav-item active">
+                    <i class="fas fa-credit-card"></i> Subscription
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i class="fas fa-user-cog"></i> Profile
+                </a>
+                <a href="#" id="logout" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Trader</div>
+                        <div class="user-plan">
+                            <span class="plan-badge" id="currentPlan">Trial</span>
+                            <span class="plan-expiry" id="planExpiry">Expires in 7 days</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <!-- Subscription Header -->
+                <div class="subscription-header">
+                    <h1><i class="fas fa-crown"></i> Subscription Plans</h1>
+                    <p>Choose the perfect plan for your volume analysis needs</p>
+                </div>
+                
+                <!-- Current Plan Status -->
+                <div class="current-plan-status">
+                    <div class="status-content">
+                        <div class="status-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="status-details">
+                            <h3>Your Current Plan</h3>
+                            <div class="plan-info">
+                                <span class="plan-name" id="currentPlanName">Free Trial</span>
+                                <span class="plan-expiry" id="currentPlanExpiry">Expires: Jan 15, 2024</span>
+                            </div>
+                            <div class="plan-features">
+                                <span class="feature"><i class="fas fa-check"></i> 50 scans/day</span>
+                                <span class="feature"><i class="fas fa-check"></i> Basic exports</span>
+                                <span class="feature"><i class="fas fa-check"></i> Email support</span>
+                            </div>
+                        </div>
+                        <div class="status-actions">
+                            <button id="upgradePlan" class="btn-primary">
+                                <i class="fas fa-rocket"></i> Upgrade Plan
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="usage-stats">
+                        <div class="usage-item">
+                            <div class="usage-label">Scans Used Today</div>
+                            <div class="usage-bar">
+                                <div class="usage-fill" style="width: 30%"></div>
+                            </div>
+                            <div class="usage-value">15/50</div>
+                        </div>
+                        
+                        <div class="usage-item">
+                            <div class="usage-label">Days Remaining</div>
+                            <div class="usage-bar">
+                                <div class="usage-fill" style="width: 70%"></div>
+                            </div>
+                            <div class="usage-value">5/7 days</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Plans Comparison -->
+                <div class="plans-comparison">
+                    <h2>Compare Plans</h2>
+                    
+                    <div class="comparison-table">
+                        <div class="comparison-header">
+                            <div class="feature-column">Features</div>
+                            <div class="plan-column trial">
+                                <div class="plan-title">Free Trial</div>
+                                <div class="plan-price">₹0</div>
+                                <div class="plan-period">7 days</div>
+                            </div>
+                            <div class="plan-column monthly">
+                                <div class="plan-title">Monthly</div>
+                                <div class="plan-price">₹999</div>
+                                <div class="plan-period">per month</div>
+                            </div>
+                            <div class="plan-column quarterly popular">
+                                <div class="popular-badge">Most Popular</div>
+                                <div class="plan-title">Quarterly</div>
+                                <div class="plan-price">₹2,699</div>
+                                <div class="plan-period">3 months</div>
+                                <div class="plan-savings">Save 10%</div>
+                            </div>
+                            <div class="plan-column annual">
+                                <div class="plan-title">Annual</div>
+                                <div class="plan-price">₹9,999</div>
+                                <div class="plan-period">per year</div>
+                                <div class="plan-savings">Save 17%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-body">
+                            <!-- Scanner Features -->
+                            <div class="feature-group">
+                                <div class="feature-category">Scanner Features</div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Volume Pattern Scanner</div>
+                                    <div class="feature-value trial"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Daily Scan Limit</div>
+                                    <div class="feature-value trial">50</div>
+                                    <div class="feature-value monthly">1,000</div>
+                                    <div class="feature-value quarterly">1,200</div>
+                                    <div class="feature-value annual">Unlimited</div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Real-time Data</div>
+                                    <div class="feature-value trial"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Advanced Filters</div>
+                                    <div class="feature-value trial"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Custom Presets</div>
+                                    <div class="feature-value trial"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value monthly">5 presets</div>
+                                    <div class="feature-value quarterly">20 presets</div>
+                                    <div class="feature-value annual">Unlimited</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Data & Storage -->
+                            <div class="feature-group">
+                                <div class="feature-category">Data & Storage</div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Results History</div>
+                                    <div class="feature-value trial">30 days</div>
+                                    <div class="feature-value monthly">1 year</div>
+                                    <div class="feature-value quarterly">2 years</div>
+                                    <div class="feature-value annual">Lifetime</div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Excel Exports</div>
+                                    <div class="feature-value trial">Basic</div>
+                                    <div class="feature-value monthly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">CSV Exports</div>
+                                    <div class="feature-value trial"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">PDF Reports</div>
+                                    <div class="feature-value trial"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Support & Features -->
+                            <div class="feature-group">
+                                <div class="feature-category">Support & Features</div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Email Support</div>
+                                    <div class="feature-value trial"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Priority Support</div>
+                                    <div class="feature-value trial"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">SMS Alerts</div>
+                                    <div class="feature-value trial"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-check"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">API Access</div>
+                                    <div class="feature-value trial"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value quarterly">Limited</div>
+                                    <div class="feature-value annual">Full Access</div>
+                                </div>
+                                
+                                <div class="feature-row">
+                                    <div class="feature-name">Custom Development</div>
+                                    <div class="feature-value trial"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value monthly"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value quarterly"><i class="fas fa-times"></i></div>
+                                    <div class="feature-value annual"><i class="fas fa-check"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-footer">
+                            <div class="feature-column"></div>
+                            <div class="plan-column trial">
+                                <button class="btn-plan" data-plan="trial" disabled>
+                                    Current Plan
+                                </button>
+                            </div>
+                            <div class="plan-column monthly">
+                                <button class="btn-plan btn-primary" data-plan="monthly">
+                                    Choose Monthly
+                                </button>
+                            </div>
+                            <div class="plan-column quarterly">
+                                <button class="btn-plan btn-primary" data-plan="quarterly">
+                                    Choose Quarterly
+                                </button>
+                            </div>
+                            <div class="plan-column annual">
+                                <button class="btn-plan btn-primary" data-plan="annual">
+                                    Choose Annual
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Section (Hidden by Default) -->
+                <div class="payment-section" id="paymentSection" style="display: none;">
+                    <div class="payment-header">
+                        <h2><i class="fas fa-lock"></i> Complete Your Purchase</h2>
+                        <p>Enter your payment details to upgrade your subscription</p>
+                    </div>
+                    
+                    <div class="payment-container">
+                        <!-- Selected Plan Summary -->
+                        <div class="selected-plan-summary">
+                            <h3>Order Summary</h3>
+                            <div class="summary-details">
+                                <div class="summary-item">
+                                    <span>Selected Plan:</span>
+                                    <span id="selectedPlanName">Monthly Plan</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Billing Cycle:</span>
+                                    <span id="selectedPlanPeriod">Monthly</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Amount:</span>
+                                    <span class="price" id="selectedPlanPrice">₹999</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Tax (18% GST):</span>
+                                    <span id="selectedPlanTax">₹180</span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>Total Amount:</span>
+                                    <span class="total-price" id="selectedPlanTotal">₹1,179</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Form -->
+                        <div class="payment-form">
+                            <h3>Payment Details</h3>
+                            
+                            <div class="payment-tabs">
+                                <button class="payment-tab active" data-method="card">
+                                    <i class="fas fa-credit-card"></i> Credit/Debit Card
+                                </button>
+                                <button class="payment-tab" data-method="upi">
+                                    <i class="fas fa-mobile-alt"></i> UPI
+                                </button>
+                                <button class="payment-tab" data-method="netbanking">
+                                    <i class="fas fa-university"></i> Net Banking
+                                </button>
+                                <button class="payment-tab" data-method="wallet">
+                                    <i class="fas fa-wallet"></i> Wallet
+                                </button>
+                            </div>
+                            
+                            <!-- Card Payment Form -->
+                            <form id="cardPaymentForm" class="payment-method-form active">
+                                <div class="form-group">
+                                    <label for="cardNumber">Card Number</label>
+                                    <div class="input-with-icon">
+                                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="cardExpiry">Expiry Date</label>
+                                        <input type="text" id="cardExpiry" placeholder="MM/YY">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="cardCVV">CVV</label>
+                                        <div class="input-with-icon">
+                                            <input type="password" id="cardCVV" placeholder="123" maxlength="4">
+                                            <i class="fas fa-lock"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="cardName">Name on Card</label>
+                                    <input type="text" id="cardName" placeholder="John Doe">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="saveCard" checked>
+                                        Save card for future payments
+                                    </label>
+                                </div>
+                            </form>
+                            
+                            <!-- UPI Payment Form -->
+                            <form id="upiPaymentForm" class="payment-method-form">
+                                <div class="form-group">
+                                    <label for="upiId">UPI ID</label>
+                                    <input type="text" id="upiId" placeholder="username@upi">
+                                </div>
+                                
+                                <div class="upi-apps">
+                                    <div class="upi-app">
+                                        <input type="radio" name="upiApp" id="gpay" checked>
+                                        <label for="gpay">
+                                            <i class="fab fa-google-pay"></i>
+                                            <span>Google Pay</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="upi-app">
+                                        <input type="radio" name="upiApp" id="phonepe">
+                                        <label for="phonepe">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            <span>PhonePe</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="upi-app">
+                                        <input type="radio" name="upiApp" id="paytm">
+                                        <label for="paytm">
+                                            <i class="fas fa-wallet"></i>
+                                            <span>Paytm</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                            <!-- Net Banking Form -->
+                            <form id="netbankingForm" class="payment-method-form">
+                                <div class="form-group">
+                                    <label for="bankSelect">Select Bank</label>
+                                    <select id="bankSelect">
+                                        <option value="">Select your bank</option>
+                                        <option value="sbi">State Bank of India</option>
+                                        <option value="hdfc">HDFC Bank</option>
+                                        <option value="icici">ICICI Bank</option>
+                                        <option value="axis">Axis Bank</option>
+                                        <option value="kotak">Kotak Mahindra Bank</option>
+                                        <option value="yes">Yes Bank</option>
+                                        <option value="indusind">IndusInd Bank</option>
+                                        <option value="pnb">Punjab National Bank</option>
+                                    </select>
+                                </div>
+                            </form>
+                            
+                            <!-- Wallet Form -->
+                            <form id="walletForm" class="payment-method-form">
+                                <div class="wallet-options">
+                                    <div class="wallet-option">
+                                        <input type="radio" name="wallet" id="paytmWallet" checked>
+                                        <label for="paytmWallet">
+                                            <i class="fas fa-wallet"></i>
+                                            <span>Paytm Wallet</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="wallet-option">
+                                        <input type="radio" name="wallet" id="mobikwik">
+                                        <label for="mobikwik">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            <span>MobiKwik</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="wallet-option">
+                                        <input type="radio" name="wallet" id="freecharge">
+                                        <label for="freecharge">
+                                            <i class="fas fa-bolt"></i>
+                                            <span>FreeCharge</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                            <!-- Coupon Code -->
+                            <div class="coupon-section">
+                                <div class="coupon-header">
+                                    <h4><i class="fas fa-tag"></i> Apply Coupon Code</h4>
+                                    <button type="button" id="applyCouponBtn">Apply</button>
+                                </div>
+                                <input type="text" id="couponCode" placeholder="Enter coupon code">
+                                <div id="couponMessage"></div>
+                            </div>
+                            
+                            <!-- Terms and Conditions -->
+                            <div class="terms-section">
+                                <label>
+                                    <input type="checkbox" id="agreeTerms" required>
+                                    I agree to the <a href="terms.html">Terms of Service</a> and authorize automatic payments until cancelled
+                                </label>
+                                
+                                <label>
+                                    <input type="checkbox" id="agreeBilling" required>
+                                    I understand this is a recurring subscription that will auto-renew
+                                </label>
+                            </div>
+                            
+                            <!-- Payment Buttons -->
+                            <div class="payment-buttons">
+                                <button type="button" id="cancelPayment" class="btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Back to Plans
+                                </button>
+                                
+                                <button type="submit" id="processPayment" class="btn-primary">
+                                    <i class="fas fa-lock"></i> Pay Securely
+                                </button>
+                            </div>
+                            
+                            <!-- Security Badge -->
+                            <div class="security-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <strong>100% Secure Payment</strong>
+                                    <p>Your payment details are encrypted and secure</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FAQ Section -->
+                <div class="subscription-faq">
+                    <h2>Frequently Asked Questions</h2>
+                    
+                    <div class="faq-items">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>Can I cancel my subscription anytime?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, you can cancel your subscription at any time from your account settings. Your access will continue until the end of your current billing period.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>What payment methods do you accept?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>We accept all major credit/debit cards, UPI, net banking, and digital wallets. All payments are processed through secure payment gateways.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>Do you offer refunds?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>We have a no-refund policy for subscription fees. However, you can try our service with the 7-day free trial before committing to a paid plan.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>Can I upgrade or downgrade my plan?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, you can upgrade or downgrade your plan at any time. When upgrading, you'll be charged a prorated amount. When downgrading, the change takes effect at your next billing cycle.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <h3>What happens after my free trial ends?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>After your free trial ends, you'll need to choose a paid plan to continue using the service. Your account will be temporarily suspended until you upgrade.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Support -->
+                <div class="support-section">
+                    <div class="support-content">
+                        <i class="fas fa-headset"></i>
+                        <div>
+                            <h3>Need help with your subscription?</h3>
+                            <p>Our support team is here to help you choose the right plan</p>
+                        </div>
+                        <a href="contact.html" class="btn-secondary">
+                            <i class="fas fa-envelope"></i> Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Payment Processing Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-spinner fa-spin"></i> Processing Payment</h3>
+            </div>
+            <div class="modal-body">
+                <div class="payment-loader">
+                    <div class="loader-spinner"></div>
+                    <p>Please wait while we process your payment...</p>
+                    <p class="processing-note">Do not refresh or close this window</p>
+                </div>
+                
+                <div class="payment-details">
+                    <div class="detail-item">
+                        <span>Amount:</span>
+                        <span id="processingAmount">₹999</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Order ID:</span>
+                        <span id="processingOrderId">ORD123456</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-check-circle"></i> Payment Successful!</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Welcome to Volume Pattern Scanner Pro!</h3>
+                <p>Your subscription has been activated successfully.</p>
+                
+                <div class="success-details">
+                    <div class="detail-item">
+                        <span>Plan:</span>
+                        <span id="successPlanName">Monthly Plan</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Amount Paid:</span>
+                        <span id="successAmount">₹999</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Order ID:</span>
+                        <span id="successOrderId">ORD123456</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Next Billing:</span>
+                        <span id="nextBillingDate">Feb 15, 2024</span>
+                    </div>
+                </div>
+                
+                <div class="success-features">
+                    <h4>You now have access to:</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 1000 daily scans</li>
+                        <li><i class="fas fa-check"></i> Advanced filters</li>
+                        <li><i class="fas fa-check"></i> Excel exports</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="goToDashboard">
+                    <i class="fas fa-rocket"></i> Start Scanning Now
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Failed Modal -->
+    <div class="modal" id="failedModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i> Payment Failed</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="failed-icon">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <h3>We couldn't process your payment</h3>
+                <p id="errorMessage">Your payment was declined by the bank. Please try again with a different payment method.</p>
+                
+                <div class="failed-suggestions">
+                    <h4>Suggestions:</h4>
+                    <ul>
+                        <li>Check your card details</li>
+                        <li>Ensure sufficient balance</li>
+                        <li>Try a different payment method</li>
+                        <li>Contact your bank</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="tryAgain">
+                    <i class="fas fa-redo"></i> Try Again
+                </button>
+                <button class="btn-primary" id="contactSupport">
+                    <i class="fas fa-headset"></i> Contact Support
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/dashboard.js"></script>
+    <script src="js/subscription.js"></script>
+    
+    <style>
+        /* Subscription Page Specific Styles */
+        .subscription-header {
+            margin-bottom: 30px;
+        }
+        
+        .subscription-header h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .subscription-header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        /* Current Plan Status */
+        .current-plan-status {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .status-content {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .status-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .status-details {
+            flex: 1;
+        }
+        
+        .status-details h3 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .plan-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .plan-expiry {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .plan-features {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        .feature i {
+            color: #10b981;
+        }
+        
+        .status-actions .btn-primary {
+            padding: 12px 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Usage Stats */
+        .usage-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding-top: 25px;
+            border-top: 2px solid #e2e8f0;
+        }
+        
+        .usage-item {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .usage-label {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .usage-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .usage-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border-radius: 4px;
+        }
+        
+        .usage-value {
+            color: #2d3748;
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        /* Plans Comparison */
+        .plans-comparison {
+            margin-bottom: 50px;
+        }
+        
+        .plans-comparison h2 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+        }
+        
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 2fr repeat(4, 1fr);
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+        }
+        
+        .feature-column {
+            padding: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .plan-column {
+            padding: 25px;
+            text-align: center;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        
+        .plan-column.popular {
+            background: rgba(79, 70, 229, 0.2);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4f46e5;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .plan-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .plan-period {
+            color: #cbd5e0;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .plan-savings {
+            color: #10b981;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .comparison-body {
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .feature-group {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .feature-group:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-category {
+            padding: 20px 30px;
+            background: #f8fafc;
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .feature-row {
+            display: grid;
+            grid-template-columns: 2fr repeat(4, 1fr);
+            padding: 15px 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .feature-row:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-name {
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-value {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        
+        .feature-value i {
+            color: #10b981;
+            font-size: 1.2rem;
+        }
+        
+        .feature-value i.fa-times {
+            color: #e53e3e;
+        }
+        
+        .comparison-footer {
+            display: grid;
+            grid-template-columns: 2fr repeat(4, 1fr);
+            padding: 30px;
+        }
+        
+        .btn-plan {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #4f46e5;
+            background: white;
+            color: #4f46e5;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-plan:hover {
+            background: #4f46e5;
+            color: white;
+        }
+        
+        .btn-plan:disabled {
+            background: #e2e8f0;
+            border-color: #e2e8f0;
+            color: #a0aec0;
+            cursor: not-allowed;
+        }
+        
+        .btn-plan.btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+        
+        .btn-plan.btn-primary:hover {
+            background: #4338ca;
+        }
+        
+        /* Payment Section */
+        .payment-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+        
+        .payment-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .payment-header h2 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .payment-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+        }
+        
+        .selected-plan-summary {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 10px;
+            height: fit-content;
+        }
+        
+        .selected-plan-summary h3 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .summary-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            color: #4a5568;
+        }
+        
+        .summary-item.total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e2e8f0;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .summary-item .price {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .summary-item .total-price {
+            font-size: 1.2rem;
+            color: #4f46e5;
+        }
+        
+        .payment-form h3 {
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        .payment-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .payment-tab {
+            padding: 12px 20px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            color: #4a5568;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-tab:hover {
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+        
+        .payment-tab.active {
+            background: #4f46e5;
+            border-color: #4f46e5;
+            color: white;
+        }
+        
+        .payment-method-form {
+            display: none;
+            margin-bottom: 30px;
+        }
+        
+        .payment-method-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .upi-apps,
+        .wallet-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .upi-app input,
+        .wallet-option input {
+            display: none;
+        }
+        
+        .upi-app label,
+        .wallet-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upi-app input:checked + label,
+        .wallet-option input:checked + label {
+            border-color: #4f46e5;
+            background: rgba(79, 70, 229, 0.05);
+        }
+        
+        .upi-app i,
+        .wallet-option i {
+            font-size: 1.5rem;
+            color: #4f46e5;
+        }
+        
+        .upi-app span,
+        .wallet-option span {
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .coupon-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+        
+        .coupon-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .coupon-header h4 {
+            color: #2d3748;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #applyCouponBtn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        #couponCode {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        #couponMessage {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .terms-section {
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .terms-section label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: #4a5568;
+            cursor: pointer;
+        }
+        
+        .terms-section a {
+            color: #4f46e5;
+            text-decoration: none;
+        }
+        
+        .terms-section a:hover {
+            text-decoration: underline;
+        }
+        
+        .payment-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 8px;
+            border: 2px solid #bae6fd;
+        }
+        
+        .security-badge i {
+            font-size: 1.5rem;
+            color: #0369a1;
+        }
+        
+        /* FAQ Section */
+        .subscription-faq {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .subscription-faq h2 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+        }
+        
+        .faq-items {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .faq-question {
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .faq-question h3 {
+            color: #2d3748;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .faq-question i {
+            color: #4f46e5;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-answer {
+            padding: 0 0 20px 0;
+            display: none;
+        }
+        
+        .faq-answer p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* Support Section */
+        .support-section {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .support-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+        
+        .support-content i {
+            font-size: 3rem;
+        }
+        
+        .support-content h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+        
+        .support-content p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .support-content .btn-secondary {
+            background: white;
+            color: #4f46e5;
+            padding: 12px 25px;
+            font-weight: 600;
+        }
+        
+        /* Payment Processing Modal */
+        .payment-loader {
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #4f46e5;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        .processing-note {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .payment-details {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+        
+        /* Success Modal */
+        .success-icon {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .success-icon i {
+            font-size: 4rem;
+            color: #10b981;
+        }
+        
+        .success-details {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .success-features ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .success-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+        
+        .success-features i {
+            color: #10b981;
+        }
+        
+        /* Failed Modal */
+        .failed-icon {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .failed-icon i {
+            font-size: 4rem;
+            color: #dc2626;
+        }
+        
+        .failed-suggestions ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .failed-suggestions li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #4a5568;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .failed-suggestions li::before {
+            content: '•';
+            color: #dc2626;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-header,
+            .feature-row,
+            .comparison-footer {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-column {
+                display: none;
+            }
+            
+            .plan-column {
+                border-left: none;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .status-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .plan-features {
+                justify-content: center;
+            }
+            
+            .support-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-tabs {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .current-plan-status,
+            .payment-section,
+            .subscription-faq {
+                padding: 25px;
+            }
+            
+            .usage-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+    
+    <script>
+        // FAQ functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ accordion
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const icon = question.querySelector('i');
+                    
+                    // Toggle current answer
+                    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                    
+                    // Close other answers
+                    faqQuestions.forEach(otherQuestion => {
+                        if (otherQuestion !== question) {
+                            const otherAnswer = otherQuestion.nextElementSibling;
+                            const otherIcon = otherQuestion.querySelector('i');
+                            otherAnswer.style.display = 'none';
+                            otherIcon.classList.remove('fa-chevron-up');
+                            otherIcon.classList.add('fa-chevron-down');
+                        }
+                    });
+                });
+            });
+            
+            // Open first FAQ
+            if (faqQuestions.length > 0) {
+                faqQuestions[0].click();
+            }
+            
+            // Plan selection
+            const planButtons = document.querySelectorAll('.btn-plan:not(:disabled)');
+            planButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const plan = this.dataset.plan;
+                    selectPlan(plan);
+                });
+            });
+            
+            // Upgrade button
+            document.getElementById('upgradePlan')?.addEventListener('click', function() {
+                document.getElementById('paymentSection').style.display = 'block';
+                document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Payment tabs
+            const paymentTabs = document.querySelectorAll('.payment-tab');
+            const paymentForms = document.querySelectorAll('.payment-method-form');
+            
+            paymentTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const method = this.dataset.method;
+                    
+                    // Update active tab
+                    paymentTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding form
+                    paymentForms.forEach(form => {
+                        form.classList.remove('active');
+                        if (form.id === `${method}PaymentForm` || form.id === `${method}Form`) {
+                            form.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Card number formatting
+            const cardNumberInput = document.getElementById('cardNumber');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.replace(/(.{4})/g, '$1 ').trim();
+                    e.target.value = value.substring(0, 19);
+                });
+            }
+            
+            // Expiry date formatting
+            const expiryInput = document.getElementById('cardExpiry');
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    e.target.value = value.substring(0, 5);
+                });
+            }
+            
+            // Cancel payment
+            document.getElementById('cancelPayment')?.addEventListener('click', function() {
+                document.getElementById('paymentSection').style.display = 'none';
+            });
+            
+            // Apply coupon
+            document.getElementById('applyCouponBtn')?.addEventListener('click', function() {
+                const couponCode = document.getElementById('couponCode').value;
+                const messageElement = document.getElementById('couponMessage');
+                
+                if (!couponCode) {
+                    messageElement.textContent = 'Please enter a coupon code';
+                    messageElement.style.color = '#dc2626';
+                    return;
+                }
+                
+                // Mock coupon validation
+                const validCoupons = {
+                    'WELCOME10': 10,
+                    'SCANNER20': 20,
+                    'TRADER25': 25
+                };
+                
+                if (validCoupons[couponCode]) {
+                    const discount = validCoupons[couponCode];
+                    messageElement.textContent = `✓ Coupon applied! ${discount}% discount`;
+                    messageElement.style.color = '#10b981';
+                } else {
+                    messageElement.textContent = 'Invalid coupon code';
+                    messageElement.style.color = '#dc2626';
+                }
+            });
+        });
+        
+        function selectPlan(plan) {
+            // Update payment section with selected plan details
+            const planDetails = {
+                'monthly': {
+                    name: 'Monthly Plan',
+                    price: 999,
+                    period: 'Monthly'
+                },
+                'quarterly': {
+                    name: 'Quarterly Plan',
+                    price: 2699,
+                    period: '3 Months'
+                },
+                'annual': {
+                    name: 'Annual Plan',
+                    price: 9999,
+                    period: 'Annual'
+                }
+            };
+            
+            const details = planDetails[plan];
+            if (!details) return;
+            
+            // Update summary
+            document.getElementById('selectedPlanName').textContent = details.name;
+            document.getElementById('selectedPlanPeriod').textContent = details.period;
+            document.getElementById('selectedPlanPrice').textContent = `₹${details.price}`;
+            
+            // Calculate tax and total
+            const tax = Math.round(details.price * 0.18);
+            const total = details.price + tax;
+            
+            document.getElementById('selectedPlanTax').textContent = `₹${tax}`;
+            document.getElementById('selectedPlanTotal').textContent = `₹${total}`;
+            
+            // Show payment section
+            document.getElementById('paymentSection').style.display = 'block';
+            document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
