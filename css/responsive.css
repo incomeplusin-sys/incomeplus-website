@@ -1,0 +1,274 @@
+/* ===== RESPONSIVE UTILITIES ===== */
+:root {
+    --mobile-breakpoint: 768px;
+    --tablet-breakpoint: 1024px;
+    --desktop-breakpoint: 1200px;
+}
+
+/* Mobile-First Container */
+.container {
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+@media (min-width: 576px) {
+    .container { max-width: 540px; }
+}
+
+@media (min-width: 768px) {
+    .container { max-width: 720px; }
+}
+
+@media (min-width: 992px) {
+    .container { max-width: 960px; }
+}
+
+@media (min-width: 1200px) {
+    .container { max-width: 1140px; }
+}
+
+/* ===== RESPONSIVE GRID SYSTEM ===== */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+
+.col {
+    flex: 1;
+    padding: 10px;
+    min-width: 250px;
+}
+
+/* Grid columns for mobile */
+.col-xs-1 { width: 8.33%; }
+.col-xs-2 { width: 16.66%; }
+.col-xs-3 { width: 25%; }
+.col-xs-4 { width: 33.33%; }
+.col-xs-6 { width: 50%; }
+.col-xs-12 { width: 100%; }
+
+/* Tablet */
+@media (min-width: 768px) {
+    .col-md-1 { width: 8.33%; }
+    .col-md-2 { width: 16.66%; }
+    .col-md-3 { width: 25%; }
+    .col-md-4 { width: 33.33%; }
+    .col-md-6 { width: 50%; }
+    .col-md-12 { width: 100%; }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+    .col-lg-1 { width: 8.33%; }
+    .col-lg-2 { width: 16.66%; }
+    .col-lg-3 { width: 25%; }
+    .col-lg-4 { width: 33.33%; }
+    .col-lg-6 { width: 50%; }
+    .col-lg-12 { width: 100%; }
+}
+
+/* ===== RESPONSIVE TYPOGRAPHY ===== */
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
+}
+
+@media (max-width: 768px) {
+    html { font-size: 14px; }
+    
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.3rem; }
+    
+    .scanner-title h1 { font-size: 1.5rem; }
+    .scanner-title p { font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+    html { font-size: 13px; }
+    
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.3rem; }
+    h3 { font-size: 1.1rem; }
+}
+
+/* ===== RESPONSIVE TABLES ===== */
+@media (max-width: 768px) {
+    .results-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .results-table thead {
+        display: none; /* Hide headers on mobile */
+    }
+    
+    .results-table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 10px;
+    }
+    
+    .results-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    
+    .results-table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #64748b;
+        min-width: 120px;
+    }
+    
+    /* Add data-labels via JavaScript or server-side */
+}
+
+/* ===== RESPONSIVE FORMS & INPUTS ===== */
+@media (max-width: 768px) {
+    input, select, textarea, button {
+        font-size: 16px !important; /* Prevents iOS zoom on focus */
+    }
+    
+    .parameter-group, .filter-group {
+        margin-bottom: 15px;
+    }
+    
+    .param-select, .range-inputs input {
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+    
+    .range-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* ===== RESPONSIVE NAVIGATION ===== */
+@media (max-width: 768px) {
+    .scanner-nav .container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 15px;
+    }
+    
+    .scanner-title {
+        margin-top: 10px;
+    }
+    
+    .back-link {
+        margin-bottom: 5px;
+    }
+}
+
+/* ===== MOBILE-SPECIFIC ENHANCEMENTS ===== */
+
+/* Touch-friendly buttons */
+.btn-scan, .btn-secondary, .btn-export, .btn-action {
+    min-height: 44px; /* Minimum touch target size */
+    min-width: 44px;
+    padding: 10px 20px;
+    touch-action: manipulation; /* Remove 300ms delay on iOS */
+}
+
+/* Hide scrollbars but keep functionality */
+.scroll-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.scroll-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* Prevent text overflow */
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Responsive images */
+img, svg, canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===== ORIENTATION SPECIFIC ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+    .scanner-controls {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    
+    .results-table-container {
+        max-height: 250px;
+    }
+}
+
+/* ===== DARK MODE SUPPORT ===== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a202c;
+        --text-color: #e2e8f0;
+        --card-bg: #2d3748;
+    }
+}
+
+/* ===== DEVICE SPECIFIC FIXES ===== */
+
+/* iPhone notch safe areas */
+@supports (padding: max(0px)) {
+    .container {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+    }
+    
+    .scanner-nav {
+        padding-top: env(safe-area-inset-top);
+    }
+}
+
+/* Samsung fold devices */
+@media (max-width: 280px) {
+    .container { padding: 0 8px; }
+    .btn-scan, .btn-secondary { padding: 8px 12px; }
+}
+
+/* iPad Pro */
+@media (min-width: 1024px) and (max-height: 1366px) and (orientation: portrait) {
+    .scanner-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .btn-scan, .btn-secondary {
+        border-width: 0.5px;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .scanner-nav, .scanner-controls, .btn-action, .btn-alert {
+        display: none !important;
+    }
+    
+    .results-table {
+        border: 1px solid #000;
+    }
+}
