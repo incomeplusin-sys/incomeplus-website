@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume Pattern Scanner - Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/scanner.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-network"></i>
+                    <span>Volume<span class="highlight">Scanner</span></span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="scanner.html" class="nav-item active">
+                    <i class="fas fa-search"></i> Volume Scanner
+                </a>
+                <a href="results.html" class="nav-item">
+                    <i class="fas fa-history"></i> Results
+                </a>
+                <a href="subscription.html" class="nav-item">
+                    <i class="fas fa-credit-card"></i> Subscription
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i class="fas fa-user-cog"></i> Profile
+                </a>
+                <a href="#" id="logout" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Trader</div>
+                        <div class="user-plan">
+                            <span class="plan-badge" id="currentPlan">Pro</span>
+                            <span class="plan-expiry" id="planExpiry">Scans: ∞</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <!-- Scanner Header -->
+                <div class="scanner-header">
+                    <h1><i class="fas fa-search-chart"></i> Volume Pattern Scanner</h1>
+                    <p class="scanner-description">
+                        Detect V & U volume patterns in 200+ Indian stocks using real-time Yahoo Finance data
+                    </p>
+                </div>
+                
+                <!-- Scanner Controls -->
+                <div class="scanner-controls-panel">
+                    <div class="control-section">
+                        <h3><i class="fas fa-sliders-h"></i> Scanner Settings</h3>
+                        
+                        <div class="control-grid">
+                            <div class="control-group">
+                                <label for="patternType">
+                                    <i class="fas fa-wave-square"></i> Pattern Type
+                                </label>
+                                <select id="patternType">
+                                    <option value="both">Both V & U Patterns</option>
+                                    <option value="v">V Pattern (5-candle)</option>
+                                    <option value="u">U Pattern (6-candle)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label for="timeFrame">
+                                    <i class="fas fa-clock"></i> Time Frame
+                                </label>
+                                <select id="timeFrame">
+                                    <option value="1d">Daily</option>
+                                    <option value="5m" selected>5 Minute</option>
+                                    <option value="15m">15 Minute</option>
+                                    <option value="1h">1 Hour</option>
+                                </select>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label for="minConfidence">
+                                    <i class="fas fa-percentage"></i> Min Confidence
+                                </label>
+                                <input type="range" id="minConfidence" min="50" max="100" value="75">
+                                <span class="confidence-value">75%</span>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label for="maxStocks">
+                                    <i class="fas fa-filter"></i> Max Stocks
+                                </label>
+                                <select id="maxStocks">
+                                    <option value="10">10 stocks</option>
+                                    <option value="25">25 stocks</option>
+                                    <option value="50" selected>50 stocks</option>
+                                    <option value="100">100 stocks</option>
+                                    <option value="200">All (200+)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="advanced-controls">
+                            <h4>Advanced Filters</h4>
+                            <div class="filter-grid">
+                                <div class="filter-group">
+                                    <label for="minVolume">
+                                        <i class="fas fa-chart-bar"></i> Min Volume
+                                    </label>
+                                    <input type="number" id="minVolume" placeholder="e.g., 100000" min="0">
+                                </div>
+                                
+                                <div class="filter-group">
+                                    <label for="priceRange">
+                                        <i class="fas fa-rupee-sign"></i> Price Range
+                                    </label>
+                                    <div class="range-inputs">
+                                        <input type="number" id="minPrice" placeholder="Min" min="0">
+                                        <span>to</span>
+                                        <input type="number" id="maxPrice" placeholder="Max" min="0">
+                                    </div>
+                                </div>
+                                
+                                <div class="filter-group">
+                                    <label>
+                                        <i class="fas fa-exchange-alt"></i> Price Change
+                                    </label>
+                                    <select id="priceChange">
+                                        <option value="any">Any</option>
+                                        <option value="positive">Positive only</option>
+                                        <option value="negative">Negative only</option>
+                                        <option value="strong">> ±5%</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-section">
+                        <div class="scan-actions">
+                            <button id="runScan" class="btn-scan btn-primary">
+                                <i class="fas fa-bolt"></i> Run Volume Scan
+                            </button>
+                            
+                            <button id="stopScan" class="btn-scan btn-secondary" disabled>
+                                <i class="fas fa-stop"></i> Stop Scan
+                            </button>
+                            
+                            <button id="savePreset" class="btn-scan btn-outline">
+                                <i class="fas fa-save"></i> Save Preset
+                            </button>
+                        </div>
+                        
+                        <div class="scan-status">
+                            <div class="status-indicator">
+                                <div class="status-dot ready"></div>
+                                <span>Ready to scan</span>
+                            </div>
+                            <div class="scan-timer" id="scanTimer">--:--</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Live Results -->
+                <div class="scanner-results-section">
+                    <div class="results-header">
+                        <h3><i class="fas fa-list-alt"></i> Live Scan Results</h3>
+                        <div class="results-actions">
+                            <button id="exportExcel" class="btn-export">
+                                <i class="fas fa-file-excel"></i> Export to Excel
+                            </button>
+                            <button id="clearResults" class="btn-clear">
+                                <i class="fas fa-trash"></i> Clear Results
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="results-stats">
+                        <div class="stat-badge">
+                            <span class="stat-label">Patterns Found</span>
+                            <span class="stat-value" id="patternsFound">0</span>
+                        </div>
+                        <div class="stat-badge">
+                            <span class="stat-label">V Patterns</span>
+                            <span class="stat-value" id="vPatterns">0</span>
+                        </div>
+                        <div class="stat-badge">
+                            <span class="stat-label">U Patterns</span>
+                            <span class="stat-value" id="uPatterns">0</span>
+                        </div>
+                        <div class="stat-badge">
+                            <span class="stat-label">Avg Confidence</span>
+                            <span class="stat-value" id="avgConfidence">0%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Results Table -->
+                    <div class="results-table-container">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Stock</th>
+                                    <th>Pattern</th>
+                                    <th>Confidence</th>
+                                    <th>Price</th>
+                                    <th>Change</th>
+                                    <th>Volume</th>
+                                    <th>Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsBody">
+                                <tr class="empty-row">
+                                    <td colspan="9" class="empty-state">
+                                        <i class="fas fa-search"></i>
+                                        <p>Run a scan to see volume patterns</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pattern Visualization -->
+                    <div class="pattern-visualization">
+                        <h3><i class="fas fa-chart-bar"></i> Pattern Examples</h3>
+                        <div class="pattern-cards">
+                            <div class="pattern-card">
+                                <div class="pattern-header">
+                                    <h4>V Pattern (5-Candle)</h4>
+                                    <span class="pattern-indicator v-pattern">V</span>
+                                </div>
+                                <div class="pattern-diagram">
+                                    <div class="candles">
+                                        <div class="candle high">High</div>
+                                        <div class="candle high">High</div>
+                                        <div class="candle low">Low</div>
+                                        <div class="candle medium">Medium</div>
+                                        <div class="candle high">High</div>
+                                    </div>
+                                </div>
+                                <p class="pattern-desc">
+                                    Volume decreases then increases sharply - potential reversal signal
+                                </p>
+                            </div>
+                            
+                            <div class="pattern-card">
+                                <div class="pattern-header">
+                                    <h4>U Pattern (6-Candle)</h4>
+                                    <span class="pattern-indicator u-pattern">U</span>
+                                </div>
+                                <div class="pattern-diagram">
+                                    <div class="candles">
+                                        <div class="candle high">High</div>
+                                        <div class="candle medium">Medium</div>
+                                        <div class="candle low">Low</div>
+                                        <div class="candle low">Low</div>
+                                        <div class="candle medium">Medium</div>
+                                        <div class="candle high">High</div>
+                                    </div>
+                                </div>
+                                <p class="pattern-desc">
+                                    Gradual volume accumulation - indicates steady buying pressure
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="js/dashboard.js"></script>
+    <script src="js/scanner.js"></script>
+</body>
+</html>
