@@ -1427,5 +1427,55 @@
     <!-- Scripts -->
     <script src="js/app.js"></script>
     <script src="js/dashboard.js"></script>
+<script>
+    // Mobile menu functionality
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+    const mobileOverlay = document.createElement('div');
+    
+    mobileOverlay.className = 'mobile-menu-overlay';
+    document.body.appendChild(mobileOverlay);
+    
+    mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.add('active');
+        mobileOverlay.classList.add('active');
+    });
+    
+    mobileOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        mobileOverlay.classList.remove('active');
+    });
+    
+    // Close sidebar when clicking on nav items on mobile
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+            }
+        });
+    });
+    
+    // Viewport meta tag enhancement
+    const metaViewport = document.querySelector('meta[name="viewport"]');
+    metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+    
+    // Prevent zoom on double tap (iOS)
+    document.addEventListener('touchstart', function(event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+    
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+        </script>
 </body>
 </html>
