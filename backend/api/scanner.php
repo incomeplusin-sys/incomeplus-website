@@ -221,8 +221,10 @@ $conn->close();
 
 function runPythonScanner($type, $parameters) {
     // Map scanner types to Python scripts
-    $scannerMap = [
-        'breakout' => 'breakout_scanner.py',
+   $scannerMap = [
+    'breakout' => 'breakout_scanner.py',
+    'volume' => 'volume_scanner.py',  // Add this line
+    // ... other scanners
         'momentum' => 'momentum_scanner.py',
         'volume' => 'volume_scanner.py',
         'ma_crossover' => 'ma_crossover_scanner.py',
