@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Volume Pattern Scanner</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo-area">
+                <div class="logo">
+                    <i class="fas fa-chart-network"></i>
+                    <span>Volume<span class="highlight">Pattern</span>Scanner</span>
+                </div>
+                <div class="tagline">Frequently Asked Questions</div>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html">Home</a>
+                <a href="login.html">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="faq-container">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <p class="faq-subtitle">Find answers to common questions about Volume Pattern Scanner</p>
+            
+            <div class="faq-categories">
+                <button class="category-btn active" data-category="general">General</button>
+                <button class="category-btn" data-category="technical">Technical</button>
+                <button class="category-btn" data-category="subscription">Subscription</button>
+                <button class="category-btn" data-category="legal">Legal</button>
+            </div>
+            
+            <div class="faq-content">
+                <!-- General Questions -->
+                <div class="faq-category active" id="general">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What is Volume Pattern Scanner?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Volume Pattern Scanner is a technical analysis tools platform that detects V and U volume patterns in Indian stocks. It helps traders and analysts identify potential market movements based on volume analysis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How does the scanner work?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>The scanner analyzes volume data from Yahoo Finance API using proprietary algorithms to detect specific patterns:</p>
+                            <ul>
+                                <li><strong>V Pattern:</strong> 5-candle pattern showing volume decrease then sharp increase</li>
+                                <li><strong>U Pattern:</strong> 6-candle pattern showing gradual volume accumulation</li>
+                            </ul>
+                            <p>Each pattern receives a confidence score based on pattern strength and volume characteristics.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Is this platform free to use?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We offer a 7-day free trial with full access to all features. After the trial, you can choose from our subscription plans:</p>
+                            <ul>
+                                <li><strong>Monthly:</strong> ₹999/month</li>
+                                <li><strong>Quarterly:</strong> ₹2,699/3 months (save 10%)</li>
+                                <li><strong>Annual:</strong> ₹9,999/year (save 17%)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Do I need any special software to use this?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No special software is required. Volume Pattern Scanner is a web-based platform that works on:</p>
+                            <ul>
+                                <li>Modern web browsers (Chrome, Firefox, Safari, Edge)</li>
+                                <li>Desktop and laptop computers</li>
+                                <li>Tablets and mobile devices</li>
+                                <li>No downloads or installations needed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Technical Questions -->
+                <div class="faq-category" id="technical">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What data sources do you use?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We use Yahoo Finance API for market data because:</p>
+                            <ul>
+                                <li>Free access with reasonable limits</li>
+                                <li>Covers Indian stocks (.NS suffix)</li>
+                                <li>Provides real-time and historical data</li>
+                                <li>Reliable and widely used</li>
+                            </ul>
+                            <p>Data delays: Up to 15 minutes for Indian stocks on the free tier.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How accurate are the pattern detections?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Pattern accuracy depends on several factors:</p>
+                            <ul>
+                                <li><strong>Market conditions:</strong> More accurate in trending markets</li>
+                                <li><strong>Volume characteristics:</strong> Higher volume stocks show clearer patterns</li>
+                                <li><strong>Timeframe:</strong> Different timeframes may show different patterns</li>
+                                <li><strong>Pattern strength:</strong> Measured by confidence scores (60-95%)</li>
+                            </ul>
+                            <p><strong>Important:</strong> No technical analysis tool is 100% accurate. Use patterns as one of many analysis tools.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Can I export scan results?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes! You can export scan results in multiple formats:</p>
+                            <ul>
+                                <li><strong>Excel (.xlsx):</strong> Full report with all scan details</li>
+                                <li><strong>CSV:</strong> Simple data export for analysis</li>
+                                <li><strong>PDF:</strong> Formatted reports (coming soon)</li>
+                                <li><strong>Chart Images:</strong> Pattern visualizations</li>
+                            </ul>
+                            <p>Exports include timestamps, confidence scores, and pattern details.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What timeframes are available?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We support multiple timeframes for different trading styles:</p>
+                            <ul>
+                                <li><strong>Intraday:</strong> 5-minute, 15-minute, 1-hour</li>
+                                <li><strong>Daily:</strong> End-of-day analysis</li>
+                                <li><strong>Custom:</strong> Set your own parameters</li>
+                            </ul>
+                            <p>Different timeframes can reveal different patterns. We recommend experimenting to find what works best for your strategy.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Subscription Questions -->
+                <div class="faq-category" id="subscription">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What's included in the free trial?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>The 7-day free trial includes:</p>
+                            <ul>
+                                <li>Full access to all 10 scanners</li>
+                                <li>50 scans per day limit</li>
+                                <li>Real-time market data</li>
+                                <li>Basic Excel exports</li>
+                                <li>Email support</li>
+                                <li>Pattern visualization tools</li>
+                            </ul>
+                            <p>No credit card required to start the trial.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How do I cancel my subscription?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>You can cancel anytime:</p>
+                            <ol>
+                                <li>Log in to your account</li>
+                                <li>Go to Subscription page</li>
+                                <li>Click "Cancel Subscription"</li>
+                                <li>Confirm cancellation</li>
+                            </ol>
+                            <p><strong>Note:</strong> Cancellation stops auto-renewal. You retain access until the end of your paid period. No refunds for unused time.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What payment methods do you accept?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We accept all major payment methods:</p>
+                            <ul>
+                                <li>Credit/Debit Cards (Visa, MasterCard, RuPay)</li>
+                                <li>Net Banking (All major Indian banks)</li>
+                                <li>UPI (Google Pay, PhonePe, Paytm, etc.)</li>
+                                <li>Digital Wallets</li>
+                                <li>Bank Transfers</li>
+                            </ul>
+                            <p>All payments are processed through secure payment gateways with SSL encryption.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Do you offer refunds?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We have a no-refund policy for subscription fees because:</p>
+                            <ul>
+                                <li>You can try before you buy with our 7-day free trial</li>
+                                <li>Digital services are consumed immediately</li>
+                                <li>We provide clear pricing information upfront</li>
+                            </ul>
+                            <p>Exceptions may be made for technical issues that prevent platform usage. Contact support for assistance.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Legal Questions -->
+                <div class="faq-category" id="legal">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Is this platform SEBI registered?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p><strong>NO.</strong> Volume Pattern Scanner is <strong>NOT SEBI REGISTERED</strong>.</p>
+                            <p>We are a <strong>technical analysis tools platform</strong>, not an investment advisory service. We provide:</p>
+                            <ul>
+                                <li>Software tools for market analysis</li>
+                                <li>Pattern recognition algorithms</li>
+                                <li>Data processing and visualization</li>
+                                <li>Educational resources</li>
+                            </ul>
+                            <p><strong>We do NOT provide:</strong> Investment advice, trading recommendations, or portfolio management services.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Can I use this for investment decisions?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p><strong>We strongly advise against using our platform for investment decisions.</strong></p>
+                            <p>Our tools are for:</p>
+                            <ul>
+                                <li>Educational purposes</li>
+                                <li>Technical analysis practice</li>
+                                <li>Market research and study</li>
+                                <li>Pattern recognition learning</li>
+                            </ul>
+                            <p>For investment decisions, consult with:</p>
+                            <ul>
+                                <li>SEBI registered investment advisors</li>
+                                <li>Certified financial planners</li>
+                                <li>Your personal financial advisor</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What's your data privacy policy?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We take data privacy seriously. Our policy includes:</p>
+                            <ul>
+                                <li>We don't sell your personal data</li>
+                                <li>We use SSL encryption for all data</li>
+                                <li>We store passwords using secure hashing</li>
+                                <li>We comply with applicable data protection laws</li>
+                                <li>You can delete your account and data anytime</li>
+                            </ul>
+                            <p>Read our full <a href="privacy.html">Privacy Policy</a> for complete details.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Are you liable for trading losses?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p><strong>NO.</strong> We are not liable for any trading losses.</p>
+                            <p>By using our platform, you agree that:</p>
+                            <ul>
+                                <li>You understand the risks of trading</li>
+                                <li>You won't make decisions based solely on our tools</li>
+                                <li>You are solely responsible for your trades</li>
+                                <li>Past performance doesn't guarantee future results</li>
+                                <li>Markets can be volatile and unpredictable</li>
+                            </ul>
+                            <p>Read our full <a href="disclaimer.html">Legal Disclaimer</a> for complete details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-contact">
+                <h2>Still have questions?</h2>
+                <p>Contact our support team for assistance:</p>
+                <div class="contact-options">
+                    <div class="contact-option">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Email Support</h3>
+                        <p>support@volumescanner.in</p>
+                        <p>Response within 24 hours</p>
+                    </div>
+                    
+                    <div class="contact-option">
+                        <i class="fas fa-comments"></i>
+                        <h3>Live Chat</h3>
+                        <p>Available during business hours</p>
+                        <p>Click the chat icon in the bottom right</p>
+                    </div>
+                    
+                    <div class="contact-option">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Documentation</h3>
+                        <p>User guides and tutorials</p>
+                        <a href="#" class="btn-secondary">View Docs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-chart-network"></i>
+                        <span>Volume<span class="highlight">Pattern</span>Scanner</span>
+                    </div>
+                    <p>Professional Volume Analysis Platform</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <a href="index.html">Home</a>
+                    <a href="login.html">Login</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="terms.html">Terms</a>
+                    <a href="privacy.html">Privacy</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="refund.html">Refund Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">&copy; 2024 Volume Pattern Scanner. All rights reserved.</div>
+                <div class="company-info">A product of TRFSK Omkar Services Pvt Ltd</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ accordion
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const icon = question.querySelector('i');
+                    
+                    // Toggle current answer
+                    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                    
+                    // Close other answers
+                    faqQuestions.forEach(otherQuestion => {
+                        if (otherQuestion !== question) {
+                            const otherAnswer = otherQuestion.nextElementSibling;
+                            const otherIcon = otherQuestion.querySelector('i');
+                            otherAnswer.style.display = 'none';
+                            otherIcon.classList.remove('fa-chevron-up');
+                            otherIcon.classList.add('fa-chevron-down');
+                        }
+                    });
+                });
+            });
+            
+            // Category switching
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const categories = document.querySelectorAll('.faq-category');
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const category = btn.dataset.category;
+                    
+                    // Update active button
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Show selected category
+                    categories.forEach(cat => {
+                        cat.classList.remove('active');
+                        if (cat.id === category) {
+                            cat.classList.add('active');
+                        }
+                    });
+                    
+                    // Close all answers when switching categories
+                    faqQuestions.forEach(question => {
+                        const answer = question.nextElementSibling;
+                        const icon = question.querySelector('i');
+                        answer.style.display = 'none';
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    });
+                });
+            });
+            
+            // Open first question in each category
+            document.querySelectorAll('.faq-category.active .faq-item:first-child .faq-question').forEach(question => {
+                question.click();
+            });
+        });
+    </script>
+    
+    <style>
+        .faq-container {
+            padding: 60px 0;
+            background: #f8fafc;
+        }
+        
+        .faq-subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .faq-categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover {
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+        
+        .category-btn.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        
+        .faq-category {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-category.active {
+            display: block;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+        }
+        
+        .faq-question h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #2d3748;
+        }
+        
+        .faq-question i {
+            color: #4f46e5;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-answer {
+            padding: 0 25px;
+            display: none;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .faq-answer p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        
+        .faq-answer ul {
+            margin: 15px 0;
+            padding-left: 20px;
+            color: #4a5568;
+        }
+        
+        .faq-answer li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .faq-contact {
+            margin-top: 60px;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .faq-contact h2 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .faq-contact > p {
+            color: #718096;
+            margin-bottom: 30px;
+        }
+        
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .contact-option {
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-option:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-option i {
+            font-size: 2.5rem;
+            color: #4f46e5;
+            margin-bottom: 15px;
+        }
+        
+        .contact-option h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .contact-option p {
+            color: #718096;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .faq-categories {
+                flex-direction: column;
+            }
+            
+            .category-btn {
+                text-align: center;
+            }
+            
+            .contact-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .faq-question {
+                padding: 15px 20px;
+            }
+            
+            .faq-answer {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</body>
+</html>
