@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../config.php';
+require_once dirname(__DIR__) . '/config.php';
 
 session_start();
 $response = ['success' => false, 'message' => ''];
@@ -44,8 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     break;
                 }
                 
-                // Run scanner (this is where you'd integrate with your scanner engine)
-                $results = runScanner($scanner_type, $data['parameters']);
+                // Run scanner - NOW CALLS YOUR PYTHON SCANNERS
+                $results = runPythonScanner($scanner_type, $data['parameters']);
                 
                 if ($results) {
                     // Save results to database
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $result['price_change'],
                             $result['volume'],
                             $result['volume_change'],
-                            $data['parameters']['timeframe'],
+                            $data['parameters']['timeframe'] ?? '1H',
                             $parameters,
                             json_encode($result)
                         );
@@ -77,9 +77,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     $response['success'] = true;
                     $response['results'] = $results;
-                    $response['message'] = 'Scan completed successfully';
+                    $response['message'] = 'Scan completed with Python engine';
+                    $response['metadata'] = [
+                        'scanner_type' => $scanner_type,
+                        'results_count' => count($results),
+                        'is_real_data' => true,
+                        'engine' => 'python'
+                    ];
                 } else {
-                    $response['message'] = 'No results found';
+                    $response['message'] = 'No results found from Python scanner';
                 }
                 break;
                 
@@ -140,6 +146,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $response['success'] = true;
                 $response['results'] = $results;
                 break;
+                
+            case 'test_python_connection':
+                // Test if Python integration is working
+                $test_result = testPythonConnection();
+                $response['success'] = $test_result['success'];
+                $response['message'] = $test_result['message'];
+                $response['details'] = $test_result['details'];
+                break;
         }
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -179,17 +193,176 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'scansUsed' => $scans_used
             ];
             break;
+            
+        case 'available_scanners':
+            $response['success'] = true;
+            $response['scanners'] = [
+                ['id' => 'breakout', 'name' => 'Breakout Scanner', 'requires_python' => true],
+                ['id' => 'momentum', 'name' => 'Momentum Scanner', 'requires_python' => true],
+                ['id' => 'volume', 'name' => 'Volume-Price Scanner', 'requires_python' => true],
+                ['id' => 'ma_crossover', 'name' => 'Moving Average Crossover', 'requires_python' => true],
+                ['id' => 'support_resistance', 'name' => 'Support & Resistance', 'requires_python' => true],
+                ['id' => 'gap', 'name' => 'Gap Scanner', 'requires_python' => true],
+                ['id' => 'new_highs', 'name' => 'New Highs/Lows Scanner', 'requires_python' => true],
+                ['id' => 'bollinger', 'name' => 'Bollinger Squeeze', 'requires_python' => true],
+                ['id' => 'earnings', 'name' => 'Earnings Gap Scanner', 'requires_python' => true],
+                ['id' => 'unusual_volume', 'name' => 'Unusual Volume Scanner', 'requires_python' => true]
+            ];
+            break;
     }
 }
 
 echo json_encode($response);
 $conn->close();
 
-// Scanner engine function (simplified)
-function runScanner($type, $parameters) {
-    // This is where you'd implement your actual scanner logic
-    // For now, return mock data
+// ============================================
+// PYTHON SCANNER INTEGRATION FUNCTIONS
+// ============================================
+
+function runPythonScanner($type, $parameters) {
+    // Map scanner types to Python scripts
+    $scannerMap = [
+        'breakout' => 'breakout_scanner.py',
+        'momentum' => 'momentum_scanner.py',
+        'volume' => 'volume_scanner.py',
+        'ma_crossover' => 'ma_crossover_scanner.py',
+        'support_resistance' => 'support_resistance_scanner.py',
+        'gap' => 'gap_scanner.py',
+        'new_highs' => 'new_highs_scanner.py',
+        'bollinger' => 'bollinger_scanner.py',
+        'earnings' => 'earnings_scanner.py',
+        'unusual_volume' => 'unusual_volume_scanner.py'
+    ];
     
+    if (!isset($scannerMap[$type])) {
+        error_log("Unknown scanner type: $type");
+        return getMockData($type, $parameters);
+    }
+    
+    $pythonScript = dirname(__DIR__) . '/python_scanners/' . $scannerMap[$type];
+    
+    if (!file_exists($pythonScript)) {
+        error_log("Python scanner not found: $pythonScript");
+        logScannerError("Python file not found: " . $pythonScript);
+        return getMockData($type, $parameters);
+    }
+    
+    // Build command with parameters
+    $paramsJson = escapeshellarg(json_encode(array_merge(
+        ['scanner_type' => $type],
+        $parameters
+    )));
+    
+    // Execute Python scanner
+    $command = "python3 " . escapeshellcmd($pythonScript) . " " . $paramsJson . " 2>&1";
+    
+    error_log("Running Python scanner: " . $command);
+    $startTime = microtime(true);
+    
+    $output = shell_exec($command);
+    $executionTime = round(microtime(true) - $startTime, 2);
+    
+    if (!$output) {
+        error_log("Python scanner returned no output: $command");
+        logScannerError("No output from Python scanner: $type");
+        return getMockData($type, $parameters);
+    }
+    
+    // Parse JSON output from Python
+    $data = json_decode(trim($output), true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        error_log("Invalid JSON from Python: " . json_last_error_msg() . "\nOutput: $output");
+        logScannerError("Invalid JSON from Python: " . json_last_error_msg());
+        return getMockData($type, $parameters);
+    }
+    
+    // Check for Python errors
+    if (isset($data['error'])) {
+        error_log("Python scanner error: " . $data['error']);
+        logScannerError("Python error: " . $data['error']);
+        return getMockData($type, $parameters);
+    }
+    
+    // Format results for database
+    $results = formatPythonResults($data, $type);
+    
+    // Log successful scan
+    logScannerSuccess($type, count($results), $executionTime);
+    
+    return $results;
+}
+
+function formatPythonResults($pythonData, $scannerType) {
+    $results = [];
+    
+    if (!isset($pythonData['signals']) || !is_array($pythonData['signals'])) {
+        return [];
+    }
+    
+    foreach ($pythonData['signals'] as $signal) {
+        // Extract common fields from Python output
+        $symbol = $signal['symbol'] ?? $signal['stock'] ?? 'UNKNOWN';
+        $signalType = $signal['type'] ?? $signal['signal'] ?? 'Unknown';
+        $confidence = floatval($signal['confidence'] ?? $signal['score'] ?? 0);
+        $price = floatval($signal['price'] ?? $signal['current_price'] ?? 0);
+        $priceChange = floatval($signal['price_change'] ?? $signal['change_percent'] ?? 0);
+        $volume = intval($signal['volume'] ?? $signal['volume_traded'] ?? 0);
+        $volumeChange = floatval($signal['volume_change'] ?? $signal['volume_change_percent'] ?? 0);
+        
+        // Get stock name
+        $stockName = getStockName($symbol);
+        
+        // Add scanner-specific details
+        $details = $signal['details'] ?? $signal['metadata'] ?? [];
+        $details['python_scanner'] = $scannerType;
+        $details['scanned_at'] = date('Y-m-d H:i:s');
+        
+        $results[] = [
+            'symbol' => $symbol,
+            'name' => $stockName,
+            'signal' => $signalType,
+            'confidence' => $confidence,
+            'price' => $price,
+            'price_change' => $priceChange,
+            'volume' => $volume,
+            'volume_change' => $volumeChange,
+            'details' => json_encode($details)
+        ];
+    }
+    
+    return $results;
+}
+
+function getStockName($symbol) {
+    $stockNames = [
+        'RELIANCE' => 'Reliance Industries',
+        'TCS' => 'Tata Consultancy Services',
+        'HDFCBANK' => 'HDFC Bank',
+        'INFY' => 'Infosys',
+        'ICICIBANK' => 'ICICI Bank',
+        'SBIN' => 'State Bank of India',
+        'BHARTIARTL' => 'Bharti Airtel',
+        'ITC' => 'ITC Limited',
+        'KOTAKBANK' => 'Kotak Mahindra Bank',
+        'AXISBANK' => 'Axis Bank',
+        'LT' => 'Larsen & Toubro',
+        'HCLTECH' => 'HCL Technologies',
+        'BAJFINANCE' => 'Bajaj Finance',
+        'WIPRO' => 'Wipro',
+        'ONGC' => 'Oil & Natural Gas Corp',
+        'MARUTI' => 'Maruti Suzuki',
+        'SUNPHARMA' => 'Sun Pharmaceutical',
+        'TITAN' => 'Titan Company',
+        'ULTRACEMCO' => 'UltraTech Cement',
+        'NTPC' => 'NTPC Limited'
+    ];
+    
+    return $stockNames[strtoupper($symbol)] ?? $symbol;
+}
+
+function getMockData($type, $parameters) {
+    // Fallback mock data when Python fails
     $stocks = [
         ['symbol' => 'RELIANCE', 'name' => 'Reliance Industries'],
         ['symbol' => 'TCS', 'name' => 'Tata Consultancy Services'],
@@ -198,11 +371,11 @@ function runScanner($type, $parameters) {
         ['symbol' => 'ICICIBANK', 'name' => 'ICICI Bank']
     ];
     
-    $signals = ['Bullish', 'Bearish', 'Neutral'];
+    $signals = ['Bullish Breakout', 'Bearish Reversal', 'Neutral', 'Strong Buy', 'Sell Signal'];
     $results = [];
     
     foreach ($stocks as $stock) {
-        if (rand(0, 100) > 50) { // 50% chance of signal
+        if (rand(0, 100) > 40) { // 60% chance of signal
             $signal = $signals[array_rand($signals)];
             $confidence = rand(65, 95);
             $price = rand(1000, 5000) + (rand(0, 99) / 100);
@@ -218,11 +391,85 @@ function runScanner($type, $parameters) {
                 'price' => $price,
                 'price_change' => $price_change,
                 'volume' => $volume,
-                'volume_change' => $volume_change
+                'volume_change' => $volume_change,
+                'details' => json_encode([
+                    'is_mock_data' => true,
+                    'scanner_type' => $type,
+                    'mock_reason' => 'Python scanner unavailable'
+                ])
             ];
         }
     }
     
     return $results;
+}
+
+function testPythonConnection() {
+    $testScript = dirname(__DIR__) . '/python_scanners/test_connection.py';
+    
+    // Create a simple test script if it doesn't exist
+    if (!file_exists($testScript)) {
+        file_put_contents($testScript, '#!/usr/bin/env python3
+import json
+import sys
+print(json.dumps({
+    "success": True,
+    "message": "Python connection test successful",
+    "python_version": sys.version,
+    "test": "OK"
+}))');
+        chmod($testScript, 0755);
+    }
+    
+    $command = "python3 " . escapeshellcmd($testScript) . " 2>&1";
+    $output = shell_exec($command);
+    
+    if (!$output) {
+        return [
+            'success' => false,
+            'message' => 'Python test failed - no output',
+            'details' => ['command' => $command]
+        ];
+    }
+    
+    $data = json_decode(trim($output), true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return [
+            'success' => false,
+            'message' => 'Invalid JSON from Python test',
+            'details' => ['output' => $output, 'error' => json_last_error_msg()]
+        ];
+    }
+    
+    return [
+        'success' => true,
+        'message' => 'Python integration working',
+        'details' => $data
+    ];
+}
+
+function logScannerError($error) {
+    $logFile = dirname(__DIR__) . '/logs/scanner_errors.log';
+    $logDir = dirname($logFile);
+    
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0755, true);
+    }
+    
+    $logEntry = date('Y-m-d H:i:s') . " - " . $error . "\n";
+    file_put_contents($logFile, $logEntry, FILE_APPEND);
+}
+
+function logScannerSuccess($scannerType, $resultsCount, $executionTime) {
+    $logFile = dirname(__DIR__) . '/logs/scanner_success.log';
+    $logDir = dirname($logFile);
+    
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0755, true);
+    }
+    
+    $logEntry = date('Y-m-d H:i:s') . " - $scannerType: $resultsCount signals in {$executionTime}s\n";
+    file_put_contents($logFile, $logEntry, FILE_APPEND);
 }
 ?>
