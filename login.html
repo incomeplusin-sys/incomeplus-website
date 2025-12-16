@@ -896,26 +896,40 @@
 
     <script>
         // BACKEND CONFIGURATION - IMPORTANT: Change when deploying
-        const BACKEND_URL = 'http://localhost:3001/api';
+   const BACKEND_URL = 'http://localhost:3001/api'; // Keep this
+
+// ADD THIS TEST FUNCTION AT THE TOP:
+async function testBackendConnection() {
+    console.log('🔍 Testing backend connection...');
+    
+    try {
+        // Test 1: Try with CORS options
+        const response = await fetch('http://localhost:3001/', {
+            method: 'GET',
+            mode: 'cors'
+        });
         
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle between login and register forms
-            const showRegisterForm = document.getElementById('showRegisterForm');
-            const showLoginForm = document.getElementById('showLoginForm');
-            const loginFormContainer = document.getElementById('loginFormContainer');
-            const registerFormContainer = document.getElementById('registerFormContainer');
-            
-            if (showRegisterForm && showLoginForm) {
-                showRegisterForm.addEventListener('click', function() {
-                    loginFormContainer.style.display = 'none';
-                    registerFormContainer.style.display = 'block';
-                });
-                
-                showLoginForm.addEventListener('click', function() {
-                    registerFormContainer.style.display = 'none';
-                    loginFormContainer.style.display = 'block';
-                });
-            }
+        if (response.ok) {
+            const data = await response.json();
+            console.log('✅ Backend connected:', data.message);
+            return true;
+        }
+    } catch (error) {
+        console.log('❌ Connection error:', error.message);
+        
+        // Try alternative methods
+        try {
+            // Test 2: Try without CORS
+            const response = await fetch('http://localhost:3001/health');
+            const data = await response.json();
+            console.log('✅ Backend connected (alternative):', data.status);
+            return true;
+        } catch (error2) {
+            console.log('❌ All connection attempts failed');
+            return false;
+        }
+    }
+}
             
             // Forgot password modal
             const forgotPassword = document.getElementById('forgotPassword');
