@@ -618,7 +618,6 @@
     <div class="auth-container">
         <div class="auth-box">
             <!-- Legal Agreement -->
-            <!-- Legal Agreement -->
 <div class="legal-agreement">
     <h2><i class="fas fa-file-contract"></i> Terms of Use Agreement</h2>
     <div class="agreement-content">
@@ -651,6 +650,44 @@
             </div>
         </div>
         
+        <!-- CHECKBOX 1: Terms Agreement -->
+        <div class="checkbox-group" id="termsGroup1">
+            <input type="checkbox" id="agreeTerms" required>
+            <label for="agreeTerms">
+                <strong><i class="fas fa-check-square"></i> I AGREE:</strong> This is a tools platform only. 
+                I will not use it for investment decisions. I understand this is NOT investment advice.
+            </label>
+        </div>
+        
+        <!-- CHECKBOX 2: SEBI Agreement -->
+        <div class="checkbox-group" id="termsGroup2">
+            <input type="checkbox" id="agreeSEBI" required>
+            <label for="agreeSEBI">
+                <strong><i class="fas fa-check-square"></i> I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. 
+                I will consult SEBI registered advisors for investment decisions.
+            </label>
+        </div>
+        
+        <!-- Status Message -->
+        <div id="termsStatus" style="display: none;">
+            <p style="color: #3b82f6; background: #eff6ff; padding: 12px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                <i class="fas fa-info-circle"></i> Please check both boxes above to enable login/register buttons
+            </p>
+        </div>
+        
+        <!-- Proceed Button -->
+        <div id="proceedSection" style="margin-top: 25px; text-align: center; display: none;">
+            <button id="proceedToForms" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
+                    color: white; padding: 15px 30px; border: none; border-radius: 10px; 
+                    font-weight: 600; cursor: pointer; font-size: 1rem;">
+                <i class="fas fa-arrow-right"></i> I AGREE & PROCEED TO REGISTER/LOGIN
+            </button>
+            <p style="color: #64748b; margin-top: 10px; font-size: 0.9rem;">
+                You can proceed to create your account
+            </p>
+        </div>
+    </div>
+</div>        
         <!-- FIXED: Checkbox Group 1 -->
         <div class="checkbox-group" id="termsGroup1">
             <input type="checkbox" id="agreeTerms" required>
