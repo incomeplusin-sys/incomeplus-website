@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logout - Incomeplus Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .logout-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: #4f46e5;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            background: #4338ca;
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-box">
+        <h2>🔓 Logout Options</h2>
+        <p>Choose what you want to do:</p>
+        
+        <div style="margin: 25px 0;">
+            <a href="#" class="btn" onclick="clearAndRedirect()">Logout & Clear Data</a>
+            <a href="dashboard.html" class="btn-secondary">Back to Dashboard</a>
+        </div>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+            <p style="color: #6b7280; font-size: 0.9rem;">
+                Trouble logging out? Try:<br>
+                1. Clear browser cache (Ctrl+Shift+Delete)<br>
+                2. Use Incognito/Private mode<br>
+                3. Contact support@volumescanner.in
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        function clearAndRedirect() {
+            // Clear all storage
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // Try to clear cookies too
+            document.cookie.split(";").forEach(function(c) {
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+            });
+            
+            // Redirect to login
+            window.location.href = 'login.html';
+        }
+        
+        // Show current login status
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        
+        if (token && user) {
+            document.body.innerHTML += `
+                <div style="position:fixed; bottom:20px; left:20px; background:white; padding:10px; border-radius:5px; font-size:12px;">
+                    Currently logged in as: ${JSON.parse(user).username || 'User'}
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
