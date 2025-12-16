@@ -1,0 +1,31 @@
+{
+  "name": "incomeplus-scanner",
+  "version": "2.0.0",
+  "description": "Incomeplus Scanner - Professional Volume Analysis Platform",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "trading",
+    "scanner",
+    "volume-analysis",
+    "technical-analysis"
+  ],
+  "author": "Incomeplus Scanner",
+  "license": "MIT"
+}
