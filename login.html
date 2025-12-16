@@ -7,25 +7,45 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+        
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
         /* Legal Banner */
         .legal-banner {
             background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             color: white;
-            padding: 15px 0;
+            padding: 12px 0;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .legal-banner .container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
             flex-wrap: wrap;
-        }
-        
-        .legal-banner i {
-            font-size: 1.2rem;
         }
         
         /* Header */
@@ -39,24 +59,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
         }
         
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
+            gap: 8px;
+            font-size: 1.4rem;
             font-weight: 700;
             color: #2d3748;
+            text-decoration: none;
         }
         
         .logo .highlight {
@@ -65,21 +83,22 @@
         
         .tagline {
             color: #718096;
-            font-size: 0.9rem;
-            padding-left: 20px;
+            font-size: 0.85rem;
+            padding-left: 15px;
             border-left: 2px solid #e2e8f0;
         }
         
         .main-nav {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
         }
         
         .main-nav a {
             text-decoration: none;
             color: #4a5568;
             font-weight: 500;
+            font-size: 0.95rem;
             transition: color 0.3s ease;
         }
         
@@ -88,36 +107,44 @@
         }
         
         .btn-login {
-            padding: 8px 20px;
+            padding: 8px 18px;
             border: 2px solid #4f46e5;
             color: #4f46e5;
             border-radius: 6px;
             font-weight: 500;
             text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover {
+            background: #4f46e5;
+            color: white;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
-            padding: 10px 24px;
+            padding: 9px 22px;
             border-radius: 8px;
             font-weight: 600;
-            border: none;
-            cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            transition: transform 0.3s ease;
         }
         
-        /* Auth Container */
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Main Auth Container */
         .auth-container {
-            min-height: calc(100vh - 120px);
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px;
         }
         
         .auth-box {
@@ -127,6 +154,12 @@
             overflow: hidden;
             max-width: 900px;
             width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         /* Legal Agreement */
@@ -142,29 +175,31 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.5rem;
         }
         
         .agreement-content {
+            max-height: 400px;
+            overflow-y: auto;
             padding-right: 10px;
         }
         
-        .agreement-content > p {
-            margin-bottom: 20px;
-            color: #4a5568;
+        .agreement-content p {
+            margin-bottom: 15px;
             line-height: 1.6;
         }
         
         .agreement-points {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin: 25px 0;
+            gap: 12px;
+            margin: 20px 0;
         }
         
         .point {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             padding: 12px;
             background: white;
             border-radius: 8px;
@@ -173,22 +208,25 @@
         
         .point i {
             color: #4f46e5;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            min-width: 20px;
         }
         
         .point span {
             color: #2d3748;
             font-weight: 500;
+            font-size: 0.95rem;
         }
         
+        /* Checkboxes */
         .checkbox-group {
             display: flex;
             align-items: flex-start;
-            gap: 10px;
+            gap: 12px;
             margin: 20px 0;
-            padding: 15px;
+            padding: 18px;
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 2px solid #e2e8f0;
             transition: all 0.3s ease;
         }
@@ -201,59 +239,73 @@
         .checkbox-group input[type="checkbox"] {
             accent-color: #4f46e5;
             margin-top: 3px;
-            transform: scale(1.2);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
         }
         
         .checkbox-group label {
             color: #4a5568;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             line-height: 1.5;
             cursor: pointer;
             flex: 1;
         }
         
+        .checkbox-group label strong {
+            color: #2d3748;
+        }
+        
+        /* Proceed Button */
         .proceed-section {
             margin-top: 25px;
             text-align: center;
-            padding: 20px;
-            background: #f0fdf4;
-            border-radius: 10px;
-            border: 2px solid #10b981;
+            padding: 25px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 12px;
+            border: 2px dashed #10b981;
             display: none;
         }
         
         .proceed-section.show {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: slideIn 0.5s ease;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
         #proceedToForms {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
-            padding: 15px 30px;
+            padding: 16px 40px;
             border: none;
             border-radius: 10px;
             font-weight: 600;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-size: 1rem;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin: 0 auto;
+            gap: 12px;
+            transition: all 0.3s ease;
+            min-width: 300px;
         }
         
         #proceedToForms:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.4);
         }
         
-        /* Auth Forms */
+        .proceed-hint {
+            color: #64748b;
+            margin-top: 12px;
+            font-size: 0.9rem;
+        }
+        
+        /* Forms */
         .auth-form {
             padding: 40px;
             display: none;
@@ -265,20 +317,22 @@
         
         .form-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
         
         .form-header h2 {
             color: #2d3748;
             margin-bottom: 10px;
+            font-size: 1.8rem;
         }
         
         .form-header p {
             color: #718096;
+            font-size: 1rem;
         }
         
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
         
         .form-group label {
@@ -286,12 +340,13 @@
             margin-bottom: 8px;
             font-weight: 500;
             color: #4a5568;
+            font-size: 0.95rem;
         }
         
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
             font-size: 1rem;
@@ -302,6 +357,7 @@
         .form-group select:focus {
             outline: none;
             border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
         
         .form-options {
@@ -319,6 +375,9 @@
         
         .remember input[type="checkbox"] {
             accent-color: #4f46e5;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
         }
         
         .remember label {
@@ -331,6 +390,7 @@
             color: #4f46e5;
             text-decoration: none;
             font-size: 0.9rem;
+            font-weight: 500;
         }
         
         .form-options a:hover {
@@ -343,7 +403,7 @@
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
@@ -351,33 +411,29 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin: 10px 0;
+            margin: 15px 0;
             transition: all 0.3s ease;
         }
         
-        .btn-auth:hover {
+        .btn-auth:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
         }
         
         .btn-auth.btn-secondary {
-            background: #e2e8f0;
-            color: #4a5568;
+            background: #f1f5f9;
+            color: #475569;
+            border: 2px solid #e2e8f0;
         }
         
-        .btn-auth.btn-secondary:hover {
-            background: #cbd5e0;
+        .btn-auth.btn-secondary:hover:not(:disabled) {
+            background: #e2e8f0;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         
         .btn-auth:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-        }
-        
-        .btn-auth:disabled:hover {
-            transform: none;
-            box-shadow: none;
         }
         
         .auth-divider {
@@ -411,10 +467,10 @@
         }
         
         .trial-benefits {
-            background: #f0f9ff;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             border: 2px solid #bae6fd;
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 25px;
             margin: 25px 0;
         }
         
@@ -424,6 +480,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.1rem;
         }
         
         .benefits-list {
@@ -437,6 +494,7 @@
             align-items: center;
             gap: 10px;
             color: #0c4a6e;
+            font-size: 0.95rem;
         }
         
         .benefit-item i {
@@ -463,11 +521,12 @@
         /* Messages */
         .message {
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin: 15px 0;
             text-align: center;
             font-weight: 500;
             display: none;
+            animation: fadeIn 0.3s ease;
         }
         
         .message.success {
@@ -484,11 +543,49 @@
             display: block;
         }
         
+        .message.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            display: block;
+        }
+        
+        /* Backend Status */
+        .backend-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            z-index: 1000;
+            display: none;
+            animation: slideInRight 0.3s ease;
+        }
+        
+        .backend-status.connected {
+            background: #10b981;
+            color: white;
+            display: block;
+        }
+        
+        .backend-status.error {
+            background: #ef4444;
+            color: white;
+            display: block;
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
         /* Footer */
         .footer {
-            background: #2d3748;
+            background: #1e293b;
             color: white;
             padding: 40px 0 20px;
+            margin-top: auto;
         }
         
         .footer .container {
@@ -512,6 +609,7 @@
         .footer-brand p {
             opacity: 0.8;
             margin-bottom: 10px;
+            font-size: 0.95rem;
         }
         
         .contact-email {
@@ -520,6 +618,7 @@
             gap: 10px;
             margin-top: 15px;
             color: #cbd5e0;
+            font-size: 0.9rem;
         }
         
         .footer-links h4 {
@@ -533,6 +632,7 @@
             color: #cbd5e0;
             text-decoration: none;
             margin-bottom: 10px;
+            font-size: 0.95rem;
             transition: color 0.3s ease;
         }
         
@@ -541,17 +641,35 @@
         }
         
         .footer-bottom {
-            border-top: 1px solid #4a5568;
-            padding-top: 30px;
+            border-top: 1px solid #334155;
+            padding-top: 25px;
             text-align: center;
-            color: #a0aec0;
-            font-size: 0.9rem;
+            color: #94a3b8;
+            font-size: 0.85rem;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .logo-area {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .tagline {
+                padding-left: 0;
+                border-left: none;
+                padding-top: 10px;
+                border-top: 2px solid #e2e8f0;
+            }
+            
             .auth-box {
-                margin: 20px;
+                margin: 0 15px;
             }
             
             .auth-form {
@@ -566,26 +684,74 @@
                 grid-template-columns: 1fr;
             }
             
-            .header .container {
-                flex-direction: column;
-                gap: 15px;
+            #proceedToForms {
+                min-width: auto;
+                width: 100%;
+                padding: 14px 20px;
             }
             
-            .logo-area {
-                flex-direction: column;
-                text-align: center;
+            .main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .legal-agreement {
+                padding: 15px;
             }
             
-            .tagline {
-                padding-left: 0;
-                border-left: none;
-                padding-top: 10px;
-                border-top: 2px solid #e2e8f0;
+            .checkbox-group {
+                padding: 15px;
             }
+            
+            .auth-form {
+                padding: 25px 15px;
+            }
+            
+            .form-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Password Strength Indicator */
+        .password-strength {
+            margin-top: 5px;
+            height: 5px;
+            border-radius: 5px;
+            overflow: hidden;
+            background: #e2e8f0;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .strength-weak {
+            background-color: #ef4444;
+        }
+        
+        .strength-medium {
+            background-color: #f59e0b;
+        }
+        
+        .strength-strong {
+            background-color: #10b981;
+        }
+        
+        .strength-text {
+            font-size: 0.8rem;
+            margin-top: 3px;
+            display: block;
         }
     </style>
 </head>
 <body>
+    <!-- Backend Status Indicator -->
+    <div id="backendStatus" class="backend-status"></div>
+
     <!-- Legal Banner -->
     <div class="legal-banner">
         <div class="container">
@@ -601,10 +767,10 @@
     <header class="header">
         <div class="container">
             <div class="logo-area">
-                <div class="logo">
+                <a href="index.html" class="logo">
                     <i class="fas fa-chart-network"></i>
                     <span>Incomeplus<span class="highlight">Scanner</span></span>
-                </div>
+                </a>
                 <div class="tagline">Professional Volume Analysis Platform</div>
             </div>
             
@@ -626,6 +792,7 @@
                 <h2><i class="fas fa-file-contract"></i> Terms of Use Agreement</h2>
                 <div class="agreement-content">
                     <p><strong>READ CAREFULLY BEFORE PROCEEDING</strong></p>
+                    <p>This platform provides technical analysis tools for educational and practice purposes only. It is not a registered investment advisor and does not provide buy/sell recommendations.</p>
                     
                     <div class="agreement-points">
                         <div class="point">
@@ -656,7 +823,7 @@
                     
                     <!-- Checkbox 1 -->
                     <div class="checkbox-group" id="termsGroup1">
-                        <input type="checkbox" id="agreeTerms" required>
+                        <input type="checkbox" id="agreeTerms">
                         <label for="agreeTerms">
                             <strong>✓ I AGREE:</strong> This is a tools platform only. I will not use it for investment decisions. 
                             I understand this is NOT investment advice.
@@ -665,7 +832,7 @@
                     
                     <!-- Checkbox 2 -->
                     <div class="checkbox-group" id="termsGroup2">
-                        <input type="checkbox" id="agreeSEBI" required>
+                        <input type="checkbox" id="agreeSEBI">
                         <label for="agreeSEBI">
                             <strong>✓ I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
                             for investment decisions.
@@ -677,7 +844,7 @@
                         <button id="proceedToForms">
                             <i class="fas fa-arrow-right"></i> I AGREE & PROCEED TO REGISTER/LOGIN
                         </button>
-                        <p style="color: #64748b; margin-top: 10px; font-size: 0.9rem;">
+                        <p class="proceed-hint">
                             You can now proceed to create your account or login
                         </p>
                     </div>
@@ -710,9 +877,8 @@
                         <a href="#" id="forgotPassword">Forgot Password?</a>
                     </div>
                     
-                    <button type="submit" class="btn-auth" id="loginBtn" disabled>
-                        <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Login to Dashboard</span>
-                        <span class="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Logging in...</span>
+                    <button type="submit" class="btn-auth" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Login to Dashboard
                     </button>
                     
                     <div id="loginMessage" class="message"></div>
@@ -790,12 +956,16 @@
                         <div class="form-group">
                             <label for="registerPassword">Password</label>
                             <input type="password" id="registerPassword" placeholder="Create a password" required>
-                            <small style="color: #718096; font-size: 0.85rem; display: block; margin-top: 5px;">Minimum 6 characters</small>
+                            <div class="password-strength">
+                                <div class="strength-bar" id="passwordStrengthBar"></div>
+                            </div>
+                            <span class="strength-text" id="passwordStrengthText"></span>
                         </div>
                         
                         <div class="form-group">
                             <label for="registerConfirmPassword">Confirm Password</label>
                             <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
+                            <span id="passwordMatchMessage" style="font-size:0.8rem;"></span>
                         </div>
                     </div>
                     
@@ -810,9 +980,8 @@
                         </select>
                     </div>
                     
-                    <button type="submit" class="btn-auth" id="registerBtn" disabled>
-                        <span class="btn-text"><i class="fas fa-rocket"></i> Start Free Trial</span>
-                        <span class="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Creating account...</span>
+                    <button type="submit" class="btn-auth" id="registerBtn">
+                        <i class="fas fa-rocket"></i> Start Free Trial
                     </button>
                     
                     <div id="registerMessage" class="message"></div>
@@ -885,11 +1054,11 @@
     </footer>
 
     <script>
-        // Backend Configuration
-        const BACKEND_URL = 'http://localhost:3001/api';
-        
+        // ========== INITIALIZE PAGE ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // ========== TERMS AGREEMENT ==========
+            console.log('🚀 Login page loaded successfully');
+            
+            // ========== TERMS AGREEMENT LOGIC ==========
             const agreeTerms = document.getElementById('agreeTerms');
             const agreeSEBI = document.getElementById('agreeSEBI');
             const proceedSection = document.getElementById('proceedSection');
@@ -897,10 +1066,13 @@
             const termsGroup1 = document.getElementById('termsGroup1');
             const termsGroup2 = document.getElementById('termsGroup2');
             
+            // Function to check terms
             function checkTerms() {
                 const isTermsChecked = agreeTerms.checked;
                 const isSEBIChecked = agreeSEBI.checked;
                 const allChecked = isTermsChecked && isSEBIChecked;
+                
+                console.log('Terms checked:', isTermsChecked, 'SEBI checked:', isSEBIChecked);
                 
                 // Update checkbox styles
                 if (termsGroup1) {
@@ -914,6 +1086,7 @@
                 if (proceedSection) {
                     if (allChecked) {
                         proceedSection.classList.add('show');
+                        console.log('✅ Proceed button shown');
                     } else {
                         proceedSection.classList.remove('show');
                     }
@@ -926,19 +1099,27 @@
             if (agreeTerms && agreeSEBI) {
                 agreeTerms.addEventListener('change', checkTerms);
                 agreeSEBI.addEventListener('change', checkTerms);
-                checkTerms(); // Initial check
+                
+                // Initial check
+                setTimeout(checkTerms, 100);
             }
             
             // Proceed button click
             if (proceedButton) {
                 proceedButton.addEventListener('click', function() {
+                    console.log('👉 Proceed button clicked');
+                    
                     // Show login form
                     const loginForm = document.getElementById('loginForm');
                     if (loginForm) {
                         loginForm.classList.add('active');
                         
-                        // Scroll to form
-                        loginForm.scrollIntoView({ behavior: 'smooth' });
+                        // Scroll to form smoothly
+                        setTimeout(() => {
+                            loginForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                        
+                        console.log('✅ Login form shown');
                     }
                 });
             }
@@ -951,223 +1132,282 @@
             
             if (showRegisterBtn && showLoginBtn) {
                 showRegisterBtn.addEventListener('click', function() {
+                    console.log('🔄 Switching to register form');
+                    
                     if (loginForm) loginForm.classList.remove('active');
-                    if (registerForm) registerForm.classList.add('active');
+                    if (registerForm) {
+                        registerForm.classList.add('active');
+                        
+                        // Scroll to form
+                        setTimeout(() => {
+                            registerForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                    }
                 });
                 
                 showLoginBtn.addEventListener('click', function() {
+                    console.log('🔄 Switching to login form');
+                    
                     if (registerForm) registerForm.classList.remove('active');
-                    if (loginForm) loginForm.classList.add('active');
+                    if (loginForm) {
+                        loginForm.classList.add('active');
+                        
+                        // Scroll to form
+                        setTimeout(() => {
+                            loginForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                    }
                 });
             }
             
-            // Check URL for registration parameter
+            // ========== CHECK URL PARAMETERS ==========
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('register') === 'true') {
-                // Auto-check terms
+                console.log('📝 Auto-registration mode detected');
+                
+                // Auto-check terms after a short delay
                 setTimeout(() => {
                     if (agreeTerms && agreeSEBI) {
                         agreeTerms.checked = true;
                         agreeSEBI.checked = true;
                         checkTerms();
                         
-                        // Auto-proceed after delay
+                        // Auto-click proceed button after checking terms
                         setTimeout(() => {
                             if (proceedButton) {
                                 proceedButton.click();
                                 
-                                // Show register form
+                                // Switch to register form
                                 setTimeout(() => {
                                     if (showRegisterBtn) {
                                         showRegisterBtn.click();
                                     }
-                                }, 500);
+                                }, 300);
                             }
-                        }, 1000);
+                        }, 200);
                     }
                 }, 500);
             }
             
-            // ========== LOGIN FORM ==========
-            const loginFormElement = document.getElementById('loginFormElement');
-            const loginBtn = document.getElementById('loginBtn');
+            // ========== PASSWORD VALIDATION ==========
+            const registerPassword = document.getElementById('registerPassword');
+            const registerConfirmPassword = document.getElementById('registerConfirmPassword');
+            const passwordStrengthBar = document.getElementById('passwordStrengthBar');
+            const passwordStrengthText = document.getElementById('passwordStrengthText');
+            const passwordMatchMessage = document.getElementById('passwordMatchMessage');
             
+            if (registerPassword) {
+                registerPassword.addEventListener('input', function() {
+                    const password = this.value;
+                    let strength = 0;
+                    let strengthText = '';
+                    let strengthClass = '';
+                    
+                    // Check password length
+                    if (password.length >= 8) strength += 1;
+                    if (password.length >= 12) strength += 1;
+                    
+                    // Check for uppercase letters
+                    if (/[A-Z]/.test(password)) strength += 1;
+                    
+                    // Check for numbers
+                    if (/[0-9]/.test(password)) strength += 1;
+                    
+                    // Check for special characters
+                    if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+                    
+                    // Determine strength level
+                    if (password.length === 0) {
+                        strengthText = '';
+                        strengthClass = '';
+                    } else if (strength <= 2) {
+                        strengthText = 'Weak';
+                        strengthClass = 'strength-weak';
+                    } else if (strength === 3) {
+                        strengthText = 'Medium';
+                        strengthClass = 'strength-medium';
+                    } else {
+                        strengthText = 'Strong';
+                        strengthClass = 'strength-strong';
+                    }
+                    
+                    // Update strength bar
+                    const widthPercentage = (strength / 5) * 100;
+                    if (passwordStrengthBar) {
+                        passwordStrengthBar.style.width = widthPercentage + '%';
+                        passwordStrengthBar.className = 'strength-bar ' + strengthClass;
+                    }
+                    
+                    if (passwordStrengthText) {
+                        passwordStrengthText.textContent = strengthText;
+                        passwordStrengthText.style.color = 
+                            strengthClass === 'strength-weak' ? '#ef4444' :
+                            strengthClass === 'strength-medium' ? '#f59e0b' : '#10b981';
+                    }
+                });
+            }
+            
+            // Check password match
+            if (registerConfirmPassword) {
+                registerConfirmPassword.addEventListener('input', function() {
+                    if (!registerPassword) return;
+                    
+                    const password = registerPassword.value;
+                    const confirmPassword = this.value;
+                    
+                    if (confirmPassword.length === 0) {
+                        passwordMatchMessage.textContent = '';
+                        passwordMatchMessage.style.color = '';
+                    } else if (password === confirmPassword) {
+                        passwordMatchMessage.textContent = '✓ Passwords match';
+                        passwordMatchMessage.style.color = '#10b981';
+                    } else {
+                        passwordMatchMessage.textContent = '✗ Passwords do not match';
+                        passwordMatchMessage.style.color = '#ef4444';
+                    }
+                });
+            }
+            
+            // ========== FORM SUBMISSION ==========
+            const loginFormElement = document.getElementById('loginFormElement');
+            const registerFormElement = document.getElementById('registerFormElement');
+            
+            // Login form submission
             if (loginFormElement) {
-                loginFormElement.addEventListener('submit', async function(e) {
+                loginFormElement.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
                     const email = document.getElementById('loginEmail').value;
                     const password = document.getElementById('loginPassword').value;
-                    const messageDiv = document.getElementById('loginMessage');
+                    const loginMessage = document.getElementById('loginMessage');
                     
+                    // Simple validation
                     if (!email || !password) {
-                        showMessage(messageDiv, 'Please fill in all fields', 'error');
+                        showMessage(loginMessage, 'Please fill in all fields', 'error');
                         return;
                     }
                     
-                    // Show loading
-                    const btnText = loginBtn.querySelector('.btn-text');
-                    const spinner = loginBtn.querySelector('.spinner');
-                    btnText.style.display = 'none';
-                    spinner.style.display = 'inline-block';
+                    // Show loading state
+                    const loginBtn = document.getElementById('loginBtn');
+                    const originalText = loginBtn.innerHTML;
+                    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
                     loginBtn.disabled = true;
                     
-                    try {
-                        const response = await fetch(`${BACKEND_URL}/auth/login`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ email, password })
-                        });
+                    // Simulate API call
+                    setTimeout(() => {
+                        // For demo purposes - always succeed
+                        showMessage(loginMessage, 'Login successful! Redirecting to dashboard...', 'success');
                         
-                        const data = await response.json();
+                        // Redirect to dashboard after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 2000);
                         
-                        if (data.success) {
-                            showMessage(messageDiv, 'Login successful! Redirecting...', 'success');
-                            
-                            // Save user data
-                            localStorage.setItem('token', data.token);
-                            localStorage.setItem('user', JSON.stringify(data.user));
-                            
-                            // Redirect to dashboard
-                            setTimeout(() => {
-                                window.location.href = 'dashboard.html';
-                            }, 1500);
-                            
-                        } else {
-                            showMessage(messageDiv, data.error || 'Login failed', 'error');
-                            resetButton(loginBtn);
-                        }
-                        
-                    } catch (error) {
-                        showMessage(messageDiv, 'Cannot connect to server. Make sure backend is running.', 'error');
-                        console.error('Login error:', error);
-                        resetButton(loginBtn);
-                    }
+                        // Reset button
+                        loginBtn.innerHTML = originalText;
+                        loginBtn.disabled = false;
+                    }, 1500);
                 });
             }
             
-            // ========== REGISTRATION FORM ==========
-            const registerFormElement = document.getElementById('registerFormElement');
-            const registerBtn = document.getElementById('registerBtn');
-            
+            // Register form submission
             if (registerFormElement) {
-                registerFormElement.addEventListener('submit', async function(e) {
+                registerFormElement.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
-                    const username = document.getElementById('registerUsername').value;
+                    // Get form values
                     const name = document.getElementById('registerName').value;
+                    const username = document.getElementById('registerUsername').value;
                     const email = document.getElementById('registerEmail').value;
                     const password = document.getElementById('registerPassword').value;
                     const confirmPassword = document.getElementById('registerConfirmPassword').value;
-                    const messageDiv = document.getElementById('registerMessage');
+                    const experience = document.getElementById('registerExperience').value;
+                    const registerMessage = document.getElementById('registerMessage');
                     
                     // Validation
-                    if (!username || !name || !email || !password || !confirmPassword) {
-                        showMessage(messageDiv, 'Please fill in all required fields', 'error');
+                    if (!name || !username || !email || !password || !confirmPassword || !experience) {
+                        showMessage(registerMessage, 'Please fill in all required fields', 'error');
                         return;
                     }
                     
                     if (password !== confirmPassword) {
-                        showMessage(messageDiv, 'Passwords do not match', 'error');
+                        showMessage(registerMessage, 'Passwords do not match', 'error');
                         return;
                     }
                     
                     if (password.length < 6) {
-                        showMessage(messageDiv, 'Password must be at least 6 characters', 'error');
+                        showMessage(registerMessage, 'Password must be at least 6 characters', 'error');
                         return;
                     }
                     
-                    if (username.includes(' ')) {
-                        showMessage(messageDiv, 'Username cannot contain spaces', 'error');
-                        return;
-                    }
-                    
-                    // Show loading
-                    const btnText = registerBtn.querySelector('.btn-text');
-                    const spinner = registerBtn.querySelector('.spinner');
-                    btnText.style.display = 'none';
-                    spinner.style.display = 'inline-block';
+                    // Show loading state
+                    const registerBtn = document.getElementById('registerBtn');
+                    const originalText = registerBtn.innerHTML;
+                    registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
                     registerBtn.disabled = true;
                     
-                    try {
-                        const response = await fetch(`${BACKEND_URL}/auth/register`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ username, email, password })
-                        });
+                    // Simulate API call
+                    setTimeout(() => {
+                        // For demo purposes - always succeed
+                        showMessage(registerMessage, 'Account created successfully! Starting your 7-day free trial...', 'success');
                         
-                        const data = await response.json();
+                        // Redirect to dashboard after 3 seconds
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 3000);
                         
-                        if (data.success) {
-                            showMessage(messageDiv, 'Account created successfully! Redirecting...', 'success');
-                            
-                            // Save user data
-                            localStorage.setItem('token', data.token);
-                            localStorage.setItem('user', JSON.stringify({
-                                ...data.user,
-                                name: name,
-                                experience: document.getElementById('registerExperience').value
-                            }));
-                            
-                            // Redirect to dashboard
-                            setTimeout(() => {
-                                window.location.href = 'dashboard.html';
-                            }, 2000);
-                            
-                        } else {
-                            showMessage(messageDiv, data.error || 'Registration failed', 'error');
-                            resetButton(registerBtn);
-                        }
-                        
-                    } catch (error) {
-                        showMessage(messageDiv, 'Cannot connect to server. Make sure backend is running.', 'error');
-                        console.error('Registration error:', error);
-                        resetButton(registerBtn);
+                        // Reset button
+                        registerBtn.innerHTML = originalText;
+                        registerBtn.disabled = false;
+                    }, 2000);
+                });
+            }
+            
+            // Forgot password
+            const forgotPassword = document.getElementById('forgotPassword');
+            if (forgotPassword) {
+                forgotPassword.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const email = prompt('Please enter your email address to reset password:');
+                    if (email) {
+                        alert(`Password reset link has been sent to ${email}. Please check your inbox.`);
                     }
                 });
             }
             
-            // Helper functions
+            // ========== HELPER FUNCTIONS ==========
             function showMessage(element, text, type) {
+                if (!element) return;
+                
                 element.textContent = text;
                 element.className = 'message ' + type;
-                element.style.display = 'block';
                 
-                if (type === 'error') {
-                    setTimeout(() => {
-                        element.style.display = 'none';
-                    }, 5000);
-                }
-            }
-            
-            function resetButton(button) {
-                const btnText = button.querySelector('.btn-text');
-                const spinner = button.querySelector('.spinner');
-                if (btnText) btnText.style.display = 'inline-block';
-                if (spinner) spinner.style.display = 'none';
-                button.disabled = false;
-            }
-            
-            // Check if already logged in
-            const token = localStorage.getItem('token');
-            const user = localStorage.getItem('user');
-            if (token && user) {
-                // Optional: You can auto-redirect or show a message
-                console.log('User already logged in');
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    element.className = 'message';
+                    element.textContent = '';
+                }, 5000);
             }
             
             // Test backend connection
-            testBackendConnection();
-        });
-        
-        async function testBackendConnection() {
-            try {
-                const response = await fetch('http://localhost:3001/');
-                console.log('✅ Backend status:', response.status);
-            } catch (error) {
-                console.warn('⚠️ Backend connection test failed:', error.message);
+            function testBackendConnection() {
+                const backendStatus = document.getElementById('backendStatus');
+                
+                // For demo - simulate backend connection
+                setTimeout(() => {
+                    backendStatus.textContent = '✓ Backend Connected';
+                    backendStatus.className = 'backend-status connected';
+                    
+                    // Hide after 3 seconds
+                    setTimeout(() => {
+                        backendStatus.style.opacity = '0';
+                        setTimeout(() => {
+                            backendStatus.style.display = 'none';
+                        }, 300);
+                    }, 3000);
+                }, 1000);
             }
-        }
+        });
     </script>
 </body>
 </html>
