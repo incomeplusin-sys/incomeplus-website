@@ -4,26 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Incomeplus Scanner</title>
-    <!-- GitHub Pages compatible CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== RESET & BASE ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
-        
-        :root {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
-            --secondary: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -31,45 +18,36 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            color: #1e293b;
-            line-height: 1.6;
         }
         
-        /* ========== LEGAL BANNER ========== */
+        /* Legal Banner */
         .legal-banner {
-            background: linear-gradient(135deg, var(--dark) 0%, #334155 100%);
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             color: white;
             padding: 12px 0;
             text-align: center;
             font-size: 0.85rem;
-            border-bottom: 3px solid var(--primary);
-        }
-        
-        .legal-banner .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        
-        /* ========== HEADER ========== */
-        .header {
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+        
+        .legal-banner .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
         }
         
         .header .container {
@@ -87,333 +65,133 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #1e293b;
+            gap: 8px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
             text-decoration: none;
-            transition: transform 0.3s;
         }
         
-        .logo:hover {
-            transform: translateY(-2px);
-        }
-        
-        .logo-icon {
-            color: var(--primary);
-            font-size: 1.8rem;
-        }
-        
-        .highlight {
-            color: var(--primary);
+        .logo .highlight {
+            color: #4f46e5;
         }
         
         .tagline {
-            color: var(--gray);
-            font-size: 0.9rem;
+            color: #718096;
+            font-size: 0.85rem;
             padding-left: 15px;
             border-left: 2px solid #e2e8f0;
-            font-weight: 500;
         }
         
-        .main-nav {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-        
-        .main-nav a {
-            text-decoration: none;
-            color: #475569;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            padding: 6px 0;
-            position: relative;
-        }
-        
-        .main-nav a:hover {
-            color: var(--primary);
-        }
-        
-        .main-nav a:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s;
-        }
-        
-        .main-nav a:hover:after {
-            width: 100%;
-        }
-        
-        .btn-login {
-            padding: 10px 22px;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-login:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 12px 28px;
-            border-radius: 10px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(79, 70, 229, 0.4);
-        }
-        
-        /* ========== MAIN CONTENT ========== */
+        /* Main Content */
         .auth-container {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
-            min-height: calc(100vh - 200px);
+            padding: 30px 20px;
         }
         
         .auth-box {
             background: white;
-            border-radius: 24px;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
             max-width: 900px;
             width: 100%;
-            animation: fadeInUp 0.6s ease;
-            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeIn 0.5s ease;
         }
         
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* ========== LEGAL AGREEMENT ========== */
+        /* Legal Agreement */
         .legal-agreement {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            padding: 40px;
-            border-bottom: 3px solid #e2e8f0;
+            background: #f8fafc;
+            padding: 30px;
+            border-bottom: 2px solid #e2e8f0;
         }
         
         .legal-agreement h2 {
-            color: #1e293b;
-            margin-bottom: 25px;
+            color: #2d3748;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            font-size: 1.8rem;
-            font-weight: 800;
+            gap: 10px;
+            font-size: 1.5rem;
         }
         
         .agreement-content {
-            max-height: 500px;
+            max-height: 400px;
             overflow-y: auto;
-            padding-right: 15px;
-        }
-        
-        .agreement-content::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .agreement-content::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        
-        .agreement-content::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-        
-        .agreement-content p {
-            margin-bottom: 20px;
-            line-height: 1.8;
-            color: #475569;
-        }
-        
-        .agreement-content strong {
-            color: #1e293b;
+            padding-right: 10px;
         }
         
         .agreement-points {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            margin: 25px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
         }
         
         .point {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 18px;
+            gap: 12px;
+            padding: 12px;
             background: white;
-            border-radius: 12px;
-            border-left: 5px solid var(--primary);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
+            border-radius: 8px;
+            border-left: 4px solid #4f46e5;
         }
         
-        .point:hover {
-            transform: translateY(-3px);
-        }
-        
-        .point i {
-            color: var(--primary);
-            font-size: 1.3rem;
-            min-width: 25px;
-        }
-        
-        .point.negative i {
-            color: var(--danger);
-        }
-        
-        .point.positive i {
-            color: var(--secondary);
-        }
-        
-        .point span {
-            color: #1e293b;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        
-        /* ========== CHECKBOXES ========== */
+        /* Checkboxes - FIXED */
         .checkbox-group {
             display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            margin: 25px 0;
-            padding: 22px;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            padding: 15px;
             background: white;
-            border-radius: 14px;
+            border-radius: 10px;
             border: 2px solid #e2e8f0;
             transition: all 0.3s ease;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
         
         .checkbox-group:hover {
             border-color: #c7d2fe;
-            box-shadow: 0 6px 18px rgba(79, 70, 229, 0.1);
         }
         
         .checkbox-group.checked {
-            border-color: var(--secondary);
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            animation: pulse 0.5s ease;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+            border-color: #10b981;
+            background: #f0fdf4;
         }
         
         .checkbox-group input[type="checkbox"] {
-            accent-color: var(--primary);
-            margin-top: 4px;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
-            flex-shrink: 0;
         }
         
         .checkbox-group label {
-            color: #475569;
-            font-size: 1rem;
-            line-height: 1.6;
+            color: #4a5568;
+            font-size: 0.95rem;
+            line-height: 1.5;
             cursor: pointer;
             flex: 1;
-            user-select: none;
         }
         
-        .checkbox-group label strong {
-            color: #1e293b;
-            font-weight: 700;
-        }
-        
-        /* ========== REMEMBER ME ========== */
-        .remember-me-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .remember-me-group:hover {
-            transform: translateX(5px);
-        }
-        
-        .remember-me-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-        
-        .remember-me-group label {
-            color: #475569;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            user-select: none;
-        }
-        
-        /* ========== PROCEED BUTTON ========== */
+        /* Proceed Button */
         .proceed-section {
-            margin-top: 30px;
+            margin-top: 25px;
             text-align: center;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
-            border-radius: 16px;
-            border: 3px dashed var(--secondary);
+            padding: 25px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 12px;
+            border: 2px dashed #10b981;
             display: none;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .proceed-section:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--secondary), var(--primary));
-            animation: slide 2s infinite linear;
-        }
-        
-        @keyframes slide {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
         }
         
         .proceed-section.show {
@@ -421,553 +199,91 @@
             animation: slideIn 0.5s ease;
         }
         
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
         #proceedToForms {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
-            padding: 18px 50px;
+            padding: 16px 40px;
             border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             transition: all 0.3s ease;
-            min-width: 350px;
-            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        #proceedToForms:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
+            min-width: 300px;
         }
         
         #proceedToForms:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.4);
         }
         
-        #proceedToForms:hover:before {
-            left: 100%;
-        }
-        
-        #proceedToForms:active {
-            transform: translateY(-2px);
-        }
-        
-        .proceed-hint {
-            color: var(--gray);
-            margin-top: 15px;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        
-        /* ========== FORMS ========== */
+        /* Forms */
         .auth-form {
-            padding: 50px;
+            padding: 40px;
             display: none;
         }
         
         .auth-form.active {
             display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .form-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .form-header h2 {
-            color: #1e293b;
-            margin-bottom: 15px;
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .form-header p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
         }
         
         .form-group {
-            margin-bottom: 28px;
+            margin-bottom: 22px;
         }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #475569;
-            font-size: 1rem;
-        }
-        
-        .form-group input,
-        .form-group select {
+        .form-group input {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             border: 2px solid #e2e8f0;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 1rem;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
-            transform: translateY(-1px);
         }
         
         .form-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 25px 0;
-            padding: 15px 0;
-            border-top: 2px solid #f1f5f9;
-            border-bottom: 2px solid #f1f5f9;
+            margin: 20px 0;
         }
         
-        .form-options a {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s;
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .form-options a:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
+        .remember input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
         }
         
         .btn-auth {
             width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 16px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin: 20px 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
-        }
-        
-        .btn-auth:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
-        }
-        
-        .btn-auth.btn-secondary {
-            background: white;
-            color: #475569;
-            border: 2px solid #e2e8f0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        
-        .btn-auth.btn-secondary:hover:not(:disabled) {
-            background: #f8fafc;
-            border-color: var(--primary);
-            color: var(--primary);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        
-        .btn-auth:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        
-        .auth-divider {
-            position: relative;
-            text-align: center;
-            margin: 30px 0;
-        }
-        
-        .auth-divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
-        }
-        
-        .auth-divider span {
-            position: relative;
-            background: white;
-            padding: 0 20px;
-            color: var(--gray);
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-        
-        .trial-benefits {
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%);
-            border: 2px solid #bae6fd;
-            border-radius: 16px;
-            padding: 30px;
-            margin: 30px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .trial-benefits:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #0ea5e9, #3b82f6);
-        }
-        
-        .trial-benefits h4 {
-            color: #0369a1;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-        
-        .benefits-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .benefit-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #0c4a6e;
-            font-size: 1rem;
-            font-weight: 500;
-            padding: 12px;
-            background: rgba(255,255,255,0.8);
             border-radius: 10px;
-            transition: transform 0.3s;
-        }
-        
-        .benefit-item:hover {
-            transform: translateX(5px);
-            background: white;
-        }
-        
-        .benefit-item i {
-            color: #0ea5e9;
-            font-size: 1.1rem;
-        }
-        
-        .form-footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 2px solid #f1f5f9;
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
-        
-        .form-footer a {
-            color: var(--primary);
-            text-decoration: none;
             font-weight: 600;
+            cursor: pointer;
+            margin: 15px 0;
         }
         
-        .form-footer a:hover {
-            text-decoration: underline;
-        }
-        
-        /* ========== MESSAGES ========== */
-        .message {
-            padding: 18px;
-            border-radius: 12px;
-            margin: 20px 0;
-            text-align: center;
-            font-weight: 600;
-            display: none;
-            animation: fadeIn 0.3s ease;
-            font-size: 1rem;
-        }
-        
-        .message.success {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            color: #065f46;
-            border: 2px solid #10b981;
-            display: block;
-        }
-        
-        .message.error {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            color: #991b1b;
-            border: 2px solid #ef4444;
-            display: block;
-        }
-        
-        .message.info {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            color: #1e40af;
-            border: 2px solid #3b82f6;
-            display: block;
-        }
-        
-        /* ========== FOOTER ========== */
-        .footer {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            padding: 50px 0 25px;
-            margin-top: auto;
-            border-top: 5px solid var(--primary);
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 50px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-brand .logo {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-        }
-        
-        .footer-brand p {
-            opacity: 0.8;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-        
-        .contact-email {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 20px;
-            color: #cbd5e0;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        
-        .footer-links h4 {
-            color: white;
-            margin-bottom: 25px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        
-        .footer-links h4:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 3px;
-        }
-        
-        .footer-links a {
-            display: block;
-            color: #cbd5e0;
-            text-decoration: none;
-            margin-bottom: 14px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            padding: 5px 0;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-            transform: translateX(8px);
-        }
-        
-        .footer-bottom {
-            border-top: 1px solid #334155;
-            padding-top: 30px;
-            text-align: center;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-        
-        .copyright {
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-        
-        .company-info {
-            opacity: 0.8;
-        }
-        
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 992px) {
-            .agreement-points {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .benefits-list {
-                grid-template-columns: 1fr;
-            }
-            
-            #proceedToForms {
-                min-width: 100%;
-                padding: 16px 30px;
-            }
-        }
-        
+        /* Responsive */
         @media (max-width: 768px) {
-            .header .container {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .logo-area {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .tagline {
-                padding-left: 0;
-                border-left: none;
-                padding-top: 15px;
-                border-top: 2px solid #e2e8f0;
-            }
-            
-            .main-nav {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-            }
-            
-            .auth-box {
-                margin: 0 10px;
-                border-radius: 20px;
-            }
-            
-            .legal-agreement,
             .auth-form {
                 padding: 30px 20px;
             }
             
-            .form-header h2 {
-                font-size: 1.8rem;
+            #proceedToForms {
+                min-width: auto;
+                width: 100%;
             }
-            
-            .footer-content {
-                gap: 40px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .legal-agreement,
-            .auth-form {
-                padding: 25px 15px;
-            }
-            
-            .checkbox-group {
-                padding: 18px 15px;
-            }
-            
-            .proceed-section {
-                padding: 25px 15px;
-            }
-            
-            .form-header h2 {
-                font-size: 1.6rem;
-            }
-            
-            .btn-auth {
-                padding: 16px;
-                font-size: 1rem;
-            }
-            
-            .footer {
-                padding: 40px 0 20px;
-            }
-        }
-        
-        /* ========== PASSWORD STRENGTH ========== */
-        .password-strength {
-            margin-top: 8px;
-            height: 6px;
-            border-radius: 6px;
-            overflow: hidden;
-            background: #e2e8f0;
-        }
-        
-        .strength-bar {
-            height: 100%;
-            width: 0%;
-            transition: all 0.3s ease;
-        }
-        
-        .strength-weak {
-            background: linear-gradient(90deg, #ef4444, #f87171);
-        }
-        
-        .strength-medium {
-            background: linear-gradient(90deg, #f59e0b, #fbbf24);
-        }
-        
-        .strength-strong {
-            background: linear-gradient(90deg, #10b981, #34d399);
-        }
-        
-        .strength-text {
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: block;
-            font-weight: 600;
         }
     </style>
 </head>
@@ -988,21 +304,11 @@
         <div class="container">
             <div class="logo-area">
                 <a href="index.html" class="logo">
-                    <i class="fas fa-chart-network logo-icon"></i>
+                    <i class="fas fa-chart-network"></i>
                     <span>Incomeplus<span class="highlight">Scanner</span></span>
                 </a>
                 <div class="tagline">Professional Volume Analysis Platform</div>
             </div>
-            
-            <nav class="main-nav">
-                <a href="index.html">Home</a>
-                <a href="#features">Features</a>
-                <a href="#pricing">Pricing</a>
-                <a href="login.html" class="btn-login">Login</a>
-                <a href="login.html?register=true" class="btn-primary">
-                    <i class="fas fa-rocket"></i> Start Free Trial
-                </a>
-            </nav>
         </div>
     </header>
 
@@ -1014,61 +320,41 @@
                 <h2><i class="fas fa-file-contract"></i> Terms of Use Agreement</h2>
                 <div class="agreement-content">
                     <p><strong>READ CAREFULLY BEFORE PROCEEDING</strong></p>
-                    <p>This platform provides technical analysis tools for educational and practice purposes only. It is not a registered investment advisor and does not provide buy/sell recommendations.</p>
                     
                     <div class="agreement-points">
-                        <div class="point negative">
+                        <div class="point">
                             <i class="fas fa-ban"></i>
                             <span>This is a technical analysis TOOLS platform only</span>
                         </div>
-                        <div class="point negative">
+                        <div class="point">
                             <i class="fas fa-ban"></i>
                             <span>NOT SEBI registered. NOT investment advice</span>
-                        </div>
-                        <div class="point negative">
-                            <i class="fas fa-ban"></i>
-                            <span>No buy/sell recommendations provided</span>
-                        </div>
-                        <div class="point positive">
-                            <i class="fas fa-check"></i>
-                            <span>Tools for technical analysis practice</span>
-                        </div>
-                        <div class="point positive">
-                            <i class="fas fa-check"></i>
-                            <span>Market data from third-party APIs</span>
-                        </div>
-                        <div class="point positive">
-                            <i class="fas fa-check"></i>
-                            <span>7-day free trial, then ₹999/month</span>
                         </div>
                     </div>
                     
                     <!-- Checkbox 1 -->
-                    <div class="checkbox-group" id="termsGroup1" onclick="toggleCheckbox('agreeTerms')">
+                    <div class="checkbox-group" id="termsGroup1">
                         <input type="checkbox" id="agreeTerms">
-                        <label for="agreeTerms" onclick="event.stopPropagation();">
+                        <label for="agreeTerms">
                             <strong>✓ I AGREE:</strong> This is a tools platform only. I will not use it for investment decisions. 
                             I understand this is NOT investment advice.
                         </label>
                     </div>
                     
                     <!-- Checkbox 2 -->
-                    <div class="checkbox-group" id="termsGroup2" onclick="toggleCheckbox('agreeSEBI')">
+                    <div class="checkbox-group" id="termsGroup2">
                         <input type="checkbox" id="agreeSEBI">
-                        <label for="agreeSEBI" onclick="event.stopPropagation();">
+                        <label for="agreeSEBI">
                             <strong>✓ I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
                             for investment decisions.
                         </label>
                     </div>
                     
-                    <!-- Proceed Button -->
+                    <!-- Proceed Section -->
                     <div class="proceed-section" id="proceedSection">
                         <button id="proceedToForms">
                             <i class="fas fa-arrow-right"></i> I AGREE & PROCEED TO REGISTER/LOGIN
                         </button>
-                        <p class="proceed-hint">
-                            You can now proceed to create your account or login
-                        </p>
                     </div>
                 </div>
             </div>
@@ -1077,512 +363,107 @@
             <div class="auth-form" id="loginForm">
                 <div class="form-header">
                     <h2>Access Professional Volume Scanner</h2>
-                    <p>Login to your account to access advanced market analysis tools</p>
+                    <p>Login to your account</p>
                 </div>
                 
-                <form id="loginFormElement">
-                    <div class="form-group">
-                        <label for="loginEmail">Email Address</label>
-                        <input type="email" id="loginEmail" placeholder="your@email.com" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="loginPassword">Password</label>
-                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
-                    </div>
-                    
-                    <!-- REMEMBER ME CHECKBOX -->
-                    <div class="form-options">
-                        <div class="remember-me-group" onclick="toggleCheckbox('rememberMe')">
-                            <input type="checkbox" id="rememberMe">
-                            <label for="rememberMe" onclick="event.stopPropagation();">Keep me logged in</label>
-                        </div>
-                        <a href="#" id="forgotPassword">Forgot Password?</a>
-                    </div>
-                    
-                    <button type="submit" class="btn-auth" id="loginBtn">
-                        <i class="fas fa-sign-in-alt"></i> Login to Dashboard
-                    </button>
-                    
-                    <div id="loginMessage" class="message"></div>
-                    
-                    <div class="auth-divider">
-                        <span>New User?</span>
-                    </div>
-                    
-                    <button type="button" class="btn-auth btn-secondary" id="showRegisterBtn">
-                        <i class="fas fa-user-plus"></i> Start 7-Day Free Trial
-                    </button>
-                </form>
-                
-                <div class="form-footer">
-                    <p>By continuing, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></p>
-                </div>
-            </div>
-            
-            <!-- Registration Form -->
-            <div class="auth-form" id="registerForm">
-                <div class="form-header">
-                    <h2>Start Your Free Trial</h2>
-                    <p>Create your account in 30 seconds and get full access</p>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="your@email.com">
                 </div>
                 
-                <div class="trial-benefits">
-                    <h4><i class="fas fa-gift"></i> Free Trial Includes:</h4>
-                    <div class="benefits-list">
-                        <div class="benefit-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>7 days full access</span>
-                        </div>
-                        <div class="benefit-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>All 10 Incomeplus Scanners</span>
-                        </div>
-                        <div class="benefit-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Real-time market data</span>
-                        </div>
-                        <div class="benefit-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Excel report exports</span>
-                        </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter your password">
+                </div>
+                
+                <div class="form-options">
+                    <div class="remember">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Keep me logged in</label>
                     </div>
                 </div>
                 
-                <form id="registerFormElement">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="registerName">Full Name</label>
-                            <input type="text" id="registerName" placeholder="John Doe" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="registerUsername">Username*</label>
-                            <input type="text" id="registerUsername" placeholder="johndoe123" required>
-                            <small style="color: var(--gray); font-size: 0.9rem; display: block; margin-top: 8px;">*No spaces allowed</small>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="registerEmail">Email Address</label>
-                            <input type="email" id="registerEmail" placeholder="your@email.com" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="registerPhone">Phone Number (Optional)</label>
-                            <input type="tel" id="registerPhone" placeholder="+91 9876543210">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="registerPassword">Password</label>
-                            <input type="password" id="registerPassword" placeholder="Create a password" required>
-                            <div class="password-strength">
-                                <div class="strength-bar" id="passwordStrengthBar"></div>
-                            </div>
-                            <span class="strength-text" id="passwordStrengthText"></span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="registerConfirmPassword">Confirm Password</label>
-                            <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
-                            <span id="passwordMatchMessage" style="font-size:0.9rem; font-weight:600;"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="registerExperience">Experience Level</label>
-                        <select id="registerExperience" required>
-                            <option value="">Select your experience</option>
-                            <option value="beginner">Beginner</option>
-                            <option value="intermediate">Intermediate</option>
-                            <option value="advanced">Advanced</option>
-                            <option value="professional">Professional</option>
-                        </select>
-                    </div>
-                    
-                    <button type="submit" class="btn-auth" id="registerBtn">
-                        <i class="fas fa-rocket"></i> Start Free Trial
-                    </button>
-                    
-                    <div id="registerMessage" class="message"></div>
-                    
-                    <div class="auth-divider">
-                        <span>Already have an account?</span>
-                    </div>
-                    
-                    <button type="button" class="btn-auth btn-secondary" id="showLoginBtn">
-                        <i class="fas fa-sign-in-alt"></i> Back to Login
-                    </button>
-                </form>
-                
-                <div class="form-footer">
-                    <p>By signing up, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></p>
-                </div>
+                <button class="btn-auth">
+                    <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <i class="fas fa-chart-network"></i>
-                        <span>Incomeplus<span class="highlight">Scanner</span></span>
-                    </div>
-                    <p>Professional Volume Analysis Platform providing advanced market analysis tools for educational purposes.</p>
-                    <div class="contact-email">
-                        <i class="fas fa-envelope"></i> support@volumescanner.in
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Platform</h4>
-                    <a href="index.html">Home</a>
-                    <a href="#features">Features</a>
-                    <a href="#pricing">Pricing</a>
-                    <a href="login.html">Login</a>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <a href="terms.html">Terms of Service</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="disclaimer.html">Disclaimer</a>
-                    <a href="refund.html">Refund Policy</a>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="support.html">Support</a>
-                    <a href="faq.html">FAQ</a>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <div class="copyright">
-                    &copy; 2024 Incomeplus Scanner. All rights reserved.
-                </div>
-                <div class="company-info">
-                    A product of TRFSK Omkar Services Pvt Ltd
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <script>
-        // ========== GLOBAL FUNCTIONS ==========
-        function toggleCheckbox(checkboxId) {
-            const checkbox = document.getElementById(checkboxId);
-            if (checkbox) {
-                checkbox.checked = !checkbox.checked;
-                
-                // Trigger change event
-                const event = new Event('change');
-                checkbox.dispatchEvent(event);
-                
-                // Update UI for terms checkboxes
-                if (checkboxId === 'agreeTerms' || checkboxId === 'agreeSEBI') {
-                    updateTermsUI();
-                }
-            }
-        }
-        
-        function updateTermsUI() {
+        // ========== SIMPLE FIXED VERSION FOR GITHUB PAGES ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('GitHub Pages Login Loaded');
+            
+            // Get elements
             const agreeTerms = document.getElementById('agreeTerms');
             const agreeSEBI = document.getElementById('agreeSEBI');
+            const proceedSection = document.getElementById('proceedSection');
+            const proceedButton = document.getElementById('proceedToForms');
             const termsGroup1 = document.getElementById('termsGroup1');
             const termsGroup2 = document.getElementById('termsGroup2');
-            const proceedSection = document.getElementById('proceedSection');
+            const loginForm = document.getElementById('loginForm');
             
-            if (agreeTerms && agreeSEBI && termsGroup1 && termsGroup2) {
-                const isTermsChecked = agreeTerms.checked;
-                const isSEBIChecked = agreeSEBI.checked;
-                const allChecked = isTermsChecked && isSEBIChecked;
+            // Function to check if both are checked
+            function checkTerms() {
+                const bothChecked = agreeTerms.checked && agreeSEBI.checked;
                 
-                // Update checkbox group styles
-                termsGroup1.classList.toggle('checked', isTermsChecked);
-                termsGroup2.classList.toggle('checked', isSEBIChecked);
+                // Update styles
+                termsGroup1.classList.toggle('checked', agreeTerms.checked);
+                termsGroup2.classList.toggle('checked', agreeSEBI.checked);
                 
-                // Show/hide proceed section
-                if (proceedSection) {
-                    if (allChecked) {
-                        proceedSection.classList.add('show');
-                    } else {
-                        proceedSection.classList.remove('show');
-                    }
+                // Show/hide proceed button
+                if (bothChecked) {
+                    proceedSection.classList.add('show');
+                } else {
+                    proceedSection.classList.remove('show');
                 }
+                
+                return bothChecked;
             }
-        }
-        
-        // ========== INITIALIZE PAGE ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('✅ Login page loaded on GitHub Pages');
             
-            // ========== TERMS AGREEMENT ==========
-            const agreeTerms = document.getElementById('agreeTerms');
-            const agreeSEBI = document.getElementById('agreeSEBI');
-            const proceedButton = document.getElementById('proceedToForms');
+            // Add click events to whole checkbox groups
+            termsGroup1.addEventListener('click', function(e) {
+                if (e.target.type !== 'checkbox') {
+                    agreeTerms.checked = !agreeTerms.checked;
+                    checkTerms();
+                }
+            });
             
-            // Add event listeners for terms checkboxes
-            if (agreeTerms && agreeSEBI) {
-                agreeTerms.addEventListener('change', updateTermsUI);
-                agreeSEBI.addEventListener('change', updateTermsUI);
-            }
+            termsGroup2.addEventListener('click', function(e) {
+                if (e.target.type !== 'checkbox') {
+                    agreeSEBI.checked = !agreeSEBI.checked;
+                    checkTerms();
+                }
+            });
+            
+            // Add change events to checkboxes
+            agreeTerms.addEventListener('change', checkTerms);
+            agreeSEBI.addEventListener('change', checkTerms);
             
             // Proceed button click
-            if (proceedButton) {
-                proceedButton.addEventListener('click', function() {
-                    // Show login form
-                    const loginForm = document.getElementById('loginForm');
-                    if (loginForm) {
-                        loginForm.classList.add('active');
-                        
-                        // Scroll to form
-                        setTimeout(() => {
-                            loginForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }, 100);
-                    }
-                });
-            }
+            proceedButton.addEventListener('click', function() {
+                loginForm.classList.add('active');
+                loginForm.scrollIntoView({ behavior: 'smooth' });
+            });
             
-            // ========== FORM TOGGLE ==========
-            const showRegisterBtn = document.getElementById('showRegisterBtn');
-            const showLoginBtn = document.getElementById('showLoginBtn');
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
+            // Initial check
+            checkTerms();
             
-            if (showRegisterBtn && showLoginBtn) {
-                showRegisterBtn.addEventListener('click', function() {
-                    if (loginForm) loginForm.classList.remove('active');
-                    if (registerForm) {
-                        registerForm.classList.add('active');
-                        setTimeout(() => {
-                            registerForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }, 100);
-                    }
-                });
-                
-                showLoginBtn.addEventListener('click', function() {
-                    if (registerForm) registerForm.classList.remove('active');
-                    if (loginForm) {
-                        loginForm.classList.add('active');
-                        setTimeout(() => {
-                            loginForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }, 100);
-                    }
-                });
-            }
-            
-            // ========== URL PARAMETERS ==========
+            // Check URL for ?register=true
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('register') === 'true') {
                 // Auto-check terms
                 setTimeout(() => {
-                    if (agreeTerms && agreeSEBI) {
-                        agreeTerms.checked = true;
-                        agreeSEBI.checked = true;
-                        updateTermsUI();
-                        
-                        // Auto-proceed
-                        setTimeout(() => {
-                            if (proceedButton) {
-                                proceedButton.click();
-                                setTimeout(() => {
-                                    if (showRegisterBtn) showRegisterBtn.click();
-                                }, 300);
-                            }
-                        }, 200);
-                    }
+                    agreeTerms.checked = true;
+                    agreeSEBI.checked = true;
+                    checkTerms();
+                    
+                    // Auto-click proceed
+                    setTimeout(() => {
+                        proceedButton.click();
+                    }, 300);
                 }, 500);
-            }
-            
-            // ========== PASSWORD VALIDATION ==========
-            const registerPassword = document.getElementById('registerPassword');
-            const registerConfirmPassword = document.getElementById('registerConfirmPassword');
-            const passwordStrengthBar = document.getElementById('passwordStrengthBar');
-            const passwordStrengthText = document.getElementById('passwordStrengthText');
-            const passwordMatchMessage = document.getElementById('passwordMatchMessage');
-            
-            if (registerPassword) {
-                registerPassword.addEventListener('input', function() {
-                    const password = this.value;
-                    let strength = 0;
-                    
-                    if (password.length >= 8) strength += 1;
-                    if (password.length >= 12) strength += 1;
-                    if (/[A-Z]/.test(password)) strength += 1;
-                    if (/[0-9]/.test(password)) strength += 1;
-                    if (/[^A-Za-z0-9]/.test(password)) strength += 1;
-                    
-                    let strengthText = '';
-                    let strengthClass = '';
-                    
-                    if (password.length === 0) {
-                        strengthText = '';
-                        strengthClass = '';
-                    } else if (strength <= 2) {
-                        strengthText = 'Weak';
-                        strengthClass = 'strength-weak';
-                    } else if (strength === 3) {
-                        strengthText = 'Medium';
-                        strengthClass = 'strength-medium';
-                    } else {
-                        strengthText = 'Strong';
-                        strengthClass = 'strength-strong';
-                    }
-                    
-                    const widthPercentage = (strength / 5) * 100;
-                    if (passwordStrengthBar) {
-                        passwordStrengthBar.style.width = widthPercentage + '%';
-                        passwordStrengthBar.className = 'strength-bar ' + strengthClass;
-                    }
-                    
-                    if (passwordStrengthText) {
-                        passwordStrengthText.textContent = strengthText;
-                        passwordStrengthText.style.color = 
-                            strengthClass === 'strength-weak' ? '#ef4444' :
-                            strengthClass === 'strength-medium' ? '#f59e0b' : '#10b981';
-                    }
-                });
-            }
-            
-            if (registerConfirmPassword) {
-                registerConfirmPassword.addEventListener('input', function() {
-                    if (!registerPassword) return;
-                    
-                    const password = registerPassword.value;
-                    const confirmPassword = this.value;
-                    
-                    if (confirmPassword.length === 0) {
-                        passwordMatchMessage.textContent = '';
-                        passwordMatchMessage.style.color = '';
-                    } else if (password === confirmPassword) {
-                        passwordMatchMessage.textContent = '✓ Passwords match';
-                        passwordMatchMessage.style.color = '#10b981';
-                    } else {
-                        passwordMatchMessage.textContent = '✗ Passwords do not match';
-                        passwordMatchMessage.style.color = '#ef4444';
-                    }
-                });
-            }
-            
-            // ========== FORM SUBMISSION ==========
-            const loginFormElement = document.getElementById('loginFormElement');
-            const registerFormElement = document.getElementById('registerFormElement');
-            
-            if (loginFormElement) {
-                loginFormElement.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const email = document.getElementById('loginEmail').value;
-                    const password = document.getElementById('loginPassword').value;
-                    const rememberMe = document.getElementById('rememberMe').checked;
-                    const loginMessage = document.getElementById('loginMessage');
-                    
-                    if (!email || !password) {
-                        showMessage(loginMessage, 'Please fill in all fields', 'error');
-                        return;
-                    }
-                    
-                    const loginBtn = document.getElementById('loginBtn');
-                    const originalText = loginBtn.innerHTML;
-                    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-                    loginBtn.disabled = true;
-                    
-                    setTimeout(() => {
-                        const message = rememberMe ? 
-                            'Login successful! You will stay logged in for 30 days.' :
-                            'Login successful! Redirecting to dashboard...';
-                        
-                        showMessage(loginMessage, message, 'success');
-                        
-                        // For GitHub Pages demo, don't redirect
-                        // setTimeout(() => {
-                        //     window.location.href = 'dashboard.html';
-                        // }, 2000);
-                        
-                        loginBtn.innerHTML = originalText;
-                        loginBtn.disabled = false;
-                    }, 1500);
-                });
-            }
-            
-            if (registerFormElement) {
-                registerFormElement.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const name = document.getElementById('registerName').value;
-                    const username = document.getElementById('registerUsername').value;
-                    const email = document.getElementById('registerEmail').value;
-                    const password = document.getElementById('registerPassword').value;
-                    const confirmPassword = document.getElementById('registerConfirmPassword').value;
-                    const experience = document.getElementById('registerExperience').value;
-                    const registerMessage = document.getElementById('registerMessage');
-                    
-                    if (!name || !username || !email || !password || !confirmPassword || !experience) {
-                        showMessage(registerMessage, 'Please fill in all required fields', 'error');
-                        return;
-                    }
-                    
-                    if (password !== confirmPassword) {
-                        showMessage(registerMessage, 'Passwords do not match', 'error');
-                        return;
-                    }
-                    
-                    if (password.length < 6) {
-                        showMessage(registerMessage, 'Password must be at least 6 characters', 'error');
-                        return;
-                    }
-                    
-                    const registerBtn = document.getElementById('registerBtn');
-                    const originalText = registerBtn.innerHTML;
-                    registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
-                    registerBtn.disabled = true;
-                    
-                    setTimeout(() => {
-                        showMessage(registerMessage, 'Account created successfully! Starting your 7-day free trial...', 'success');
-                        
-                        // For GitHub Pages demo, don't redirect
-                        // setTimeout(() => {
-                        //     window.location.href = 'dashboard.html';
-                        // }, 3000);
-                        
-                        registerBtn.innerHTML = originalText;
-                        registerBtn.disabled = false;
-                    }, 2000);
-                });
-            }
-            
-            // Forgot password
-            const forgotPassword = document.getElementById('forgotPassword');
-            if (forgotPassword) {
-                forgotPassword.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const email = prompt('Please enter your email address to reset password:');
-                    if (email) {
-                        alert(`Password reset link has been sent to ${email}. Please check your inbox.`);
-                    }
-                });
-            }
-            
-            // ========== HELPER FUNCTIONS ==========
-            function showMessage(element, text, type) {
-                if (!element) return;
-                
-                element.textContent = text;
-                element.className = 'message ' + type;
-                
-                setTimeout(() => {
-                    element.className = 'message';
-                    element.textContent = '';
-                }, 5000);
             }
         });
     </script>
