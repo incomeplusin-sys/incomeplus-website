@@ -618,55 +618,65 @@
     <div class="auth-container">
         <div class="auth-box">
             <!-- Legal Agreement -->
-            <div class="legal-agreement">
-                <h2><i class="fas fa-file-contract"></i> Terms of Use Agreement</h2>
-                <div class="agreement-content">
-                    <p><strong>READ CAREFULLY BEFORE PROCEEDING</strong></p>
-                    
-                    <div class="agreement-points">
-                        <div class="point">
-                            <i class="fas fa-ban"></i>
-                            <span>This is a technical analysis TOOLS platform only</span>
-                        </div>
-                        <div class="point">
-                            <i class="fas fa-ban"></i>
-                            <span>NOT SEBI registered. NOT investment advice</span>
-                        </div>
-                        <div class="point">
-                            <i class="fas fa-ban"></i>
-                            <span>No buy/sell recommendations provided</span>
-                        </div>
-                        <div class="point">
-                            <i class="fas fa-check"></i>
-                            <span>Tools for technical analysis practice</span>
-                        </div>
-                        <div class="point">
-                            <i class="fas fa-check"></i>
-                            <span>Market data from third-party APIs</span>
-                        </div>
-                        <div class="point">
-                            <i class="fas fa-check"></i>
-                            <span>7-day free trial, then ₹999/month</span>
-                        </div>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="agreeTerms" required>
-                        <label for="agreeTerms">
-                            I agree that this is a tools platform only. I will not use it for investment decisions. 
-                            I understand this is NOT investment advice.
-                        </label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="agreeSEBI" required>
-                        <label for="agreeSEBI">
-                            I understand Incomeplus Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
-                            for investment decisions.
-                        </label>
-                    </div>
-                </div>
+            <!-- Legal Agreement -->
+<div class="legal-agreement">
+    <h2><i class="fas fa-file-contract"></i> Terms of Use Agreement</h2>
+    <div class="agreement-content">
+        <p><strong>READ CAREFULLY BEFORE PROCEEDING</strong></p>
+        
+        <div class="agreement-points">
+            <div class="point">
+                <i class="fas fa-ban"></i>
+                <span>This is a technical analysis TOOLS platform only</span>
             </div>
+            <div class="point">
+                <i class="fas fa-ban"></i>
+                <span>NOT SEBI registered. NOT investment advice</span>
+            </div>
+            <div class="point">
+                <i class="fas fa-ban"></i>
+                <span>No buy/sell recommendations provided</span>
+            </div>
+            <div class="point">
+                <i class="fas fa-check"></i>
+                <span>Tools for technical analysis practice</span>
+            </div>
+            <div class="point">
+                <i class="fas fa-check"></i>
+                <span>Market data from third-party APIs</span>
+            </div>
+            <div class="point">
+                <i class="fas fa-check"></i>
+                <span>7-day free trial, then ₹999/month</span>
+            </div>
+        </div>
+        
+        <!-- FIXED: Checkbox Group 1 -->
+        <div class="checkbox-group" id="termsGroup1">
+            <input type="checkbox" id="agreeTerms" required>
+            <label for="agreeTerms">
+                <strong>✓ I AGREE:</strong> This is a tools platform only. I will not use it for investment decisions. 
+                I understand this is NOT investment advice.
+            </label>
+        </div>
+        
+        <!-- FIXED: Checkbox Group 2 -->
+        <div class="checkbox-group" id="termsGroup2">
+            <input type="checkbox" id="agreeSEBI" required>
+            <label for="agreeSEBI">
+                <strong>✓ I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
+                for investment decisions.
+            </label>
+        </div>
+        
+        <!-- Add this status indicator -->
+        <div id="termsStatus" style="margin-top: 15px; padding: 10px; background: #f0f9ff; border-radius: 6px; display: none;">
+            <p style="margin: 0; color: #0369a1; font-weight: 500;">
+                <i class="fas fa-info-circle"></i> Please check both boxes above to enable login/register buttons
+            </p>
+        </div>
+    </div>
+</div>
             
             <!-- Login Form -->
             <div class="auth-form" id="loginFormContainer">
