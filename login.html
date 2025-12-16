@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Incomeplus Scanner</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Additional styles for login page */
+        /* Legal Banner */
         .legal-banner {
             background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             color: white;
@@ -29,10 +28,7 @@
             font-size: 1.2rem;
         }
         
-        .legal-banner.warning {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-        }
-        
+        /* Header */
         .header {
             background: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -43,6 +39,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
         .logo-area {
@@ -94,6 +93,7 @@
             color: #4f46e5;
             border-radius: 6px;
             font-weight: 500;
+            text-decoration: none;
         }
         
         .btn-primary {
@@ -110,6 +110,7 @@
             gap: 8px;
         }
         
+        /* Auth Container */
         .auth-container {
             min-height: calc(100vh - 120px);
             display: flex;
@@ -117,63 +118,6 @@
             justify-content: center;
             padding: 40px 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .footer {
-            background: #2d3748;
-            color: white;
-            padding: 40px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-        
-        .footer-brand .logo {
-            color: white;
-            margin-bottom: 15px;
-        }
-        
-        .footer-brand p {
-            opacity: 0.8;
-            margin-bottom: 10px;
-        }
-        
-        .contact-email {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-            color: #cbd5e0;
-        }
-        
-        .footer-links h4 {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-        
-        .footer-links a {
-            display: block;
-            color: #cbd5e0;
-            text-decoration: none;
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .footer-bottom {
-            border-top: 1px solid #4a5568;
-            padding-top: 30px;
-            text-align: center;
-            color: #a0aec0;
-            font-size: 0.9rem;
         }
         
         .auth-box {
@@ -185,12 +129,11 @@
             width: 100%;
         }
         
+        /* Legal Agreement */
         .legal-agreement {
             background: #f8fafc;
             padding: 30px;
             border-bottom: 2px solid #e2e8f0;
-            max-height: 400px;
-            overflow-y: auto;
         }
         
         .legal-agreement h2 {
@@ -231,7 +174,6 @@
         .point i {
             color: #4f46e5;
             font-size: 1.2rem;
-            min-width: 20px;
         }
         
         .point span {
@@ -248,11 +190,18 @@
             background: white;
             border-radius: 8px;
             border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .checkbox-group.checked {
+            border-color: #10b981;
+            background: #f0fdf4;
         }
         
         .checkbox-group input[type="checkbox"] {
             accent-color: #4f46e5;
             margin-top: 3px;
+            transform: scale(1.2);
         }
         
         .checkbox-group label {
@@ -260,10 +209,58 @@
             font-size: 0.9rem;
             line-height: 1.5;
             cursor: pointer;
+            flex: 1;
         }
         
+        .proceed-section {
+            margin-top: 25px;
+            text-align: center;
+            padding: 20px;
+            background: #f0fdf4;
+            border-radius: 10px;
+            border: 2px solid #10b981;
+            display: none;
+        }
+        
+        .proceed-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        #proceedToForms {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto;
+        }
+        
+        #proceedToForms:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+        
+        /* Auth Forms */
         .auth-form {
             padding: 40px;
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
         }
         
         .form-header {
@@ -291,7 +288,8 @@
             color: #4a5568;
         }
         
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 15px;
             border: 2px solid #e2e8f0;
@@ -300,7 +298,8 @@
             transition: border-color 0.3s ease;
         }
         
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #4f46e5;
         }
@@ -371,6 +370,16 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         
+        .btn-auth:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-auth:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
         .auth-divider {
             position: relative;
             text-align: center;
@@ -395,18 +404,10 @@
             font-size: 0.9rem;
         }
         
-        .register-form {
-            display: none;
-        }
-        
-        .register-form .form-row {
+        .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-        }
-        
-        .register-form .form-group {
-            margin-bottom: 20px;
         }
         
         .trial-benefits {
@@ -459,7 +460,7 @@
             text-decoration: underline;
         }
         
-        /* Message styles */
+        /* Messages */
         .message {
             padding: 15px;
             border-radius: 8px;
@@ -483,67 +484,71 @@
             display: block;
         }
         
-        /* Loading state */
-        .btn-auth.loading {
-            opacity: 0.7;
-            cursor: not-allowed;
+        /* Footer */
+        .footer {
+            background: #2d3748;
+            color: white;
+            padding: 40px 0 20px;
         }
         
-        .btn-auth .spinner {
-            display: none;
+        .footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
-        .btn-auth.loading .spinner {
-            display: inline-block;
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
         }
         
-        .btn-auth.loading .btn-text {
-            display: none;
-        }
-        
-        /* Forgot Password Modal */
-        .forgot-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .forgot-modal.active {
-            display: flex;
-        }
-        
-        .forgot-content {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-        }
-        
-        .forgot-content h3 {
-            color: #2d3748;
+        .footer-brand .logo {
+            color: white;
             margin-bottom: 15px;
         }
         
-        .forgot-content p {
-            color: #718096;
-            margin-bottom: 25px;
+        .footer-brand p {
+            opacity: 0.8;
+            margin-bottom: 10px;
         }
         
-        .forgot-actions {
+        .contact-email {
             display: flex;
-            gap: 15px;
-            margin-top: 25px;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: #cbd5e0;
         }
         
+        .footer-links h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .footer-links a {
+            display: block;
+            color: #cbd5e0;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #4a5568;
+            padding-top: 30px;
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
             .auth-box {
                 margin: 20px;
@@ -557,26 +562,25 @@
                 padding: 20px;
             }
             
-            .register-form .form-row {
+            .form-row {
                 grid-template-columns: 1fr;
             }
             
             .header .container {
                 flex-direction: column;
                 gap: 15px;
-                text-align: center;
             }
             
             .logo-area {
                 flex-direction: column;
-                gap: 10px;
+                text-align: center;
             }
             
             .tagline {
                 padding-left: 0;
                 border-left: none;
-                border-top: 2px solid #e2e8f0;
                 padding-top: 10px;
+                border-top: 2px solid #e2e8f0;
             }
         }
     </style>
@@ -599,7 +603,7 @@
             <div class="logo-area">
                 <div class="logo">
                     <i class="fas fa-chart-network"></i>
-                     <span>Incomeplus<span class="highlight">Scanner</span>
+                    <span>Incomeplus<span class="highlight">Scanner</span></span>
                 </div>
                 <div class="tagline">Professional Volume Analysis Platform</div>
             </div>
@@ -609,7 +613,7 @@
                 <a href="#features">Features</a>
                 <a href="#pricing">Pricing</a>
                 <a href="login.html" class="btn-login">Login</a>
-                <a href="#register" class="btn-primary">Start Free Trial</a>
+                <a href="login.html?register=true" class="btn-primary">Start Free Trial</a>
             </nav>
         </div>
     </header>
@@ -618,111 +622,76 @@
     <div class="auth-container">
         <div class="auth-box">
             <!-- Legal Agreement -->
-<div class="legal-agreement">
-    <h2><i class="fas fa-file-contract"></i> Terms of Use Agreement</h2>
-    <div class="agreement-content">
-        <p><strong>READ CAREFULLY BEFORE PROCEEDING</strong></p>
-        
-        <div class="agreement-points">
-            <div class="point">
-                <i class="fas fa-ban"></i>
-                <span>This is a technical analysis TOOLS platform only</span>
+            <div class="legal-agreement">
+                <h2><i class="fas fa-file-contract"></i> Terms of Use Agreement</h2>
+                <div class="agreement-content">
+                    <p><strong>READ CAREFULLY BEFORE PROCEEDING</strong></p>
+                    
+                    <div class="agreement-points">
+                        <div class="point">
+                            <i class="fas fa-ban"></i>
+                            <span>This is a technical analysis TOOLS platform only</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-ban"></i>
+                            <span>NOT SEBI registered. NOT investment advice</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-ban"></i>
+                            <span>No buy/sell recommendations provided</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-check"></i>
+                            <span>Tools for technical analysis practice</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-check"></i>
+                            <span>Market data from third-party APIs</span>
+                        </div>
+                        <div class="point">
+                            <i class="fas fa-check"></i>
+                            <span>7-day free trial, then ₹999/month</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Checkbox 1 -->
+                    <div class="checkbox-group" id="termsGroup1">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">
+                            <strong>✓ I AGREE:</strong> This is a tools platform only. I will not use it for investment decisions. 
+                            I understand this is NOT investment advice.
+                        </label>
+                    </div>
+                    
+                    <!-- Checkbox 2 -->
+                    <div class="checkbox-group" id="termsGroup2">
+                        <input type="checkbox" id="agreeSEBI" required>
+                        <label for="agreeSEBI">
+                            <strong>✓ I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
+                            for investment decisions.
+                        </label>
+                    </div>
+                    
+                    <!-- Proceed Section -->
+                    <div class="proceed-section" id="proceedSection">
+                        <button id="proceedToForms">
+                            <i class="fas fa-arrow-right"></i> I AGREE & PROCEED TO REGISTER/LOGIN
+                        </button>
+                        <p style="color: #64748b; margin-top: 10px; font-size: 0.9rem;">
+                            You can now proceed to create your account or login
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="point">
-                <i class="fas fa-ban"></i>
-                <span>NOT SEBI registered. NOT investment advice</span>
-            </div>
-            <div class="point">
-                <i class="fas fa-ban"></i>
-                <span>No buy/sell recommendations provided</span>
-            </div>
-            <div class="point">
-                <i class="fas fa-check"></i>
-                <span>Tools for technical analysis practice</span>
-            </div>
-            <div class="point">
-                <i class="fas fa-check"></i>
-                <span>Market data from third-party APIs</span>
-            </div>
-            <div class="point">
-                <i class="fas fa-check"></i>
-                <span>7-day free trial, then ₹999/month</span>
-            </div>
-        </div>
-        
-        <!-- CHECKBOX 1: Terms Agreement -->
-        <div class="checkbox-group" id="termsGroup1">
-            <input type="checkbox" id="agreeTerms" required>
-            <label for="agreeTerms">
-                <strong><i class="fas fa-check-square"></i> I AGREE:</strong> This is a tools platform only. 
-                I will not use it for investment decisions. I understand this is NOT investment advice.
-            </label>
-        </div>
-        
-        <!-- CHECKBOX 2: SEBI Agreement -->
-        <div class="checkbox-group" id="termsGroup2">
-            <input type="checkbox" id="agreeSEBI" required>
-            <label for="agreeSEBI">
-                <strong><i class="fas fa-check-square"></i> I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. 
-                I will consult SEBI registered advisors for investment decisions.
-            </label>
-        </div>
-        
-        <!-- Status Message -->
-        <div id="termsStatus" style="display: none;">
-            <p style="color: #3b82f6; background: #eff6ff; padding: 12px; border-radius: 8px; border-left: 4px solid #3b82f6;">
-                <i class="fas fa-info-circle"></i> Please check both boxes above to enable login/register buttons
-            </p>
-        </div>
-        
-        <!-- Proceed Button -->
-        <div id="proceedSection" style="margin-top: 25px; text-align: center; display: none;">
-            <button id="proceedToForms" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
-                    color: white; padding: 15px 30px; border: none; border-radius: 10px; 
-                    font-weight: 600; cursor: pointer; font-size: 1rem;">
-                <i class="fas fa-arrow-right"></i> I AGREE & PROCEED TO REGISTER/LOGIN
-            </button>
-            <p style="color: #64748b; margin-top: 10px; font-size: 0.9rem;">
-                You can proceed to create your account
-            </p>
-        </div>
-    </div>
-</div>        
-        <!-- FIXED: Checkbox Group 1 -->
-        <div class="checkbox-group" id="termsGroup1">
-            <input type="checkbox" id="agreeTerms" required>
-            <label for="agreeTerms">
-                <strong>✓ I AGREE:</strong> This is a tools platform only. I will not use it for investment decisions. 
-                I understand this is NOT investment advice.
-            </label>
-        </div>
-        
-        <!-- FIXED: Checkbox Group 2 -->
-        <div class="checkbox-group" id="termsGroup2">
-            <input type="checkbox" id="agreeSEBI" required>
-            <label for="agreeSEBI">
-                <strong>✓ I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
-                for investment decisions.
-            </label>
-        </div>
-        
-        <!-- Add this status indicator -->
-        <div id="termsStatus" style="margin-top: 15px; padding: 10px; background: #f0f9ff; border-radius: 6px; display: none;">
-            <p style="margin: 0; color: #0369a1; font-weight: 500;">
-                <i class="fas fa-info-circle"></i> Please check both boxes above to enable login/register buttons
-            </p>
-        </div>
-    </div>
-</div>
             
             <!-- Login Form -->
-            <div class="auth-form" id="loginFormContainer">
+            <div class="auth-form" id="loginForm">
                 <div class="form-header">
                     <h2>Access Professional Volume Scanner</h2>
                     <p>Login to your account</p>
                 </div>
                 
-                <form id="loginForm">
+                <form id="loginFormElement">
                     <div class="form-group">
                         <label for="loginEmail">Email Address</label>
                         <input type="email" id="loginEmail" placeholder="your@email.com" required>
@@ -735,15 +704,15 @@
                     
                     <div class="form-options">
                         <div class="remember">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">Remember me</label>
+                            <input type="checkbox" id="rememberMe">
+                            <label for="rememberMe">Remember me</label>
                         </div>
                         <a href="#" id="forgotPassword">Forgot Password?</a>
                     </div>
                     
-                    <button type="submit" class="btn-auth" id="loginBtn">
+                    <button type="submit" class="btn-auth" id="loginBtn" disabled>
                         <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Login to Dashboard</span>
-                        <span class="spinner"><i class="fas fa-spinner fa-spin"></i> Logging in...</span>
+                        <span class="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Logging in...</span>
                     </button>
                     
                     <div id="loginMessage" class="message"></div>
@@ -752,7 +721,7 @@
                         <span>New User?</span>
                     </div>
                     
-                    <button type="button" class="btn-auth btn-secondary" id="showRegisterForm">
+                    <button type="button" class="btn-auth btn-secondary" id="showRegisterBtn">
                         <i class="fas fa-user-plus"></i> Start 7-Day Free Trial
                     </button>
                 </form>
@@ -763,7 +732,7 @@
             </div>
             
             <!-- Registration Form -->
-            <div class="auth-form register-form" id="registerFormContainer">
+            <div class="auth-form" id="registerForm">
                 <div class="form-header">
                     <h2>Start Your Free Trial</h2>
                     <p>Create your account in 30 seconds</p>
@@ -791,7 +760,7 @@
                     </div>
                 </div>
                 
-                <form id="registerForm">
+                <form id="registerFormElement">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="registerName">Full Name</label>
@@ -801,7 +770,7 @@
                         <div class="form-group">
                             <label for="registerUsername">Username*</label>
                             <input type="text" id="registerUsername" placeholder="johndoe123" required>
-                            <small style="color: #718096; font-size: 0.85rem;">*Username is for login (no spaces)</small>
+                            <small style="color: #718096; font-size: 0.85rem; display: block; margin-top: 5px;">*No spaces allowed</small>
                         </div>
                     </div>
                     
@@ -821,6 +790,7 @@
                         <div class="form-group">
                             <label for="registerPassword">Password</label>
                             <input type="password" id="registerPassword" placeholder="Create a password" required>
+                            <small style="color: #718096; font-size: 0.85rem; display: block; margin-top: 5px;">Minimum 6 characters</small>
                         </div>
                         
                         <div class="form-group">
@@ -840,9 +810,9 @@
                         </select>
                     </div>
                     
-                    <button type="submit" class="btn-auth" id="registerBtn">
+                    <button type="submit" class="btn-auth" id="registerBtn" disabled>
                         <span class="btn-text"><i class="fas fa-rocket"></i> Start Free Trial</span>
-                        <span class="spinner"><i class="fas fa-spinner fa-spin"></i> Creating account...</span>
+                        <span class="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Creating account...</span>
                     </button>
                     
                     <div id="registerMessage" class="message"></div>
@@ -851,7 +821,7 @@
                         <span>Already have an account?</span>
                     </div>
                     
-                    <button type="button" class="btn-auth btn-secondary" id="showLoginForm">
+                    <button type="button" class="btn-auth btn-secondary" id="showLoginBtn">
                         <i class="fas fa-sign-in-alt"></i> Back to Login
                     </button>
                 </form>
@@ -863,23 +833,6 @@
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
-    <div class="forgot-modal" id="forgotModal">
-        <div class="forgot-content">
-            <h3><i class="fas fa-key"></i> Reset Password</h3>
-            <p>Enter your email address and we'll send you instructions to reset your password.</p>
-            
-            <div class="form-group">
-                <input type="email" id="forgotEmail" placeholder="your@email.com" required>
-            </div>
-            
-            <div class="forgot-actions">
-                <button class="btn-secondary" id="cancelForgot">Cancel</button>
-                <button class="btn-primary" id="sendResetEmail">Send Instructions</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -887,7 +840,7 @@
                 <div class="footer-brand">
                     <div class="logo">
                         <i class="fas fa-chart-network"></i>
-                         <span>Incomeplus<span class="highlight">Scanner</span>
+                        <span>Incomeplus<span class="highlight">Scanner</span></span>
                     </div>
                     <p>Professional Volume Analysis Platform</p>
                     <p class="contact-email">
@@ -932,176 +885,115 @@
     </footer>
 
     <script>
-        // BACKEND CONFIGURATION - IMPORTANT: Change when deploying
-   const BACKEND_URL = 'http://localhost:3001/api'; // Keep this
-
-// ========== BACKEND CONNECTION TEST ==========
-console.log('🔍 Checking backend connection...');
-
-// Test if backend is accessible
-fetch('http://localhost:3001/')
-    .then(response => {
-        console.log('✅ Backend response status:', response.status);
-        return response.json();
-    })
-    .then(data => {
-        console.log('✅ Backend message:', data.message);
-        console.log('✅ Endpoints available:', data.endpoints);
+        // Backend Configuration
+        const BACKEND_URL = 'http://localhost:3001/api';
         
-        // Show success message on page
-        const connectionStatus = document.createElement('div');
-        connectionStatus.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #10b981;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            z-index: 1000;
-            display: none;
-        `;
-        connectionStatus.innerHTML = `
-            <i class="fas fa-check-circle"></i> Backend connected
-        `;
-        document.body.appendChild(connectionStatus);
-        connectionStatus.style.display = 'block';
-        
-        // Hide after 3 seconds
-        setTimeout(() => {
-            connectionStatus.style.display = 'none';
-        }, 3000);
-        
-    })
-    .catch(error => {
-        console.error('❌ Backend connection error:', error);
-        
-        // Show error message
-        const errorStatus = document.createElement('div');
-        errorStatus.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ef4444;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            z-index: 1000;
-            max-width: 400px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        `;
-        errorStatus.innerHTML = `
-            <strong><i class="fas fa-exclamation-triangle"></i> Backend Connection Error</strong>
-            <p style="margin: 8px 0; font-size: 0.85rem;">${error.message}</p>
-            <p style="margin: 5px 0; font-size: 0.8rem;">
-                <strong>Solution:</strong><br>
-                1. Make sure backend is running<br>
-                2. Run in PowerShell: <code>node server.js</code><br>
-                3. Check if port 3001 is free
-            </p>
-        `;
-        document.body.appendChild(errorStatus);
-        
-        // Hide after 10 seconds
-        setTimeout(() => {
-            errorStatus.style.display = 'none';
-        }, 10000);
-    });
-        // Test 1: Try with CORS options
-        const response = await fetch('http://localhost:3001/', {
-            method: 'GET',
-            mode: 'cors'
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            console.log('✅ Backend connected:', data.message);
-            return true;
-        }
-    } catch (error) {
-        console.log('❌ Connection error:', error.message);
-        
-        // Try alternative methods
-        try {
-            // Test 2: Try without CORS
-            const response = await fetch('http://localhost:3001/health');
-            const data = await response.json();
-            console.log('✅ Backend connected (alternative):', data.status);
-            return true;
-        } catch (error2) {
-            console.log('❌ All connection attempts failed');
-            return false;
-        }
-    }
-}
-            
-            // Forgot password modal
-            const forgotPassword = document.getElementById('forgotPassword');
-            const forgotModal = document.getElementById('forgotModal');
-            const cancelForgot = document.getElementById('cancelForgot');
-            const sendResetEmail = document.getElementById('sendResetEmail');
-            
-            if (forgotPassword && forgotModal) {
-                forgotPassword.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    forgotModal.classList.add('active');
-                });
-                
-                cancelForgot.addEventListener('click', function() {
-                    forgotModal.classList.remove('active');
-                });
-                
-                sendResetEmail.addEventListener('click', function() {
-                    const email = document.getElementById('forgotEmail').value;
-                    if (email && email.includes('@')) {
-                        alert(`Password reset instructions sent to ${email}`);
-                        forgotModal.classList.remove('active');
-                    } else {
-                        alert('Please enter a valid email address');
-                    }
-                });
-                
-                // Close modal when clicking outside
-                forgotModal.addEventListener('click', function(e) {
-                    if (e.target === forgotModal) {
-                        forgotModal.classList.remove('active');
-                    }
-                });
-            }
-            
-            // Check if coming from registration link
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('register') === 'true') {
-                loginFormContainer.style.display = 'none';
-                registerFormContainer.style.display = 'block';
-            }
-            
-            // Terms agreement validation
+        document.addEventListener('DOMContentLoaded', function() {
+            // ========== TERMS AGREEMENT ==========
             const agreeTerms = document.getElementById('agreeTerms');
             const agreeSEBI = document.getElementById('agreeSEBI');
-            const loginBtn = document.getElementById('loginBtn');
-            const registerBtn = document.getElementById('registerBtn');
+            const proceedSection = document.getElementById('proceedSection');
+            const proceedButton = document.getElementById('proceedToForms');
+            const termsGroup1 = document.getElementById('termsGroup1');
+            const termsGroup2 = document.getElementById('termsGroup2');
             
-            function validateTerms() {
-                const isValid = agreeTerms.checked && agreeSEBI.checked;
-                if (loginBtn) loginBtn.disabled = !isValid;
-                if (registerBtn) registerBtn.disabled = !isValid;
+            function checkTerms() {
+                const isTermsChecked = agreeTerms.checked;
+                const isSEBIChecked = agreeSEBI.checked;
+                const allChecked = isTermsChecked && isSEBIChecked;
+                
+                // Update checkbox styles
+                if (termsGroup1) {
+                    termsGroup1.classList.toggle('checked', isTermsChecked);
+                }
+                if (termsGroup2) {
+                    termsGroup2.classList.toggle('checked', isSEBIChecked);
+                }
+                
+                // Show/hide proceed section
+                if (proceedSection) {
+                    if (allChecked) {
+                        proceedSection.classList.add('show');
+                    } else {
+                        proceedSection.classList.remove('show');
+                    }
+                }
+                
+                return allChecked;
             }
             
+            // Add event listeners for terms checkboxes
             if (agreeTerms && agreeSEBI) {
-                agreeTerms.addEventListener('change', validateTerms);
-                agreeSEBI.addEventListener('change', validateTerms);
-                validateTerms(); // Initial validation
+                agreeTerms.addEventListener('change', checkTerms);
+                agreeSEBI.addEventListener('change', checkTerms);
+                checkTerms(); // Initial check
             }
             
-            // ========== BACKEND INTEGRATION ==========
+            // Proceed button click
+            if (proceedButton) {
+                proceedButton.addEventListener('click', function() {
+                    // Show login form
+                    const loginForm = document.getElementById('loginForm');
+                    if (loginForm) {
+                        loginForm.classList.add('active');
+                        
+                        // Scroll to form
+                        loginForm.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            }
             
-            // Login Function
+            // ========== FORM TOGGLE ==========
+            const showRegisterBtn = document.getElementById('showRegisterBtn');
+            const showLoginBtn = document.getElementById('showLoginBtn');
             const loginForm = document.getElementById('loginForm');
-            if (loginForm) {
-                loginForm.addEventListener('submit', async function(e) {
+            const registerForm = document.getElementById('registerForm');
+            
+            if (showRegisterBtn && showLoginBtn) {
+                showRegisterBtn.addEventListener('click', function() {
+                    if (loginForm) loginForm.classList.remove('active');
+                    if (registerForm) registerForm.classList.add('active');
+                });
+                
+                showLoginBtn.addEventListener('click', function() {
+                    if (registerForm) registerForm.classList.remove('active');
+                    if (loginForm) loginForm.classList.add('active');
+                });
+            }
+            
+            // Check URL for registration parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('register') === 'true') {
+                // Auto-check terms
+                setTimeout(() => {
+                    if (agreeTerms && agreeSEBI) {
+                        agreeTerms.checked = true;
+                        agreeSEBI.checked = true;
+                        checkTerms();
+                        
+                        // Auto-proceed after delay
+                        setTimeout(() => {
+                            if (proceedButton) {
+                                proceedButton.click();
+                                
+                                // Show register form
+                                setTimeout(() => {
+                                    if (showRegisterBtn) {
+                                        showRegisterBtn.click();
+                                    }
+                                }, 500);
+                            }
+                        }, 1000);
+                    }
+                }, 500);
+            }
+            
+            // ========== LOGIN FORM ==========
+            const loginFormElement = document.getElementById('loginFormElement');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (loginFormElement) {
+                loginFormElement.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
                     const email = document.getElementById('loginEmail').value;
@@ -1113,20 +1005,18 @@ fetch('http://localhost:3001/')
                         return;
                     }
                     
-                    // Show loading state
-                    loginBtn.classList.add('loading');
+                    // Show loading
+                    const btnText = loginBtn.querySelector('.btn-text');
+                    const spinner = loginBtn.querySelector('.spinner');
+                    btnText.style.display = 'none';
+                    spinner.style.display = 'inline-block';
+                    loginBtn.disabled = true;
                     
                     try {
-                        // Call backend login API
                         const response = await fetch(`${BACKEND_URL}/auth/login`, {
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                email: email,
-                                password: password
-                            })
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email, password })
                         });
                         
                         const data = await response.json();
@@ -1134,32 +1024,34 @@ fetch('http://localhost:3001/')
                         if (data.success) {
                             showMessage(messageDiv, 'Login successful! Redirecting...', 'success');
                             
-                            // Save user data to localStorage
+                            // Save user data
                             localStorage.setItem('token', data.token);
                             localStorage.setItem('user', JSON.stringify(data.user));
                             
-                            // Redirect to dashboard after delay
+                            // Redirect to dashboard
                             setTimeout(() => {
                                 window.location.href = 'dashboard.html';
                             }, 1500);
                             
                         } else {
                             showMessage(messageDiv, data.error || 'Login failed', 'error');
-                            loginBtn.classList.remove('loading');
+                            resetButton(loginBtn);
                         }
                         
                     } catch (error) {
                         showMessage(messageDiv, 'Cannot connect to server. Make sure backend is running.', 'error');
                         console.error('Login error:', error);
-                        loginBtn.classList.remove('loading');
+                        resetButton(loginBtn);
                     }
                 });
             }
             
-            // Registration Function
-            const registerForm = document.getElementById('registerForm');
-            if (registerForm) {
-                registerForm.addEventListener('submit', async function(e) {
+            // ========== REGISTRATION FORM ==========
+            const registerFormElement = document.getElementById('registerFormElement');
+            const registerBtn = document.getElementById('registerBtn');
+            
+            if (registerFormElement) {
+                registerFormElement.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
                     const username = document.getElementById('registerUsername').value;
@@ -1190,61 +1082,57 @@ fetch('http://localhost:3001/')
                         return;
                     }
                     
-                    // Show loading state
-                    registerBtn.classList.add('loading');
+                    // Show loading
+                    const btnText = registerBtn.querySelector('.btn-text');
+                    const spinner = registerBtn.querySelector('.spinner');
+                    btnText.style.display = 'none';
+                    spinner.style.display = 'inline-block';
+                    registerBtn.disabled = true;
                     
                     try {
-                        // Call backend registration API
                         const response = await fetch(`${BACKEND_URL}/auth/register`, {
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                username: username,
-                                email: email,
-                                password: password
-                            })
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ username, email, password })
                         });
                         
                         const data = await response.json();
                         
                         if (data.success) {
-                            showMessage(messageDiv, 'Account created successfully! Redirecting to dashboard...', 'success');
+                            showMessage(messageDiv, 'Account created successfully! Redirecting...', 'success');
                             
-                            // Save user data to localStorage
+                            // Save user data
                             localStorage.setItem('token', data.token);
                             localStorage.setItem('user', JSON.stringify({
                                 ...data.user,
-                                name: name, // Add full name from form
+                                name: name,
                                 experience: document.getElementById('registerExperience').value
                             }));
                             
-                            // Redirect to dashboard after delay
+                            // Redirect to dashboard
                             setTimeout(() => {
                                 window.location.href = 'dashboard.html';
                             }, 2000);
                             
                         } else {
                             showMessage(messageDiv, data.error || 'Registration failed', 'error');
-                            registerBtn.classList.remove('loading');
+                            resetButton(registerBtn);
                         }
                         
                     } catch (error) {
                         showMessage(messageDiv, 'Cannot connect to server. Make sure backend is running.', 'error');
                         console.error('Registration error:', error);
-                        registerBtn.classList.remove('loading');
+                        resetButton(registerBtn);
                     }
                 });
             }
             
-            // Helper function to show messages
+            // Helper functions
             function showMessage(element, text, type) {
                 element.textContent = text;
                 element.className = 'message ' + type;
                 element.style.display = 'block';
                 
-                // Auto-hide error messages after 5 seconds
                 if (type === 'error') {
                     setTimeout(() => {
                         element.style.display = 'none';
@@ -1252,173 +1140,34 @@ fetch('http://localhost:3001/')
                 }
             }
             
-       // Check URL for "force" parameter
-const urlParams = new URLSearchParams(window.location.search);
-const forceLogin = urlParams.get('force') === 'true';
-
-// Only auto-redirect if not forced to login page
-if (!forceLogin) {
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
-    if (token && user) {
-        window.location.href = 'dashboard.html';
-    }
-}
+            function resetButton(button) {
+                const btnText = button.querySelector('.btn-text');
+                const spinner = button.querySelector('.spinner');
+                if (btnText) btnText.style.display = 'inline-block';
+                if (spinner) spinner.style.display = 'none';
+                button.disabled = false;
+            }
             
-            // Test backend connection on page load
+            // Check if already logged in
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            if (token && user) {
+                // Optional: You can auto-redirect or show a message
+                console.log('User already logged in');
+            }
+            
+            // Test backend connection
             testBackendConnection();
         });
         
-        // Function to test backend connection
         async function testBackendConnection() {
             try {
-                const response = await fetch(`${BACKEND_URL}/auth/register`, {
-                    method: 'OPTIONS' // Just check if endpoint exists
-                });
-                console.log('✅ Backend connection test:', response.status);
+                const response = await fetch('http://localhost:3001/');
+                console.log('✅ Backend status:', response.status);
             } catch (error) {
-                console.warn('⚠️ Backend may not be running. Start with: node server.js');
+                console.warn('⚠️ Backend connection test failed:', error.message);
             }
         }
     </script>
-
-<script>
-// ========== TERMS AGREEMENT LOGIC ==========
-document.addEventListener('DOMContentLoaded', function() {
-    const agreeTerms = document.getElementById('agreeTerms');
-    const agreeSEBI = document.getElementById('agreeSEBI');
-    const termsStatus = document.getElementById('termsStatus');
-    const proceedSection = document.getElementById('proceedSection');
-    const proceedButton = document.getElementById('proceedToForms');
-    
-    // Initially hide login/register forms
-    const loginFormContainer = document.getElementById('loginFormContainer');
-    const registerFormContainer = document.getElementById('registerFormContainer');
-    
-    if (loginFormContainer) loginFormContainer.style.display = 'none';
-    if (registerFormContainer) registerFormContainer.style.display = 'none';
-    
-    // Function to check terms
-    function checkTerms() {
-        const isTermsChecked = agreeTerms.checked;
-        const isSEBIChecked = agreeSEBI.checked;
-        const allChecked = isTermsChecked && isSEBIChecked;
-        
-        // Update checkbox styles
-        const termsGroup1 = document.getElementById('termsGroup1');
-        const termsGroup2 = document.getElementById('termsGroup2');
-        
-        if (termsGroup1) {
-            termsGroup1.style.borderColor = isTermsChecked ? '#10b981' : '#ef4444';
-            termsGroup1.style.backgroundColor = isTermsChecked ? '#f0fdf4' : '#fef2f2';
-        }
-        
-        if (termsGroup2) {
-            termsGroup2.style.borderColor = isSEBIChecked ? '#10b981' : '#ef4444';
-            termsGroup2.style.backgroundColor = isSEBIChecked ? '#f0fdf4' : '#fef2f2';
-        }
-        
-        // Show/hide status message
-        if (termsStatus) {
-            if (!allChecked && (isTermsChecked || isSEBIChecked)) {
-                termsStatus.style.display = 'block';
-            } else {
-                termsStatus.style.display = 'none';
-            }
-        }
-        
-        // Show/hide proceed section
-        if (proceedSection) {
-            if (allChecked) {
-                proceedSection.style.display = 'block';
-            } else {
-                proceedSection.style.display = 'none';
-            }
-        }
-        
-        return allChecked;
-    }
-    
-    // Add event listeners
-    if (agreeTerms && agreeSEBI) {
-        agreeTerms.addEventListener('change', checkTerms);
-        agreeSEBI.addEventListener('change', checkTerms);
-        
-        // Initial check
-        checkTerms();
-    }
-    
-    // Proceed button click
-    if (proceedButton) {
-        proceedButton.addEventListener('click', function() {
-            // Show login form
-            if (loginFormContainer) {
-                loginFormContainer.style.display = 'block';
-                
-                // Scroll to login form
-                loginFormContainer.scrollIntoView({ behavior: 'smooth' });
-                
-                // Highlight login form
-                loginFormContainer.style.animation = 'highlight 2s';
-                
-                // Add CSS for highlight animation
-                const style = document.createElement('style');
-                style.textContent = `
-                    @keyframes highlight {
-                        0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
-                        70% { box-shadow: 0 0 0 20px rgba(79, 70, 229, 0); }
-                        100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            // Also show register form toggle
-            const showRegisterForm = document.getElementById('showRegisterForm');
-            if (showRegisterForm) {
-                showRegisterForm.style.display = 'block';
-            }
-            
-            // Hide proceed button
-            proceedSection.style.display = 'none';
-            
-            // Enable form buttons
-            const loginBtn = document.getElementById('loginBtn');
-            const registerBtn = document.getElementById('registerBtn');
-            
-            if (loginBtn) loginBtn.disabled = false;
-            if (registerBtn) registerBtn.disabled = false;
-        });
-    }
-    
-    // Check URL for direct registration
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('register') === 'true') {
-        // Auto-check terms if coming from registration link
-        setTimeout(() => {
-            if (agreeTerms && agreeSEBI) {
-                agreeTerms.checked = true;
-                agreeSEBI.checked = true;
-                checkTerms();
-                
-                // Auto-click proceed after 1 second
-                setTimeout(() => {
-                    if (proceedButton) {
-                        proceedButton.click();
-                        
-                        // Then show register form
-                        const showRegisterForm = document.getElementById('showRegisterForm');
-                        if (showRegisterForm) {
-                            setTimeout(() => {
-                                showRegisterForm.click();
-                            }, 500);
-                        }
-                    }
-                }, 1000);
-            }
-        }, 500);
-    }
-});
-</script>
 </body>
 </html>
