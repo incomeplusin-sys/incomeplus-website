@@ -459,6 +459,48 @@
             text-decoration: underline;
         }
         
+        /* Message styles */
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            display: block;
+        }
+        
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            display: block;
+        }
+        
+        /* Loading state */
+        .btn-auth.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .btn-auth .spinner {
+            display: none;
+        }
+        
+        .btn-auth.loading .spinner {
+            display: inline-block;
+        }
+        
+        .btn-auth.loading .btn-text {
+            display: none;
+        }
+        
         /* Forgot Password Modal */
         .forgot-modal {
             display: none;
@@ -652,9 +694,12 @@
                         <a href="#" id="forgotPassword">Forgot Password?</a>
                     </div>
                     
-                    <button type="submit" class="btn-auth">
-                        <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                    <button type="submit" class="btn-auth" id="loginBtn">
+                        <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Login to Dashboard</span>
+                        <span class="spinner"><i class="fas fa-spinner fa-spin"></i> Logging in...</span>
                     </button>
+                    
+                    <div id="loginMessage" class="message"></div>
                     
                     <div class="auth-divider">
                         <span>New User?</span>
@@ -707,8 +752,21 @@
                         </div>
                         
                         <div class="form-group">
+                            <label for="registerUsername">Username*</label>
+                            <input type="text" id="registerUsername" placeholder="johndoe123" required>
+                            <small style="color: #718096; font-size: 0.85rem;">*Username is for login (no spaces)</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
                             <label for="registerEmail">Email Address</label>
                             <input type="email" id="registerEmail" placeholder="your@email.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerPhone">Phone Number (Optional)</label>
+                            <input type="tel" id="registerPhone" placeholder="+91 9876543210">
                         </div>
                     </div>
                     
@@ -724,18 +782,6 @@
                         </div>
                     </div>
                     
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="registerPhone">Phone Number (Optional)</label>
-                            <input type="tel" id="registerPhone" placeholder="+91 9876543210">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="registerCompany">Company (Optional)</label>
-                            <input type="text" id="registerCompany" placeholder="Your company name">
-                        </div>
-                    </div>
-                    
                     <div class="form-group">
                         <label for="registerExperience">Experience Level</label>
                         <select id="registerExperience" required>
@@ -747,9 +793,12 @@
                         </select>
                     </div>
                     
-                    <button type="submit" class="btn-auth">
-                        <i class="fas fa-rocket"></i> Start Free Trial
+                    <button type="submit" class="btn-auth" id="registerBtn">
+                        <span class="btn-text"><i class="fas fa-rocket"></i> Start Free Trial</span>
+                        <span class="spinner"><i class="fas fa-spinner fa-spin"></i> Creating account...</span>
                     </button>
+                    
+                    <div id="registerMessage" class="message"></div>
                     
                     <div class="auth-divider">
                         <span>Already have an account?</span>
@@ -835,9 +884,10 @@
         </div>
     </footer>
 
-    <script src="js/auth.js"></script>
     <script>
-        // Additional login page functionality
+        // BACKEND CONFIGURATION - IMPORTANT: Change when deploying
+        const BACKEND_URL = 'http://localhost:3001/api';
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Toggle between login and register forms
             const showRegisterForm = document.getElementById('showRegisterForm');
@@ -898,84 +948,203 @@
                 registerFormContainer.style.display = 'block';
             }
             
-            // Form validation
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            
-            if (loginForm) {
-                loginForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const email = document.getElementById('loginEmail').value;
-                    const password = document.getElementById('loginPassword').value;
-                    
-                    if (!email || !password) {
-                        alert('Please fill in all fields');
-                        return;
-                    }
-                    
-                    // Simulate login
-                    console.log('Login attempt:', email);
-                    // In production, this would call auth.js
-                });
-            }
-            
-            if (registerForm) {
-                registerForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const name = document.getElementById('registerName').value;
-                    const email = document.getElementById('registerEmail').value;
-                    const password = document.getElementById('registerPassword').value;
-                    const confirmPassword = document.getElementById('registerConfirmPassword').value;
-                    
-                    if (!name || !email || !password || !confirmPassword) {
-                        alert('Please fill in all required fields');
-                        return;
-                    }
-                    
-                    if (password !== confirmPassword) {
-                        alert('Passwords do not match');
-                        return;
-                    }
-                    
-                    if (password.length < 8) {
-                        alert('Password must be at least 8 characters');
-                        return;
-                    }
-                    
-                    // Simulate registration
-                    console.log('Registration attempt:', { name, email });
-                    // In production, this would call auth.js
-                    
-                    // Show success message
-                    alert(`Welcome ${name}! Your 7-day free trial has started. Redirecting to dashboard...`);
-                    
-                    // Redirect to dashboard after delay
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 2000);
-                });
-            }
-            
             // Terms agreement validation
             const agreeTerms = document.getElementById('agreeTerms');
             const agreeSEBI = document.getElementById('agreeSEBI');
-            const submitButtons = document.querySelectorAll('.btn-auth[type="submit"]');
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
             
             function validateTerms() {
                 const isValid = agreeTerms.checked && agreeSEBI.checked;
-                submitButtons.forEach(button => {
-                    button.disabled = !isValid;
-                });
+                if (loginBtn) loginBtn.disabled = !isValid;
+                if (registerBtn) registerBtn.disabled = !isValid;
             }
             
-            if (agreeTerms && agreeSEBI && submitButtons.length > 0) {
+            if (agreeTerms && agreeSEBI) {
                 agreeTerms.addEventListener('change', validateTerms);
                 agreeSEBI.addEventListener('change', validateTerms);
                 validateTerms(); // Initial validation
             }
+            
+            // ========== BACKEND INTEGRATION ==========
+            
+            // Login Function
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('loginEmail').value;
+                    const password = document.getElementById('loginPassword').value;
+                    const messageDiv = document.getElementById('loginMessage');
+                    
+                    if (!email || !password) {
+                        showMessage(messageDiv, 'Please fill in all fields', 'error');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    loginBtn.classList.add('loading');
+                    
+                    try {
+                        // Call backend login API
+                        const response = await fetch(`${BACKEND_URL}/auth/login`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                email: email,
+                                password: password
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            showMessage(messageDiv, 'Login successful! Redirecting...', 'success');
+                            
+                            // Save user data to localStorage
+                            localStorage.setItem('token', data.token);
+                            localStorage.setItem('user', JSON.stringify(data.user));
+                            
+                            // Redirect to dashboard after delay
+                            setTimeout(() => {
+                                window.location.href = 'dashboard.html';
+                            }, 1500);
+                            
+                        } else {
+                            showMessage(messageDiv, data.error || 'Login failed', 'error');
+                            loginBtn.classList.remove('loading');
+                        }
+                        
+                    } catch (error) {
+                        showMessage(messageDiv, 'Cannot connect to server. Make sure backend is running.', 'error');
+                        console.error('Login error:', error);
+                        loginBtn.classList.remove('loading');
+                    }
+                });
+            }
+            
+            // Registration Function
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('registerUsername').value;
+                    const name = document.getElementById('registerName').value;
+                    const email = document.getElementById('registerEmail').value;
+                    const password = document.getElementById('registerPassword').value;
+                    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+                    const messageDiv = document.getElementById('registerMessage');
+                    
+                    // Validation
+                    if (!username || !name || !email || !password || !confirmPassword) {
+                        showMessage(messageDiv, 'Please fill in all required fields', 'error');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        showMessage(messageDiv, 'Passwords do not match', 'error');
+                        return;
+                    }
+                    
+                    if (password.length < 6) {
+                        showMessage(messageDiv, 'Password must be at least 6 characters', 'error');
+                        return;
+                    }
+                    
+                    if (username.includes(' ')) {
+                        showMessage(messageDiv, 'Username cannot contain spaces', 'error');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    registerBtn.classList.add('loading');
+                    
+                    try {
+                        // Call backend registration API
+                        const response = await fetch(`${BACKEND_URL}/auth/register`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                username: username,
+                                email: email,
+                                password: password
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            showMessage(messageDiv, 'Account created successfully! Redirecting to dashboard...', 'success');
+                            
+                            // Save user data to localStorage
+                            localStorage.setItem('token', data.token);
+                            localStorage.setItem('user', JSON.stringify({
+                                ...data.user,
+                                name: name, // Add full name from form
+                                experience: document.getElementById('registerExperience').value
+                            }));
+                            
+                            // Redirect to dashboard after delay
+                            setTimeout(() => {
+                                window.location.href = 'dashboard.html';
+                            }, 2000);
+                            
+                        } else {
+                            showMessage(messageDiv, data.error || 'Registration failed', 'error');
+                            registerBtn.classList.remove('loading');
+                        }
+                        
+                    } catch (error) {
+                        showMessage(messageDiv, 'Cannot connect to server. Make sure backend is running.', 'error');
+                        console.error('Registration error:', error);
+                        registerBtn.classList.remove('loading');
+                    }
+                });
+            }
+            
+            // Helper function to show messages
+            function showMessage(element, text, type) {
+                element.textContent = text;
+                element.className = 'message ' + type;
+                element.style.display = 'block';
+                
+                // Auto-hide error messages after 5 seconds
+                if (type === 'error') {
+                    setTimeout(() => {
+                        element.style.display = 'none';
+                    }, 5000);
+                }
+            }
+            
+            // Check if user is already logged in
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            if (token && user) {
+                // User is already logged in, redirect to dashboard
+                window.location.href = 'dashboard.html';
+            }
+            
+            // Test backend connection on page load
+            testBackendConnection();
         });
+        
+        // Function to test backend connection
+        async function testBackendConnection() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/auth/register`, {
+                    method: 'OPTIONS' // Just check if endpoint exists
+                });
+                console.log('✅ Backend connection test:', response.status);
+            } catch (error) {
+                console.warn('⚠️ Backend may not be running. Start with: node server.js');
+            }
+        }
     </script>
 </body>
 </html>
