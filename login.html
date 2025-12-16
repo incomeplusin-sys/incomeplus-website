@@ -1281,5 +1281,144 @@ if (!forceLogin) {
             }
         }
     </script>
+
+<script>
+// ========== TERMS AGREEMENT LOGIC ==========
+document.addEventListener('DOMContentLoaded', function() {
+    const agreeTerms = document.getElementById('agreeTerms');
+    const agreeSEBI = document.getElementById('agreeSEBI');
+    const termsStatus = document.getElementById('termsStatus');
+    const proceedSection = document.getElementById('proceedSection');
+    const proceedButton = document.getElementById('proceedToForms');
+    
+    // Initially hide login/register forms
+    const loginFormContainer = document.getElementById('loginFormContainer');
+    const registerFormContainer = document.getElementById('registerFormContainer');
+    
+    if (loginFormContainer) loginFormContainer.style.display = 'none';
+    if (registerFormContainer) registerFormContainer.style.display = 'none';
+    
+    // Function to check terms
+    function checkTerms() {
+        const isTermsChecked = agreeTerms.checked;
+        const isSEBIChecked = agreeSEBI.checked;
+        const allChecked = isTermsChecked && isSEBIChecked;
+        
+        // Update checkbox styles
+        const termsGroup1 = document.getElementById('termsGroup1');
+        const termsGroup2 = document.getElementById('termsGroup2');
+        
+        if (termsGroup1) {
+            termsGroup1.style.borderColor = isTermsChecked ? '#10b981' : '#ef4444';
+            termsGroup1.style.backgroundColor = isTermsChecked ? '#f0fdf4' : '#fef2f2';
+        }
+        
+        if (termsGroup2) {
+            termsGroup2.style.borderColor = isSEBIChecked ? '#10b981' : '#ef4444';
+            termsGroup2.style.backgroundColor = isSEBIChecked ? '#f0fdf4' : '#fef2f2';
+        }
+        
+        // Show/hide status message
+        if (termsStatus) {
+            if (!allChecked && (isTermsChecked || isSEBIChecked)) {
+                termsStatus.style.display = 'block';
+            } else {
+                termsStatus.style.display = 'none';
+            }
+        }
+        
+        // Show/hide proceed section
+        if (proceedSection) {
+            if (allChecked) {
+                proceedSection.style.display = 'block';
+            } else {
+                proceedSection.style.display = 'none';
+            }
+        }
+        
+        return allChecked;
+    }
+    
+    // Add event listeners
+    if (agreeTerms && agreeSEBI) {
+        agreeTerms.addEventListener('change', checkTerms);
+        agreeSEBI.addEventListener('change', checkTerms);
+        
+        // Initial check
+        checkTerms();
+    }
+    
+    // Proceed button click
+    if (proceedButton) {
+        proceedButton.addEventListener('click', function() {
+            // Show login form
+            if (loginFormContainer) {
+                loginFormContainer.style.display = 'block';
+                
+                // Scroll to login form
+                loginFormContainer.scrollIntoView({ behavior: 'smooth' });
+                
+                // Highlight login form
+                loginFormContainer.style.animation = 'highlight 2s';
+                
+                // Add CSS for highlight animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes highlight {
+                        0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
+                        70% { box-shadow: 0 0 0 20px rgba(79, 70, 229, 0); }
+                        100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Also show register form toggle
+            const showRegisterForm = document.getElementById('showRegisterForm');
+            if (showRegisterForm) {
+                showRegisterForm.style.display = 'block';
+            }
+            
+            // Hide proceed button
+            proceedSection.style.display = 'none';
+            
+            // Enable form buttons
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            
+            if (loginBtn) loginBtn.disabled = false;
+            if (registerBtn) registerBtn.disabled = false;
+        });
+    }
+    
+    // Check URL for direct registration
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('register') === 'true') {
+        // Auto-check terms if coming from registration link
+        setTimeout(() => {
+            if (agreeTerms && agreeSEBI) {
+                agreeTerms.checked = true;
+                agreeSEBI.checked = true;
+                checkTerms();
+                
+                // Auto-click proceed after 1 second
+                setTimeout(() => {
+                    if (proceedButton) {
+                        proceedButton.click();
+                        
+                        // Then show register form
+                        const showRegisterForm = document.getElementById('showRegisterForm');
+                        if (showRegisterForm) {
+                            setTimeout(() => {
+                                showRegisterForm.click();
+                            }, 500);
+                        }
+                    }
+                }, 1000);
+            }
+        }, 500);
+    }
+});
+</script>
 </body>
 </html>
