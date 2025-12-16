@@ -26,48 +26,41 @@
             color: white;
             padding: 12px 0;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 14px;
         }
         
-        .container {
+        .legal-banner .banner-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-        }
-        
-        .legal-banner .container {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            flex-wrap: wrap;
         }
         
         /* Header */
         .header {
             background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .header .container {
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 1.4rem;
-            font-weight: 700;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
             color: #2d3748;
             text-decoration: none;
         }
@@ -76,15 +69,8 @@
             color: #4f46e5;
         }
         
-        .tagline {
-            color: #718096;
-            font-size: 0.85rem;
-            padding-left: 15px;
-            border-left: 2px solid #e2e8f0;
-        }
-        
         /* Main Content */
-        .auth-container {
+        .main-content {
             flex: 1;
             display: flex;
             align-items: center;
@@ -99,92 +85,78 @@
             overflow: hidden;
             max-width: 900px;
             width: 100%;
-            animation: fadeIn 0.5s ease;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Legal Agreement */
-        .legal-agreement {
-            background: #f8fafc;
+        /* Terms Section */
+        .terms-section {
             padding: 30px;
+            background: #f8fafc;
             border-bottom: 2px solid #e2e8f0;
         }
         
-        .legal-agreement h2 {
+        .terms-section h2 {
             color: #2d3748;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1.5rem;
         }
         
-        .agreement-content {
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        
-        .agreement-points {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .terms-list {
             margin: 20px 0;
         }
         
-        .point {
+        .term-item {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 12px;
             background: white;
             border-radius: 8px;
+            margin-bottom: 10px;
             border-left: 4px solid #4f46e5;
         }
         
-        /* Checkboxes - FIXED */
-        .checkbox-group {
+        /* CHECKBOXES - FIXED */
+        .checkbox-container {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
             margin: 20px 0;
             padding: 15px;
             background: white;
             border-radius: 10px;
             border: 2px solid #e2e8f0;
-            transition: all 0.3s ease;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .checkbox-group:hover {
+        .checkbox-container:hover {
             border-color: #c7d2fe;
         }
         
-        .checkbox-group.checked {
+        .checkbox-container.checked {
             border-color: #10b981;
             background: #f0fdf4;
         }
         
-        .checkbox-group input[type="checkbox"] {
+        .checkbox-container input[type="checkbox"] {
             width: 20px;
             height: 20px;
             cursor: pointer;
+            margin-top: 3px;
         }
         
-        .checkbox-group label {
+        .checkbox-container label {
             color: #4a5568;
-            font-size: 0.95rem;
+            font-size: 15px;
             line-height: 1.5;
             cursor: pointer;
             flex: 1;
         }
         
         /* Proceed Button */
-        .proceed-section {
+        .proceed-area {
             margin-top: 25px;
             text-align: center;
             padding: 25px;
@@ -194,45 +166,60 @@
             display: none;
         }
         
-        .proceed-section.show {
+        .proceed-area.show {
             display: block;
-            animation: slideIn 0.5s ease;
         }
         
-        #proceedToForms {
+        #proceedBtn {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
             padding: 16px 40px;
             border: none;
             border-radius: 10px;
+            font-size: 18px;
             font-weight: 600;
-            font-size: 1.1rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             transition: all 0.3s ease;
-            min-width: 300px;
         }
         
-        #proceedToForms:hover {
+        #proceedBtn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.4);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
         }
         
-        /* Forms */
-        .auth-form {
+        /* Login Form */
+        .login-form {
             padding: 40px;
             display: none;
         }
         
-        .auth-form.active {
+        .login-form.active {
             display: block;
         }
         
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-title h2 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
         .form-group {
-            margin-bottom: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
         }
         
         .form-group input {
@@ -240,78 +227,80 @@
             padding: 14px;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 16px;
         }
         
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 0;
+        .form-group input:focus {
+            outline: none;
+            border-color: #4f46e5;
         }
         
-        .remember {
+        /* Remember Me - FIXED */
+        .remember-me {
             display: flex;
             align-items: center;
             gap: 8px;
+            margin: 20px 0;
         }
         
-        .remember input[type="checkbox"] {
+        .remember-me input[type="checkbox"] {
             width: 18px;
             height: 18px;
             cursor: pointer;
         }
         
-        .btn-auth {
+        .remember-me label {
+            color: #4a5568;
+            cursor: pointer;
+        }
+        
+        .login-button {
             width: 100%;
             padding: 16px;
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
             border: none;
             border-radius: 10px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin: 15px 0;
+            margin-top: 20px;
         }
-
-        <!-- In login.html, update the JavaScript section -->
-<script>
-  // Initialize auth service
-  const auth = window.authService;
-  
-  // Test backend on load
-  document.addEventListener('DOMContentLoaded', async function() {
-    const connection = await auth.testConnection();
-    
-    if (connection.connected) {
-      console.log('✅ Connected to backend');
-      // Show connected status
-    } else {
-      console.log('⚠️ Using demo mode');
-      // Show demo mode warning
-    }
-    
-    // Your existing login form handling
-    // ... use auth.login() instead of direct fetch
-  });
-</script>
-        /* Responsive */
+        
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+        
         @media (max-width: 768px) {
-            .auth-form {
-                padding: 30px 20px;
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
             }
             
-            #proceedToForms {
-                min-width: auto;
+            .auth-box {
+                margin: 0 15px;
+            }
+            
+            .terms-section, .login-form {
+                padding: 20px;
+            }
+            
+            #proceedBtn {
                 width: 100%;
+                padding: 14px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Legal Banner -->
+    <!-- Legal Notice -->
     <div class="legal-banner">
-        <div class="container">
+        <div class="banner-content">
             <i class="fas fa-gavel"></i>
             <div>
                 <strong>TECHNICAL ANALYSIS TOOLS PLATFORM:</strong> For educational purposes only. 
@@ -322,171 +311,205 @@
 
     <!-- Header -->
     <header class="header">
-        <div class="container">
-            <div class="logo-area">
-                <a href="index.html" class="logo">
-                    <i class="fas fa-chart-network"></i>
-                    <span>Incomeplus<span class="highlight">Scanner</span></span>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-chart-network"></i>
+                <span>Incomeplus<span class="highlight">Scanner</span></span>
+            </a>
+            <nav>
+                <a href="login.html" style="padding: 8px 20px; background: #4f46e5; color: white; border-radius: 6px; text-decoration: none;">
+                    Login
                 </a>
-                <div class="tagline">Professional Volume Analysis Platform</div>
-            </div>
+            </nav>
         </div>
     </header>
 
-    <!-- Authentication Container -->
-    <div class="auth-container">
+    <!-- Main Content -->
+    <div class="main-content">
         <div class="auth-box">
-            <!-- Legal Agreement -->
-            <div class="legal-agreement">
+            <!-- Terms & Conditions -->
+            <div class="terms-section">
                 <h2><i class="fas fa-file-contract"></i> Terms of Use Agreement</h2>
-                <div class="agreement-content">
-                    <p><strong>READ CAREFULLY BEFORE PROCEEDING</strong></p>
-                    
-                    <div class="agreement-points">
-                        <div class="point">
-                            <i class="fas fa-ban"></i>
-                            <span>This is a technical analysis TOOLS platform only</span>
-                        </div>
-                        <div class="point">
-                            <i class="fas fa-ban"></i>
-                            <span>NOT SEBI registered. NOT investment advice</span>
-                        </div>
+                <p><strong>READ CAREFULLY BEFORE PROCEEDING</strong></p>
+                
+                <div class="terms-list">
+                    <div class="term-item">
+                        <i class="fas fa-ban"></i>
+                        <span>This is a technical analysis TOOLS platform only</span>
                     </div>
-                    
-                    <!-- Checkbox 1 -->
-                    <div class="checkbox-group" id="termsGroup1">
-                        <input type="checkbox" id="agreeTerms">
-                        <label for="agreeTerms">
-                            <strong>✓ I AGREE:</strong> This is a tools platform only. I will not use it for investment decisions. 
-                            I understand this is NOT investment advice.
-                        </label>
+                    <div class="term-item">
+                        <i class="fas fa-ban"></i>
+                        <span>NOT SEBI registered. NOT investment advice</span>
                     </div>
-                    
-                    <!-- Checkbox 2 -->
-                    <div class="checkbox-group" id="termsGroup2">
-                        <input type="checkbox" id="agreeSEBI">
-                        <label for="agreeSEBI">
-                            <strong>✓ I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
-                            for investment decisions.
-                        </label>
+                    <div class="term-item">
+                        <i class="fas fa-check"></i>
+                        <span>Tools for technical analysis practice</span>
                     </div>
-                    
-                    <!-- Proceed Section -->
-                    <div class="proceed-section" id="proceedSection">
-                        <button id="proceedToForms">
-                            <i class="fas fa-arrow-right"></i> I AGREE & PROCEED TO REGISTER/LOGIN
-                        </button>
+                    <div class="term-item">
+                        <i class="fas fa-check"></i>
+                        <span>7-day free trial, then ₹999/month</span>
                     </div>
+                </div>
+                
+                <!-- Checkbox 1 -->
+                <div class="checkbox-container" id="checkbox1">
+                    <input type="checkbox" id="termsCheckbox">
+                    <label for="termsCheckbox">
+                        <strong>✓ I AGREE:</strong> This is a tools platform only. I will not use it for investment decisions. 
+                        I understand this is NOT investment advice.
+                    </label>
+                </div>
+                
+                <!-- Checkbox 2 -->
+                <div class="checkbox-container" id="checkbox2">
+                    <input type="checkbox" id="sebiCheckbox">
+                    <label for="sebiCheckbox">
+                        <strong>✓ I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
+                        for investment decisions.
+                    </label>
+                </div>
+                
+                <!-- Proceed Button Area -->
+                <div class="proceed-area" id="proceedArea">
+                    <button id="proceedBtn">
+                        <i class="fas fa-arrow-right"></i> I AGREE & PROCEED TO LOGIN
+                    </button>
                 </div>
             </div>
             
             <!-- Login Form -->
-            <div class="auth-form" id="loginForm">
-                <div class="form-header">
+            <div class="login-form" id="loginForm">
+                <div class="form-title">
                     <h2>Access Professional Volume Scanner</h2>
                     <p>Login to your account</p>
                 </div>
                 
                 <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" placeholder="your@email.com">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="your@email.com">
                 </div>
                 
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" placeholder="Enter your password">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password">
                 </div>
                 
-                <div class="form-options">
-                    <div class="remember">
-                        <input type="checkbox" id="rememberMe">
-                        <label for="rememberMe">Keep me logged in</label>
-                    </div>
+                <!-- REMEMBER ME - FIXED -->
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Keep me logged in</label>
                 </div>
                 
-                <button class="btn-auth">
+                <button class="login-button" id="loginButton">
                     <i class="fas fa-sign-in-alt"></i> Login to Dashboard
                 </button>
+                
+                <p style="text-align: center; margin-top: 20px; color: #666;">
+                    Don't have an account? <a href="#" style="color: #4f46e5;">Start Free Trial</a>
+                </p>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Incomeplus Scanner. All rights reserved.</p>
+            <p style="margin-top: 10px; opacity: 0.8;">A product of TRFSK Omkar Services Pvt Ltd</p>
+        </div>
+    </footer>
+
     <script>
-        // ========== SIMPLE FIXED VERSION FOR GITHUB PAGES ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('GitHub Pages Login Loaded');
+        // ========== FIXED JAVASCRIPT ==========
+        
+        // Get elements
+        const termsCheckbox = document.getElementById('termsCheckbox');
+        const sebiCheckbox = document.getElementById('sebiCheckbox');
+        const checkbox1 = document.getElementById('checkbox1');
+        const checkbox2 = document.getElementById('checkbox2');
+        const proceedArea = document.getElementById('proceedArea');
+        const proceedBtn = document.getElementById('proceedBtn');
+        const loginForm = document.getElementById('loginForm');
+        
+        // Function to check if both checkboxes are checked
+        function checkCheckboxes() {
+            const bothChecked = termsCheckbox.checked && sebiCheckbox.checked;
             
-            // Get elements
-            const agreeTerms = document.getElementById('agreeTerms');
-            const agreeSEBI = document.getElementById('agreeSEBI');
-            const proceedSection = document.getElementById('proceedSection');
-            const proceedButton = document.getElementById('proceedToForms');
-            const termsGroup1 = document.getElementById('termsGroup1');
-            const termsGroup2 = document.getElementById('termsGroup2');
-            const loginForm = document.getElementById('loginForm');
+            // Update checkbox styles
+            checkbox1.classList.toggle('checked', termsCheckbox.checked);
+            checkbox2.classList.toggle('checked', sebiCheckbox.checked);
             
-            // Function to check if both are checked
-            function checkTerms() {
-                const bothChecked = agreeTerms.checked && agreeSEBI.checked;
-                
-                // Update styles
-                termsGroup1.classList.toggle('checked', agreeTerms.checked);
-                termsGroup2.classList.toggle('checked', agreeSEBI.checked);
-                
-                // Show/hide proceed button
-                if (bothChecked) {
-                    proceedSection.classList.add('show');
-                } else {
-                    proceedSection.classList.remove('show');
-                }
-                
-                return bothChecked;
+            // Show/hide proceed button
+            if (bothChecked) {
+                proceedArea.classList.add('show');
+            } else {
+                proceedArea.classList.remove('show');
             }
-            
-            // Add click events to whole checkbox groups
-            termsGroup1.addEventListener('click', function(e) {
-                if (e.target.type !== 'checkbox') {
-                    agreeTerms.checked = !agreeTerms.checked;
-                    checkTerms();
-                }
-            });
-            
-            termsGroup2.addEventListener('click', function(e) {
-                if (e.target.type !== 'checkbox') {
-                    agreeSEBI.checked = !agreeSEBI.checked;
-                    checkTerms();
-                }
-            });
-            
-            // Add change events to checkboxes
-            agreeTerms.addEventListener('change', checkTerms);
-            agreeSEBI.addEventListener('change', checkTerms);
-            
-            // Proceed button click
-            proceedButton.addEventListener('click', function() {
-                loginForm.classList.add('active');
-                loginForm.scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            // Initial check
-            checkTerms();
-            
-            // Check URL for ?register=true
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('register') === 'true') {
-                // Auto-check terms
-                setTimeout(() => {
-                    agreeTerms.checked = true;
-                    agreeSEBI.checked = true;
-                    checkTerms();
-                    
-                    // Auto-click proceed
-                    setTimeout(() => {
-                        proceedButton.click();
-                    }, 300);
-                }, 500);
+        }
+        
+        // Make entire checkbox area clickable
+        checkbox1.addEventListener('click', function(e) {
+            if (e.target.type !== 'checkbox') {
+                termsCheckbox.checked = !termsCheckbox.checked;
+                checkCheckboxes();
             }
         });
+        
+        checkbox2.addEventListener('click', function(e) {
+            if (e.target.type !== 'checkbox') {
+                sebiCheckbox.checked = !sebiCheckbox.checked;
+                checkCheckboxes();
+            }
+        });
+        
+        // Listen for checkbox changes
+        termsCheckbox.addEventListener('change', checkCheckboxes);
+        sebiCheckbox.addEventListener('change', checkCheckboxes);
+        
+        // Proceed button click
+        proceedBtn.addEventListener('click', function() {
+            loginForm.classList.add('active');
+            loginForm.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Login button click
+        document.getElementById('loginButton').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            
+            if (!email || !password) {
+                alert('Please enter email and password');
+                return;
+            }
+            
+            // For demo - always success
+            alert('Login successful! Redirecting to dashboard...');
+            
+            // Simulate redirect
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        });
+        
+        // Check URL for auto-register
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('register') === 'true') {
+            // Auto-check terms after delay
+            setTimeout(() => {
+                termsCheckbox.checked = true;
+                sebiCheckbox.checked = true;
+                checkCheckboxes();
+                
+                // Auto-click proceed
+                setTimeout(() => {
+                    proceedBtn.click();
+                }, 300);
+            }, 500);
+        }
+        
+        // Initial check
+        checkCheckboxes();
     </script>
 </body>
 </html>
