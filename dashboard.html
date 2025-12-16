@@ -1477,5 +1477,164 @@
         lastTouchEnd = now;
     }, false);
         </script>
+<script>
+// ========== AUTHENTICATION CHECK ==========
+document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    
+    // If no token/user, redirect to login
+    if (!token || !user) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    try {
+        const userData = JSON.parse(user);
+        
+        // Set user name in dashboard
+        if (userData.username) {
+            document.getElementById('greetingName').textContent = userData.username;
+            document.getElementById('sidebarUserName').textContent = userData.username;
+            document.getElementById('userName').textContent = userData.username;
+        }
+        
+        // Set email if field exists
+        if (userData.email && document.getElementById('userEmail')) {
+            document.getElementById('userEmail').textContent = userData.email;
+        }
+        
+        console.log('✅ User logged in:', userData.username);
+        
+    } catch (error) {
+        console.error('Error parsing user data:', error);
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
+});
+
+// ========== LOGOUT FUNCTION ==========
+function logoutUser() {
+    // Clear all localStorage data
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    // Optional: Clear any other stored data
+    // localStorage.clear(); // Be careful with this - clears everything
+    
+    // Redirect to login page
+    window.location.href = 'login.html';
+}
+
+// ========== ASSIGN LOGOUT TO BUTTON ==========
+document.addEventListener('DOMContentLoaded', function() {
+    // Find logout button/link
+    const logoutBtn = document.getElementById('logout');
+    const sidebarLogout = document.querySelector('a[href="#"] i.fa-sign-out-alt')?.closest('a');
+    
+    // Assign logout function
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutUser();
+        });
+    }
+    
+    if (sidebarLogout) {
+        sidebarLogout.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutUser();
+        });
+    }
+    
+    // Add a logout button to top bar if it doesn't exist
+    addLogoutButton();
+});
+
+// ========== ADD LOGOUT BUTTON TO TOP BAR ==========
+function addLogoutButton() {
+    const topBarRight = document.querySelector('.top-bar-right');
+    
+    if (!topBarRight) return;
+    
+    // Check if logout button already exists
+    if (document.getElementById('topLogoutBtn')) return;
+    
+    // Create logout button
+    const logoutBtn = document.createElement('div');
+    logoutBtn.id = 'topLogoutBtn';
+    logoutBtn.style.cssText = `
+        margin-left: 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #718096;
+        font-weight: 500;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    `;
+    logoutBtn.innerHTML = `
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+    `;
+    
+    // Add hover effect
+    logoutBtn.addEventListener('mouseenter', function() {
+        this.style.backgroundColor = '#fee2e2';
+        this.style.color = '#dc2626';
+    });
+    
+    logoutBtn.addEventListener('mouseleave', function() {
+        this.style.backgroundColor = '';
+        this.style.color = '#718096';
+    });
+    
+    // Add click event
+    logoutBtn.addEventListener('click', logoutUser);
+    
+    // Insert after user-info or at the end
+    const userInfo = document.querySelector('.user-info');
+    if (userInfo) {
+        userInfo.parentNode.insertBefore(logoutBtn, userInfo.nextSibling);
+    } else {
+        topBarRight.appendChild(logoutBtn);
+    }
+}
+
+// ========== SESSION TIMEOUT (Optional) ==========
+// Auto logout after 24 hours (optional)
+function setupSessionTimeout() {
+    const lastLogin = localStorage.getItem('lastLoginTime');
+    const now = new Date().getTime();
+    
+    if (lastLogin) {
+        const hoursSinceLogin = (now - parseInt(lastLogin)) / (1000 * 60 * 60);
+        
+        // Auto logout after 24 hours
+        if (hoursSinceLogin > 24) {
+            logoutUser();
+            alert('Session expired. Please login again.');
+        }
+    } else {
+        // Set initial login time
+        localStorage.setItem('lastLoginTime', now.toString());
+    }
+    
+    // Update last activity every minute
+    setInterval(() => {
+        localStorage.setItem('lastLoginTime', new Date().getTime().toString());
+    }, 60000);
+}
+
+// Initialize session timeout check
+setupSessionTimeout();
+
+// ========== DEBUG INFO (Remove in production) ==========
+console.log('🔧 Dashboard Auth Status:');
+console.log('- Token exists:', !!localStorage.getItem('token'));
+console.log('- User data:', localStorage.getItem('user'));
+</script>
 </body>
 </html>
