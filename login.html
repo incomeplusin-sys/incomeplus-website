@@ -898,11 +898,80 @@
         // BACKEND CONFIGURATION - IMPORTANT: Change when deploying
    const BACKEND_URL = 'http://localhost:3001/api'; // Keep this
 
-// ADD THIS TEST FUNCTION AT THE TOP:
-async function testBackendConnection() {
-    console.log('🔍 Testing backend connection...');
-    
-    try {
+// ========== BACKEND CONNECTION TEST ==========
+console.log('🔍 Checking backend connection...');
+
+// Test if backend is accessible
+fetch('http://localhost:3001/')
+    .then(response => {
+        console.log('✅ Backend response status:', response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log('✅ Backend message:', data.message);
+        console.log('✅ Endpoints available:', data.endpoints);
+        
+        // Show success message on page
+        const connectionStatus = document.createElement('div');
+        connectionStatus.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            display: none;
+        `;
+        connectionStatus.innerHTML = `
+            <i class="fas fa-check-circle"></i> Backend connected
+        `;
+        document.body.appendChild(connectionStatus);
+        connectionStatus.style.display = 'block';
+        
+        // Hide after 3 seconds
+        setTimeout(() => {
+            connectionStatus.style.display = 'none';
+        }, 3000);
+        
+    })
+    .catch(error => {
+        console.error('❌ Backend connection error:', error);
+        
+        // Show error message
+        const errorStatus = document.createElement('div');
+        errorStatus.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ef4444;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        `;
+        errorStatus.innerHTML = `
+            <strong><i class="fas fa-exclamation-triangle"></i> Backend Connection Error</strong>
+            <p style="margin: 8px 0; font-size: 0.85rem;">${error.message}</p>
+            <p style="margin: 5px 0; font-size: 0.8rem;">
+                <strong>Solution:</strong><br>
+                1. Make sure backend is running<br>
+                2. Run in PowerShell: <code>node server.js</code><br>
+                3. Check if port 3001 is free
+            </p>
+        `;
+        document.body.appendChild(errorStatus);
+        
+        // Hide after 10 seconds
+        setTimeout(() => {
+            errorStatus.style.display = 'none';
+        }, 10000);
+    });
         // Test 1: Try with CORS options
         const response = await fetch('http://localhost:3001/', {
             method: 'GET',
