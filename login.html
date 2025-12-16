@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Incomeplus Scanner</title>
-    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Reset and Base Styles */
@@ -229,6 +228,11 @@
             border-radius: 10px;
             border: 2px solid #e2e8f0;
             transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .checkbox-group:hover {
+            border-color: #c7d2fe;
         }
         
         .checkbox-group.checked {
@@ -239,9 +243,10 @@
         .checkbox-group input[type="checkbox"] {
             accent-color: #4f46e5;
             margin-top: 3px;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
+            flex-shrink: 0;
         }
         
         .checkbox-group label {
@@ -250,10 +255,34 @@
             line-height: 1.5;
             cursor: pointer;
             flex: 1;
+            user-select: none;
         }
         
         .checkbox-group label strong {
             color: #2d3748;
+        }
+        
+        /* Remember Me Checkbox */
+        .remember-me-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            cursor: pointer;
+        }
+        
+        .remember-me-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4f46e5;
+            cursor: pointer;
+        }
+        
+        .remember-me-group label {
+            color: #4a5568;
+            font-size: 0.95rem;
+            cursor: pointer;
+            user-select: none;
         }
         
         /* Proceed Button */
@@ -375,8 +404,8 @@
         
         .remember input[type="checkbox"] {
             accent-color: #4f46e5;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             cursor: pointer;
         }
         
@@ -746,12 +775,18 @@
             margin-top: 3px;
             display: block;
         }
+        
+        /* Enhanced Checkbox Click Area */
+        .checkbox-clickable {
+            cursor: pointer;
+        }
+        
+        .checkbox-clickable:hover {
+            background-color: #f8fafc;
+        }
     </style>
 </head>
 <body>
-    <!-- Backend Status Indicator -->
-    <div id="backendStatus" class="backend-status"></div>
-
     <!-- Legal Banner -->
     <div class="legal-banner">
         <div class="container">
@@ -821,25 +856,25 @@
                         </div>
                     </div>
                     
-                    <!-- Checkbox 1 -->
-                    <div class="checkbox-group" id="termsGroup1">
+                    <!-- Checkbox 1 - FIXED -->
+                    <div class="checkbox-group checkbox-clickable" id="termsGroup1" onclick="toggleCheckbox('agreeTerms')">
                         <input type="checkbox" id="agreeTerms">
-                        <label for="agreeTerms">
+                        <label for="agreeTerms" onclick="event.stopPropagation();">
                             <strong>✓ I AGREE:</strong> This is a tools platform only. I will not use it for investment decisions. 
                             I understand this is NOT investment advice.
                         </label>
                     </div>
                     
-                    <!-- Checkbox 2 -->
-                    <div class="checkbox-group" id="termsGroup2">
+                    <!-- Checkbox 2 - FIXED -->
+                    <div class="checkbox-group checkbox-clickable" id="termsGroup2" onclick="toggleCheckbox('agreeSEBI')">
                         <input type="checkbox" id="agreeSEBI">
-                        <label for="agreeSEBI">
+                        <label for="agreeSEBI" onclick="event.stopPropagation();">
                             <strong>✓ I CONFIRM:</strong> Incomeplus Scanner is NOT SEBI registered. I will consult SEBI registered advisors 
                             for investment decisions.
                         </label>
                     </div>
                     
-                    <!-- Proceed Section -->
+                    <!-- Proceed Button - FIXED -->
                     <div class="proceed-section" id="proceedSection">
                         <button id="proceedToForms">
                             <i class="fas fa-arrow-right"></i> I AGREE & PROCEED TO REGISTER/LOGIN
@@ -869,10 +904,11 @@
                         <input type="password" id="loginPassword" placeholder="Enter your password" required>
                     </div>
                     
+                    <!-- REMEMBER ME CHECKBOX - FIXED -->
                     <div class="form-options">
-                        <div class="remember">
+                        <div class="remember remember-me-group" onclick="toggleCheckbox('rememberMe')">
                             <input type="checkbox" id="rememberMe">
-                            <label for="rememberMe">Remember me</label>
+                            <label for="rememberMe" onclick="event.stopPropagation();">Keep me logged in</label>
                         </div>
                         <a href="#" id="forgotPassword">Forgot Password?</a>
                     </div>
@@ -1054,6 +1090,51 @@
     </footer>
 
     <script>
+        // ========== GLOBAL FUNCTIONS ==========
+        function toggleCheckbox(checkboxId) {
+            const checkbox = document.getElementById(checkboxId);
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+                
+                // Trigger change event
+                const event = new Event('change');
+                checkbox.dispatchEvent(event);
+                
+                // Update UI for terms checkboxes
+                if (checkboxId === 'agreeTerms' || checkboxId === 'agreeSEBI') {
+                    updateTermsUI();
+                }
+            }
+        }
+        
+        function updateTermsUI() {
+            const agreeTerms = document.getElementById('agreeTerms');
+            const agreeSEBI = document.getElementById('agreeSEBI');
+            const termsGroup1 = document.getElementById('termsGroup1');
+            const termsGroup2 = document.getElementById('termsGroup2');
+            const proceedSection = document.getElementById('proceedSection');
+            
+            if (agreeTerms && agreeSEBI && termsGroup1 && termsGroup2) {
+                const isTermsChecked = agreeTerms.checked;
+                const isSEBIChecked = agreeSEBI.checked;
+                const allChecked = isTermsChecked && isSEBIChecked;
+                
+                // Update checkbox group styles
+                termsGroup1.classList.toggle('checked', isTermsChecked);
+                termsGroup2.classList.toggle('checked', isSEBIChecked);
+                
+                // Show/hide proceed section
+                if (proceedSection) {
+                    if (allChecked) {
+                        proceedSection.classList.add('show');
+                        console.log('✅ Proceed button shown - Both checkboxes are checked');
+                    } else {
+                        proceedSection.classList.remove('show');
+                    }
+                }
+            }
+        }
+        
         // ========== INITIALIZE PAGE ==========
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Login page loaded successfully');
@@ -1061,47 +1142,15 @@
             // ========== TERMS AGREEMENT LOGIC ==========
             const agreeTerms = document.getElementById('agreeTerms');
             const agreeSEBI = document.getElementById('agreeSEBI');
-            const proceedSection = document.getElementById('proceedSection');
             const proceedButton = document.getElementById('proceedToForms');
-            const termsGroup1 = document.getElementById('termsGroup1');
-            const termsGroup2 = document.getElementById('termsGroup2');
-            
-            // Function to check terms
-            function checkTerms() {
-                const isTermsChecked = agreeTerms.checked;
-                const isSEBIChecked = agreeSEBI.checked;
-                const allChecked = isTermsChecked && isSEBIChecked;
-                
-                console.log('Terms checked:', isTermsChecked, 'SEBI checked:', isSEBIChecked);
-                
-                // Update checkbox styles
-                if (termsGroup1) {
-                    termsGroup1.classList.toggle('checked', isTermsChecked);
-                }
-                if (termsGroup2) {
-                    termsGroup2.classList.toggle('checked', isSEBIChecked);
-                }
-                
-                // Show/hide proceed section
-                if (proceedSection) {
-                    if (allChecked) {
-                        proceedSection.classList.add('show');
-                        console.log('✅ Proceed button shown');
-                    } else {
-                        proceedSection.classList.remove('show');
-                    }
-                }
-                
-                return allChecked;
-            }
             
             // Add event listeners for terms checkboxes
             if (agreeTerms && agreeSEBI) {
-                agreeTerms.addEventListener('change', checkTerms);
-                agreeSEBI.addEventListener('change', checkTerms);
+                agreeTerms.addEventListener('change', updateTermsUI);
+                agreeSEBI.addEventListener('change', updateTermsUI);
                 
                 // Initial check
-                setTimeout(checkTerms, 100);
+                setTimeout(updateTermsUI, 100);
             }
             
             // Proceed button click
@@ -1170,7 +1219,7 @@
                     if (agreeTerms && agreeSEBI) {
                         agreeTerms.checked = true;
                         agreeSEBI.checked = true;
-                        checkTerms();
+                        updateTermsUI();
                         
                         // Auto-click proceed button after checking terms
                         setTimeout(() => {
@@ -1279,6 +1328,7 @@
                     
                     const email = document.getElementById('loginEmail').value;
                     const password = document.getElementById('loginPassword').value;
+                    const rememberMe = document.getElementById('rememberMe').checked;
                     const loginMessage = document.getElementById('loginMessage');
                     
                     // Simple validation
@@ -1296,7 +1346,11 @@
                     // Simulate API call
                     setTimeout(() => {
                         // For demo purposes - always succeed
-                        showMessage(loginMessage, 'Login successful! Redirecting to dashboard...', 'success');
+                        const message = rememberMe ? 
+                            'Login successful! You will stay logged in for 30 days.' :
+                            'Login successful! Redirecting to dashboard...';
+                        
+                        showMessage(loginMessage, message, 'success');
                         
                         // Redirect to dashboard after 2 seconds
                         setTimeout(() => {
@@ -1391,22 +1445,23 @@
             
             // Test backend connection
             function testBackendConnection() {
-                const backendStatus = document.getElementById('backendStatus');
+                const backendStatus = document.createElement('div');
+                backendStatus.id = 'backendStatus';
+                backendStatus.className = 'backend-status connected';
+                backendStatus.textContent = '✓ Backend Connected';
+                document.body.appendChild(backendStatus);
                 
-                // For demo - simulate backend connection
+                // Hide after 3 seconds
                 setTimeout(() => {
-                    backendStatus.textContent = '✓ Backend Connected';
-                    backendStatus.className = 'backend-status connected';
-                    
-                    // Hide after 3 seconds
+                    backendStatus.style.opacity = '0';
                     setTimeout(() => {
-                        backendStatus.style.opacity = '0';
-                        setTimeout(() => {
-                            backendStatus.style.display = 'none';
-                        }, 300);
-                    }, 3000);
-                }, 1000);
+                        backendStatus.remove();
+                    }, 300);
+                }, 3000);
             }
+            
+            // Initial test
+            testBackendConnection();
         });
     </script>
 </body>
