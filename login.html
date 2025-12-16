@@ -1122,13 +1122,18 @@
                 }
             }
             
-            // Check if user is already logged in
-            const token = localStorage.getItem('token');
-            const user = localStorage.getItem('user');
-            if (token && user) {
-                // User is already logged in, redirect to dashboard
-                window.location.href = 'dashboard.html';
-            }
+       // Check URL for "force" parameter
+const urlParams = new URLSearchParams(window.location.search);
+const forceLogin = urlParams.get('force') === 'true';
+
+// Only auto-redirect if not forced to login page
+if (!forceLogin) {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    if (token && user) {
+        window.location.href = 'dashboard.html';
+    }
+}
             
             // Test backend connection on page load
             testBackendConnection();
