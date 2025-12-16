@@ -273,7 +273,28 @@
             cursor: pointer;
             margin: 15px 0;
         }
-        
+
+        <!-- In login.html, update the JavaScript section -->
+<script>
+  // Initialize auth service
+  const auth = window.authService;
+  
+  // Test backend on load
+  document.addEventListener('DOMContentLoaded', async function() {
+    const connection = await auth.testConnection();
+    
+    if (connection.connected) {
+      console.log('✅ Connected to backend');
+      // Show connected status
+    } else {
+      console.log('⚠️ Using demo mode');
+      // Show demo mode warning
+    }
+    
+    // Your existing login form handling
+    // ... use auth.login() instead of direct fetch
+  });
+</script>
         /* Responsive */
         @media (max-width: 768px) {
             .auth-form {
