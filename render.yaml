@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: incomeplus-web
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: incomeplus-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: incomeplus-redis
+          property: connectionString
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_REGION
+        value: ap-south-1
+      - key: S3_BUCKET
+        value: incomeplus-scans
+      - key: FLASK_ENV
+        value: production
+
+databases:
+  - name: incomeplus-db
+    plan: free
+
+redis:
+  - name: incomeplus-redis
+    plan: free
