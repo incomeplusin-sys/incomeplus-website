@@ -1,0 +1,41 @@
+# Flask
+Flask==2.3.3
+Flask-SQLAlchemy==3.0.5
+Flask-Login==0.6.2
+Flask-WTF==1.1.1
+Flask-Limiter==3.3.0
+
+# Database
+psycopg2-binary==2.9.7
+SQLAlchemy==2.0.19
+
+# Background Jobs
+redis==4.5.5
+rq==1.14.1
+
+# Payments
+razorpay==1.4.2
+
+# Email
+sendgrid==6.10.0
+
+# AWS
+boto3==1.28.62
+
+# Security
+bcrypt==4.0.1
+cryptography==41.0.5
+
+# HTTP Requests
+requests==2.31.0
+
+# Utilities
+python-dotenv==1.0.0
+Pillow==10.0.0
+python-dateutil==2.8.2
+
+# Production
+gunicorn==20.1.0
+
+# Development
+blinker==1.6.2
