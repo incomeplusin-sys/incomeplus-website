@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}IncomePlus - Security Scanner Platform{% endblock %}
+{% block description %}Free security scanning tools for ethical testing. Check website vulnerabilities, SSL security, port scanning. Compliant with Indian IT Act, SEBI, and RBI regulations.{% endblock %}
+{% block og_title %}IncomePlus - Professional Security Scanner{% endblock %}
+{% block og_description %}Scan websites, APIs, and networks for vulnerabilities. Ethical testing tools with full compliance monitoring.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="py-16 md:py-24 bg-gradient-to-r from-primary to-secondary text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Security Scanning Made Ethical & Compliant</h1>
+        <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Professional vulnerability scanning tools that follow Indian IT Act 2000, SEBI, and RBI regulations. Scan with confidence.</p>
+        
+        <div class="flex flex-col md:flex-row gap-4 justify-center mb-12">
+            <a href="{{ url_for('register') }}" class="bg-white text-primary px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition">
+                <i class="fas fa-rocket mr-2"></i>Start Free Scan
+            </a>
+            <a href="#features" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-primary transition">
+                <i class="fas fa-play-circle mr-2"></i>Watch Demo
+            </a>
+        </div>
+        
+        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 max-w-4xl mx-auto">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fas fa-shield-alt text-2xl mr-3"></i>
+                <h3 class="text-xl font-semibold">Compliance First Approach</h3>
+            </div>
+            <p class="mb-4">Every scan is logged with user verification. We automatically block government/military domains and enforce ethical testing guidelines.</p>
+            <div class="flex flex-wrap justify-center gap-4 text-sm">
+                <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-check-circle mr-1"></i>IT Act 2000 Compliant</span>
+                <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-check-circle mr-1"></i>SEBI Regulations</span>
+                <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-check-circle mr-1"></i>RBI Guidelines</span>
+                <span class="bg-white/20 px-3 py-1 rounded-full"><i class="fas fa-check-circle mr-1"></i>GDPR Ready</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Comprehensive Security Scanning</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Our tools are designed for ethical testing with built-in compliance checks at every step.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-globe text-primary text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Website Scanner</h3>
+                <p class="text-gray-600 mb-4">Check for vulnerabilities like XSS, SQL injection, security headers, and SSL/TLS issues.</p>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>SSL Certificate Analysis</li>
+                    <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Security Headers Check</li>
+                    <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Compliance Validation</li>
+                </ul>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-lock text-secondary text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">SSL/TLS Analyzer</h3>
+                <p class="text-gray-600 mb-4">Comprehensive SSL/TLS configuration testing with certificate expiry alerts.</p>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Certificate Chain Analysis</li>
+                    <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Protocol Support Check</li>
+                    <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Vulnerability Detection</li>
+                </ul>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+                <div class="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-network-wired text-success text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Port Scanner</h3>
+                <p class="text-gray-600 mb-4">Ethical port scanning with rate limiting and compliance boundaries.</p>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Common Port Detection</li>
+                    <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Service Identification</li>
+                    <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Security Risk Assessment</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Compliance Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Built-in Compliance & Legal Protection</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">We prioritize legal compliance to protect both you and our platform.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+                <div class="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-warning/10 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-balance-scale text-warning"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Multi-Layer Verification</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-user-check text-success mt-1 mr-3"></i>
+                            <span><strong>Email Verification:</strong> Required before first scan</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-success mt-1 mr-3"></i>
+                            <span><strong>Phone Verification:</strong> Required for Pro/Enterprise plans</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-id-card text-success mt-1 mr-3"></i>
+                            <span><strong>Identity Check:</strong> Required for API access</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-history text-success mt-1 mr-3"></i>
+                            <span><strong>Audit Trail:</strong> All scans logged with IP, timestamp, user ID</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-danger/10 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-ban text-danger"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Automatic Protection</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-shield-alt text-primary mt-1 mr-3"></i>
+                            <span><strong>Domain Blacklist:</strong> Government/military domains blocked automatically</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-globe-asia text-primary mt-1 mr-3"></i>
+                            <span><strong>Geographic Restrictions:</strong> Countries with strict cyber laws blocked</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-tachometer-alt text-primary mt-1 mr-3"></i>
+                            <span><strong>Rate Limiting:</strong> Prevents abuse and DoS attacks</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-user-slash text-primary mt-1 mr-3"></i>
+                            <span><strong>Account Suspension:</strong> Immediate action on policy violations</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bg-primary/5 rounded-xl p-8 border border-primary/20">
+                <div class="text-center mb-6">
+                    <i class="fas fa-gavel text-4xl text-primary mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">Legal Compliance Features</h3>
+                    <p class="text-gray-600">Designed for Indian regulatory environment</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 bg-blue-100 rounded flex items-center justify-center mr-3">
+                                <i class="fas fa-indian-rupee-sign text-blue-600"></i>
+                            </div>
+                            <h4 class="font-semibold">RBI Compliance</h4>
+                        </div>
+                        <p class="text-sm text-gray-600">Payment security and data protection as per RBI guidelines for fintech platforms.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 bg-green-100 rounded flex items-center justify-center mr-3">
+                                <i class="fas fa-chart-line text-green-600"></i>
+                            </div>
+                            <h4 class="font-semibold">SEBI Regulations</h4>
+                        </div>
+                        <p class="text-sm text-gray-600">Compliant with SEBI cybersecurity guidelines for financial market participants.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 bg-purple-100 rounded flex items-center justify-center mr-3">
+                                <i class="fas fa-laptop-code text-purple-600"></i>
+                            </div>
+                            <h4 class="font-semibold">IT Act 2000</h4>
+                        </div>
+                        <p class="text-sm text-gray-600">Full compliance with Indian IT Act sections 43, 66, and 72 for ethical hacking.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 bg-red-100 rounded flex items-center justify-center mr-3">
+                                <i class="fas fa-user-shield text-red-600"></i>
+                            </div>
+                            <h4 class="font-semibold">DPDPA 2023</h4>
+                        </div>
+                        <p class="text-sm text-gray-600">Data protection and privacy as per India's Digital Personal Data Protection Act.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gradient-to-r from-dark to-gray-900 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Start Scanning Ethically Today</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">Join thousands of security professionals who trust IncomePlus for compliant vulnerability scanning.</p>
+        
+        <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+            <a href="{{ url_for('register') }}" class="bg-primary text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition">
+                <i class="fas fa-user-plus mr-2"></i>Create Free Account
+            </a>
+            <a href="{{ url_for('pricing') }}" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-dark transition">
+                <i class="fas fa-crown mr-2"></i>View Premium Plans
+            </a>
+        </div>
+        
+        <div class="mt-8 text-gray-300 text-sm">
+            <p><i class="fas fa-shield-alt mr-2"></i>Free tier includes 3 scans per month • No credit card required</p>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Indicators -->
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Trusted by Security Teams</h3>
+            <p class="text-gray-600">We prioritize security and compliance above all else</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="text-3xl font-bold text-primary mb-2">100%</div>
+                <p class="text-gray-600">Compliance Rate</p>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-primary mb-2">24/7</div>
+                <p class="text-gray-600">Audit Monitoring</p>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-primary mb-2">0</div>
+                <p class="text-gray-600">Legal Incidents</p>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-primary mb-2">10k+</div>
+                <p class="text-gray-600">Ethical Scans</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Age verification check
+    if (!sessionStorage.getItem('ageVerified')) {
+        window.location.href = '/verify-age';
+    }
+</script>
+{% endblock %}
