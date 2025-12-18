@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Age Verification - IncomePlus{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+    <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold mb-2">Age Verification Required</h1>
+            <p class="text-gray-600">IncomePlus is for users 18 years and older</p>
+        </div>
+        
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            <div class="flex">
+                <i class="fas fa-gavel text-yellow-600 mt-1 mr-3"></i>
+                <div>
+                    <p class="text-sm text-yellow-800">
+                        <strong>Legal Notice:</strong> Our security scanning tools are for educational and ethical testing only. Users must comply with Indian IT Act 2000 and obtain proper authorization before scanning any target.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <form method="POST" action="/verify-age" class="space-y-6">
+            <div class="flex items-start">
+                <input type="checkbox" id="age-confirm" name="age_confirm" required
+                       class="mt-1 mr-3 h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="age-confirm" class="text-gray-700">
+                    <span class="font-medium">I confirm that I am 18 years of age or older</span>
+                    <p class="text-sm text-gray-600 mt-1">
+                        By checking this box, I acknowledge that I understand and agree to comply with all applicable laws and IncomePlus policies.
+                    </p>
+                </label>
+            </div>
+            
+            <div>
+                <button type="submit"
+                        class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Confirm Age and Continue
+                </button>
+            </div>
+            
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    If you are under 18, you cannot use this service.
+                    <a href="/" class="text-blue-600 hover:text-blue-800">Return to homepage</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
