@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - IncomePlus{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-8">Account Settings</h1>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left Column - Profile Info -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- Personal Information -->
+            <div class="bg-white rounded-xl shadow p-6">
+                <h2 class="text-xl font-bold mb-4">Personal Information</h2>
+                <form class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" value="Rajesh Kumar" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" value="rajesh@techcompany.in" class="w-full p-2 border rounded" disabled>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                        <input type="text" value="Tech Company Pvt Ltd" class="w-full p-2 border rounded">
+                    </div>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        Update Profile
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Security Settings -->
+            <div class="bg-white rounded-xl shadow p-6">
+                <h2 class="text-xl font-bold mb-4">Security Settings</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        <div class="flex items-center">
+                            <input type="tel" value="+91 9876543210" class="flex-grow p-2 border rounded-l">
+                            <span class="bg-green-100 text-green-800 px-3 py-2 border rounded-r">
+                                <i class="fas fa-check-circle mr-1"></i> Verified
+                            </span>
+                        </div>
+                    </div>
+                    <button class="w-full border-2 border-dashed border-gray-300 p-4 rounded text-center hover:bg-gray-50">
+                        <i class="fas fa-shield-alt text-gray-400 mr-2"></i>
+                        <span>Two-Factor Authentication (Coming Soon)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column - Account Info -->
+        <div class="space-y-6">
+            <!-- Account Status -->
+            <div class="bg-white rounded-xl shadow p-6">
+                <h2 class="text-xl font-bold mb-4">Account Status</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Plan</span>
+                        <span class="font-medium">Pro</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Status</span>
+                        <span class="text-green-600 font-medium">Active</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Renewal Date</span>
+                        <span class="font-medium">Feb 15, 2024</span>
+                    </div>
+                    <div class="pt-4 border-t">
+                        <a href="/pricing" class="block w-full bg-blue-600 text-white text-center py-2 rounded hover:bg-blue-700">
+                            Upgrade Plan
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Verification Status -->
+            <div class="bg-white rounded-xl shadow p-6">
+                <h2 class="text-xl font-bold mb-4">Verification Status</h2>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-green-500 mr-2"></i>
+                            <span>Email</span>
+                        </div>
+                        <span class="text-green-600 font-medium">Verified</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-green-500 mr-2"></i>
+                            <span>Phone</span>
+                        </div>
+                        <span class="text-green-600 font-medium">Verified</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i class="fas fa-id-card text-yellow-500 mr-2"></i>
+                            <span>Identity</span>
+                        </div>
+                        <span class="text-yellow-600">Required for API</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Danger Zone -->
+            <div class="bg-red-50 border border-red-200 rounded-xl p-6">
+                <h2 class="text-xl font-bold mb-4 text-red-800">Danger Zone</h2>
+                <div class="space-y-3">
+                    <button onclick="confirmAction('delete')" 
+                            class="w-full bg-red-100 text-red-700 border border-red-300 p-3 rounded hover:bg-red-200">
+                        <i class="fas fa-trash-alt mr-2"></i>
+                        Delete Account
+                    </button>
+                    <button onclick="confirmAction('export')"
+                            class="w-full bg-gray-100 text-gray-700 border border-gray-300 p-3 rounded hover:bg-gray-200">
+                        <i class="fas fa-download mr-2"></i>
+                        Export My Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmAction(action) {
+    if (action === 'delete') {
+        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            alert('Account deletion request submitted');
+        }
+    } else if (action === 'export') {
+        alert('Data export initiated. You will receive an email with your data shortly.');
+    }
+}
+</script>
+{% endblock %}
