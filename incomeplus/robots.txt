@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /blog/
+Allow: /legal/
+Disallow: /admin/
+Disallow: /private/
+
+Sitemap: https://incomeplus.in/sitemap.xml
