@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Register - IncomePlus{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <div class="flex justify-center">
+                <div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center">
+                    <i class="fas fa-shield-alt text-white text-2xl"></i>
+                </div>
+            </div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Create your account
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Start ethical security scanning in minutes
+            </p>
+        </div>
+        
+        <!-- Compliance Warning -->
+        <div class="bg-red-50 border border-red-200 rounded-md p-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-gavel text-red-400"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-red-700">
+                        <strong>Legal Requirement:</strong> You must be 18+ and agree to only scan targets you own or have permission to test.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <form class="mt-8 space-y-6" method="POST" action="/register">
+            <div class="rounded-md shadow-sm space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required
+                           class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                           placeholder="you@example.com">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="new-password" required
+                           class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                           placeholder="Minimum 8 characters">
+                </div>
+                <div>
+                    <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <input id="confirm-password" name="confirm_password" type="password" required
+                           class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                           placeholder="Re-enter your password">
+                </div>
+            </div>
+            
+            <!-- Terms Agreement -->
+            <div class="flex items-start">
+                <div class="flex items-center h-5">
+                    <input id="terms" name="terms" type="checkbox" required
+                           class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                </div>
+                <div class="ml-3 text-sm">
+                    <label for="terms" class="font-medium text-gray-700">
+                        I agree to the IncomePlus Terms of Service
+                    </label>
+                    <p class="text-gray-500">
+                        By checking this box, you confirm you are 18+ and will comply with our Acceptable Use Policy.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Age Verification -->
+            <div class="flex items-start">
+                <div class="flex items-center h-5">
+                    <input id="age" name="age" type="checkbox" required
+                           class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                </div>
+                <div class="ml-3 text-sm">
+                    <label for="age" class="font-medium text-gray-700">
+                        I confirm I am 18 years or older
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit"
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <i class="fas fa-user-plus text-blue-300 group-hover:text-blue-400"></i>
+                    </span>
+                    Create Account
+                </button>
+            </div>
+            
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    Already have an account?
+                    <a href="/login" class="font-medium text-primary hover:text-blue-700">
+                        Sign in
+                    </a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
