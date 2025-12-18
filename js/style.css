@@ -1,0 +1,48 @@
+/* Stock Scanner Styles */
+.scan-progress {
+    transition: width 0.3s ease;
+}
+
+.stock-row {
+    transition: all 0.2s ease;
+}
+
+.stock-row:hover {
+    background-color: #f9fafb;
+    transform: translateX(4px);
+}
+
+.pattern-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+}
+
+.pattern-v {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.pattern-u {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+/* Chart containers */
+.chart-container {
+    position: relative;
+    height: 250px;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    .stock-table {
+        font-size: 0.875rem;
+    }
+    
+    .stock-table th,
+    .stock-table td {
+        padding: 0.5rem;
+    }
+}
