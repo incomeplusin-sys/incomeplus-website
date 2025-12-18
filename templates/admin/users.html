@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}User Management - Admin{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold mb-2">User Management</h1>
+        <p class="text-gray-600">Manage registered users and their permissions</p>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="bg-white rounded-xl shadow p-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Search Users</label>
+                <input type="text" placeholder="Email or name..." class="w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Plan Type</label>
+                <select class="w-full p-2 border rounded">
+                    <option value="">All Plans</option>
+                    <option value="free">Free</option>
+                    <option value="pro">Pro</option>
+                    <option value="enterprise">Enterprise</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Verification Status</label>
+                <select class="w-full p-2 border rounded">
+                    <option value="">All Status</option>
+                    <option value="verified">Verified</option>
+                    <option value="pending">Pending</option>
+                    <option value="banned">Banned</option>
+                </select>
+            </div>
+            <div class="flex items-end">
+                <button class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+                    <i class="fas fa-search mr-2"></i>Search
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="text-left p-4 font-medium">User</th>
+                        <th class="text-left p-4 font-medium">Plan</th>
+                        <th class="text-left p-4 font-medium">Verification</th>
+                        <th class="text-left p-4 font-medium">Scans</th>
+                        <th class="text-left p-4 font-medium">Joined</th>
+                        <th class="text-left p-4 font-medium">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- User 1 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-4">
+                            <div>
+                                <p class="font-medium">rajesh@techcompany.in</p>
+                                <p class="text-sm text-gray-600">Rajesh Kumar</p>
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm">Pro</span>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                <span>Verified</span>
+                            </div>
+                        </td>
+                        <td class="p-4">24</td>
+                        <td class="p-4">2024-01-10</td>
+                        <td class="p-4">
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="text-green-600 hover:text-green-800">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- User 2 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-4">
+                            <div>
+                                <p class="font-medium">security@bank.co.in</p>
+                                <p class="text-sm text-gray-600">Bank Security Team</p>
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded text-sm">Enterprise</span>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-yellow-500 mr-2"></i>
+                                <span>Pending Phone</span>
+                            </div>
+                        </td>
+                        <td class="p-4">0</td>
+                        <td class="p-4">2024-01-15</td>
+                        <td class="p-4">
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-800" onclick="confirmAction('ban')">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <!-- User 3 -->
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-4">
+                            <div>
+                                <p class="font-medium">test@example.com</p>
+                                <p class="text-sm text-gray-600">Test Account</p>
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded text-sm">Free</span>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                <span>Verified</span>
+                            </div>
+                        </td>
+                        <td class="p-4">3</td>
+                        <td class="p-4">2024-01-12</td>
+                        <td class="p-4">
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="text-yellow-600 hover:text-yellow-800">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="p-4 border-t">
+            <div class="flex justify-between items-center">
+                <div class="text-sm text-gray-600">
+                    Showing 1-3 of 1,247 users
+                </div>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 border rounded hover:bg-gray-50">
+                        Previous
+                    </button>
+                    <button class="px-3 py-1 bg-blue-600 text-white rounded">
+                        1
+                    </button>
+                    <button class="px-3 py-1 border rounded hover:bg-gray-50">
+                        2
+                    </button>
+                    <button class="px-3 py-1 border rounded hover:bg-gray-50">
+                        3
+                    </button>
+                    <button class="px-3 py-1 border rounded hover:bg-gray-50">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmAction(action) {
+    if (confirm(`Are you sure you want to ${action} this user?`)) {
+        alert(`User ${action}ned successfully`);
+    }
+}
+</script>
+{% endblock %}
