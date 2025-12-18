@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}IncomePlus Security Scanner{% endblock %}</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block description %}IncomePlus provides ethical security scanning tools for websites, networks, and applications. Ensure compliance with Indian IT Act, SEBI, and RBI regulations.{% endblock %}">
+    <meta name="keywords" content="security scanner, vulnerability scanner, ethical hacking, penetration testing, India, compliance, IT Act 2000, SEBI, RBI">
+    <meta name="author" content="IncomePlus Security Solutions">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{% block og_title %}IncomePlus Security Scanner{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Professional security scanning tools for ethical testing and compliance verification.{% endblock %}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.jpg') }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="IncomePlus">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}IncomePlus Security Scanner{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Ethical security scanning made easy and compliant.{% endblock %}">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/twitter-card.jpg') }}">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "IncomePlus Security Scanner",
+        "description": "Ethical security scanning platform with compliance monitoring",
+        "url": "https://incomeplus.in",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": "0",
+            "highPrice": "1499",
+            "priceCurrency": "INR"
+        }
+    }
+    </script>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#7c3aed',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        dark: '#1f2937',
+                        light: '#f9fafb'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-800">
+    
+    <!-- Compliance Header Banner -->
+    <div class="bg-yellow-50 border-b border-yellow-200">
+        <div class="container mx-auto px-4 py-2 text-center text-sm">
+            <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
+            <span class="font-medium">IncomePlus is for educational/ethical security testing only.</span>
+            <span class="ml-2">Users must have permission to scan targets. Read our <a href="{{ url_for('acceptable_use') }}" class="text-primary hover:underline">Acceptable Use Policy</a>.</span>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{{ url_for('index') }}" class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-white text-xl"></i>
+                        </div>
+                        <span class="text-xl font-bold text-dark">IncomePlus</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ url_for('index') }}" class="text-gray-600 hover:text-primary transition">Home</a>
+                    <a href="{{ url_for('scanner') }}" class="text-gray-600 hover:text-primary transition">Scanner</a>
+                    <a href="{{ url_for('pricing') }}" class="text-gray-600 hover:text-primary transition">Pricing</a>
+                    <a href="{{ url_for('blog') }}" class="text-gray-600 hover:text-primary transition">Blog</a>
+                    
+                    {% if current_user.is_authenticated %}
+                        <div class="relative group">
+                            <button class="flex items-center space-x-2 text-gray-600 hover:text-primary">
+                                <i class="fas fa-user-circle"></i>
+                                <span>{{ current_user.email }}</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block z-50">
+                                <a href="{{ url_for('dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                                </a>
+                                <a href="{{ url_for('profile') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-user mr-2"></i>Profile
+                                </a>
+                                {% if current_user.is_admin %}
+                                    <a href="{{ url_for('admin_dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-cog mr-2"></i>Admin
+                                    </a>
+                                {% endif %}
+                                <div class="border-t my-1"></div>
+                                <a href="{{ url_for('logout') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="text-gray-600 hover:text-primary">Login</a>
+                        <a href="{{ url_for('register') }}" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                            Sign Up Free
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden py-4 border-t">
+                <a href="{{ url_for('index') }}" class="block py-2 text-gray-600 hover:text-primary">Home</a>
+                <a href="{{ url_for('scanner') }}" class="block py-2 text-gray-600 hover:text-primary">Scanner</a>
+                <a href="{{ url_for('pricing') }}" class="block py-2 text-gray-600 hover:text-primary">Pricing</a>
+                <a href="{{ url_for('blog') }}" class="block py-2 text-gray-600 hover:text-primary">Blog</a>
+                
+                {% if current_user.is_authenticated %}
+                    <div class="pt-2 border-t mt-2">
+                        <a href="{{ url_for('dashboard') }}" class="block py-2 text-gray-600 hover:text-primary">
+                            <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                        </a>
+                        <a href="{{ url_for('profile') }}" class="block py-2 text-gray-600 hover:text-primary">
+                            <i class="fas fa-user mr-2"></i>Profile
+                        </a>
+                        {% if current_user.is_admin %}
+                            <a href="{{ url_for('admin_dashboard') }}" class="block py-2 text-gray-600 hover:text-primary">
+                                <i class="fas fa-cog mr-2"></i>Admin
+                            </a>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}" class="block py-2 text-gray-600 hover:text-primary">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="pt-2 border-t mt-2">
+                        <a href="{{ url_for('login') }}" class="block py-2 text-gray-600 hover:text-primary">Login</a>
+                        <a href="{{ url_for('register') }}" class="block py-2 text-primary font-medium">Sign Up Free</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mx-auto px-4 mt-4">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} p-4 rounded-lg mb-2 {% if category == 'success' %}bg-green-50 border border-green-200 text-green-800{% elif category == 'danger' %}bg-red-50 border border-red-200 text-red-800{% elif category == 'warning' %}bg-yellow-50 border border-yellow-200 text-yellow-800{% else %}bg-blue-50 border border-blue-200 text-blue-800{% endif %}">
+                        <div class="flex items-center">
+                            {% if category == 'success' %}
+                                <i class="fas fa-check-circle mr-3"></i>
+                            {% elif category == 'danger' %}
+                                <i class="fas fa-exclamation-circle mr-3"></i>
+                            {% elif category == 'warning' %}
+                                <i class="fas fa-exclamation-triangle mr-3"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle mr-3"></i>
+                            {% endif %}
+                            <span>{{ message }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-16">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-white text-xl"></i>
+                        </div>
+                        <span class="text-xl font-bold">IncomePlus</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Ethical security scanning platform compliant with Indian IT Act, SEBI, and RBI regulations.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('scanner') }}" class="text-gray-300 hover:text-white">Security Scanner</a></li>
+                        <li><a href="{{ url_for('pricing') }}" class="text-gray-300 hover:text-white">Pricing</a></li>
+                        <li><a href="{{ url_for('blog') }}" class="text-gray-300 hover:text-white">Blog</a></li>
+                        <li><a href="{{ url_for('dashboard') }}" class="text-gray-300 hover:text-white">Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Legal -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('terms') }}" class="text-gray-300 hover:text-white">Terms of Service</a></li>
+                        <li><a href="{{ url_for('privacy') }}" class="text-gray-300 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="{{ url_for('acceptable_use') }}" class="text-gray-300 hover:text-white">Acceptable Use</a></li>
+                        <li><a href="{{ url_for('dmca') }}" class="text-gray-300 hover:text-white">DMCA Policy</a></li>
+                        <li><a href="{{ url_for('contact') }}" class="text-gray-300 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Compliance -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Compliance</h3>
+                    <div class="space-y-2 text-sm text-gray-300">
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-success mt-1 mr-2"></i>
+                            <span>IT Act 2000 Compliant</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-success mt-1 mr-2"></i>
+                            <span>SEBI Regulations</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-success mt-1 mr-2"></i>
+                            <span>RBI Guidelines</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-success mt-1 mr-2"></i>
+                            <span>GDPR Compliant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+                <!-- Compliance Disclaimer -->
+                <div class="mb-4 text-sm">
+                    <p class="mb-2"><strong>Important Legal Disclaimer:</strong></p>
+                    <p class="mb-2">IncomePlus is designed for educational purposes and ethical security testing only. Users must obtain proper authorization before scanning any target. Unauthorized scanning of computer systems is illegal under Indian IT Act 2000 and other applicable laws.</p>
+                    <p>We do not condone or support illegal activities. All scans are logged and may be provided to law enforcement if required.</p>
+                </div>
+                
+                <!-- Copyright -->
+                <p>&copy; 2024 IncomePlus Security Solutions. All rights reserved.</p>
+                <p class="mt-2">Registered in Mumbai, Maharashtra, India</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+    
+    <!-- Razorpay -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+</html>
