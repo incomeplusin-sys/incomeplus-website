@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results - IncomePlus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                    <span class="text-xl font-bold">IncomePlus</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="/dashboard" class="text-gray-600 hover:text-blue-600">Dashboard</a>
+                    <a href="/scanner" class="text-gray-600 hover:text-blue-600">New Scan</a>
+                    <a href="/scans" class="text-blue-600 font-medium">History</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Results Content -->
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Scan Header -->
+        <div class="mb-8">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">Security Scan Results</h1>
+                    <div class="flex items-center space-x-4 text-gray-600">
+                        <span><i class="fas fa-globe mr-1"></i> example.com</span>
+                        <span><i class="far fa-clock mr-1"></i> 2024-01-15 14:30</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-sm">
+                            <i class="fas fa-check-circle mr-1"></i> Completed
+                        </span>
+                    </div>
+                </div>
+                <div class="flex space-x-3">
+                    <button class="border border-blue-600 text-blue-600 px-4 py-2 rounded hover:bg-blue-50">
+                        <i class="fas fa-redo mr-2"></i>Rescan
+                    </button>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        <i class="fas fa-download mr-2"></i>Export PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow p-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold mb-2">24</div>
+                    <p class="text-gray-600">Total Checks</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-red-600 mb-2">3</div>
+                    <p class="text-gray-600">Critical Issues</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-yellow-600 mb-2">7</div>
+                    <p class="text-gray-600">Warnings</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold mb-2">68%</div>
+                    <p class="text-gray-600">Security Score</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Assessment -->
+        <div class="bg-white rounded-xl shadow p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Risk Assessment</h2>
+            <div class="mb-4">
+                <div class="flex justify-between mb-1">
+                    <span>Overall Risk Score</span>
+                    <span class="font-bold text-red-600">High Risk</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div class="bg-red-600 h-4 rounded-full" style="width: 75%"></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="text-center p-3 border rounded">
+                    <div class="text-lg font-bold text-red-600">Critical: 3</div>
+                    <p class="text-sm text-gray-600">Immediate action required</p>
+                </div>
+                <div class="text-center p-3 border rounded">
+                    <div class="text-lg font-bold text-yellow-600">High: 5</div>
+                    <p class="text-sm text-gray-600">Address within 7 days</p>
+                </div>
+                <div class="text-center p-3 border rounded">
+                    <div class="text-lg font-bold text-green-600">Low: 12</div>
+                    <p class="text-sm text-gray-600">Monitor regularly</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Findings Table -->
+        <div class="bg-white rounded-xl shadow p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Security Findings</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-3">Severity</th>
+                            <th class="text-left py-3">Vulnerability</th>
+                            <th class="text-left py-3">Location</th>
+                            <th class="text-left py-3">Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Critical -->
+                        <tr class="border-b hover:bg-red-50">
+                            <td class="py-3"><span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">CRITICAL</span></td>
+                            <td class="py-3 font-medium">SQL Injection Vulnerability</td>
+                            <td class="py-3 text-gray-600">/login.php parameter "user"</td>
+                            <td class="py-3">Implement parameterized queries</td>
+                        </tr>
+                        <tr class="border-b hover:bg-red-50">
+                            <td class="py-3"><span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">CRITICAL</span></td>
+                            <td class="py-3 font-medium">Outdated SSL Certificate</td>
+                            <td class="py-3 text-gray-600">SSL/TLS Configuration</td>
+                            <td class="py-3">Renew SSL certificate immediately</td>
+                        </tr>
+                        <!-- High -->
+                        <tr class="border-b hover:bg-yellow-50">
+                            <td class="py-3"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">HIGH</span></td>
+                            <td class="py-3 font-medium">Missing Security Headers</td>
+                            <td class="py-3 text-gray-600">HTTP Response Headers</td>
+                            <td class="py-3">Add X-Frame-Options, CSP headers</td>
+                        </tr>
+                        <!-- Medium -->
+                        <tr class="border-b hover:bg-blue-50">
+                            <td class="py-3"><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">MEDIUM</span></td>
+                            <td class="py-3 font-medium">Directory Listing Enabled</td>
+                            <td class="py-3 text-gray-600">/uploads/ directory</td>
+                            <td class="py-3">Disable directory listing in config</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-lightbulb text-blue-600 mr-2"></i>
+                Recommended Actions
+            </h2>
+            <div class="space-y-3">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-600 mt-1 mr-3"></i>
+                    <div>
+                        <p class="font-medium">Fix SQL Injection within 24 hours</p>
+                        <p class="text-sm text-gray-700">This is a critical security risk that could lead to data breach</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-certificate text-yellow-600 mt-1 mr-3"></i>
+                    <div>
+                        <p class="font-medium">Renew SSL Certificate within 3 days</p>
+                        <p class="text-sm text-gray-700">Certificate expires in 5 days, could cause service disruption</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-shield-alt text-blue-600 mt-1 mr-3"></i>
+                    <div>
+                        <p class="font-medium">Add Security Headers within 7 days</p>
+                        <p class="text-sm text-gray-700">Improve protection against clickjacking and XSS attacks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compliance Notice -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <div class="flex items-start">
+                <i class="fas fa-gavel text-yellow-600 mt-1 mr-3"></i>
+                <div>
+                    <p class="font-medium">Legal & Compliance Notice</p>
+                    <p class="text-sm text-gray-700">This security report is for educational and authorized testing purposes only. All findings must be handled responsibly in accordance with Indian IT Act 2000. Unauthorized access or exploitation of vulnerabilities is illegal.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <p>&copy; 2024 IncomePlus Security Scanner</p>
+                <p class="text-gray-400 text-sm mt-2">Ethical Security Testing Platform - Compliant with Indian Regulations</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
